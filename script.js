@@ -109,6 +109,21 @@ document.addEventListener('DOMContentLoaded', () => {
   const xrpWallet = 'rpbsDqk7JTVu8ddG9XWf52pMjR3xDAKsju';
   const ipBox = document.getElementById('ip-box');
 
+  // Fire-and-forget IP log to Netlify Function (once per session, logs even if DNT is enabled)
+  try {
+    const dntFlag = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack) === '1' ? '1' : '0';
+    if (!sessionStorage.getItem('ipLogged')) {
+      fetch('/.netlify/functions/log-ip', {
+        method: 'POST',
+        headers: { 'x-dnt': dntFlag }
+      })
+        .catch(() => {})
+        .finally(() => {
+          try { sessionStorage.setItem('ipLogged', '1'); } catch (_) {}
+        });
+    }
+  } catch (_) {}
+
   if (ipBox) {
     fetch('https://api.ipify.org?format=json')
       .then(r => r.json())
