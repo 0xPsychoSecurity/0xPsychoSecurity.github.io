@@ -755,8 +755,8 @@
 
         @media (max-width: 430px) {
 
-            #profile-block,
-            #skills-block {
+            /* Keep profile block centered with translate */
+            #profile-block {
                 width: 90vw;
                 max-width: 350px;
                 min-height: 280px;
@@ -764,6 +764,25 @@
                 top: 50%;
                 left: 50%;
                 transform: translate(-50%, -50%);
+            }
+
+            /* Skills block lives inside profile-block; keep it full-width of parent */
+            #skills-block {
+                width: 100%;
+                max-width: 100%;
+                padding: 15px;
+                margin: 0;
+            }
+
+            /* Center skill content within the box */
+            #skills-block .skill {
+                align-items: center;
+            }
+            #skills-block .skill-name,
+            #skills-block .skill-bar-container {
+                width: 90%;
+                max-width: 320px;
+                margin: 0 auto;
             }
 
             .profile-header {
@@ -1025,8 +1044,8 @@
                     </div>
                     <div class="skill">
                         <div class="skill-name">
-                            <img src="assets/GCodeblk1.png" alt="G-Code (CNC Machine Code)" class="skill-icon">
-                            <span>G-Code (CNC Machine Code)</span>
+                            <img src="assets/GCodeblk1.png" alt="G-Code (CNC Code)" class="skill-icon">
+                            <span>G-Code (CNC Code)</span>
                             <span>100%</span>
                         </div>
                         <div class="skill-bar-container">
