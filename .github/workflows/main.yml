@@ -20,8 +20,6 @@ jobs:
           DISCORD_WEBHOOK_B64: ${{ secrets.DISCORD_WEBHOOK_B64 }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
-          # Deploy the subfolder site with its functions
-          netlify deploy \
-            --dir 0xPsychoSecurity.github.io \
-            --functions 0xPsychoSecurity.github.io/netlify/functions \
-            --prod
+          # Change to subfolder and deploy from there
+          cd 0xPsychoSecurity.github.io
+          netlify deploy --dir . --functions netlify/functions --prod
