@@ -1,0 +1,27 @@
+name: Deploy to Netlify
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Netlify CLI
+        run: npm i -g netlify-cli
+
+      - name: Deploy (production)
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          DISCORD_WEBHOOK_B64: ${{ secrets.DISCORD_WEBHOOK_B64 }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          # Deploy the subfolder site with its functions
+          netlify deploy \
+            --dir 0xPsychoSecurity.github.io \
+            --functions 0xPsychoSecurity.github.io/netlify/functions \
+            --prod
