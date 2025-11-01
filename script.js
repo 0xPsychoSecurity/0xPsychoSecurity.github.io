@@ -1,6 +1,34 @@
 const sourceElement = document.getElementById("bgSource");
-sourceElement.src = "assets/b-background.mp4";
+// Cycle background video among three sources on each refresh
+const bgList = [
+  'assets/b-background.mp4',
+  'assets/b-background2.mp4',
+  'assets/b-background3.mp4'
+];
+try {
+  const prev = parseInt(localStorage.getItem('bgCycleIndex') || '-1', 10);
+  const next = isNaN(prev) || prev < 0 ? 0 : (prev + 1) % bgList.length;
+  sourceElement.src = bgList[next];
+  localStorage.setItem('bgCycleIndex', String(next));
+} catch (_) {
+  // Fallback if localStorage is unavailable
+  sourceElement.src = bgList[0];
+}
 const videoElement = document.getElementById("background");
+
+// If selected video fails, try the next one in the list
+(() => {
+  let attempts = 0;
+  const prev = parseInt(localStorage.getItem('bgCycleIndex') || '0', 10) || 0;
+  videoElement.addEventListener('error', () => {
+    if (attempts >= bgList.length - 1) return;
+    attempts++;
+    const next = (prev + attempts) % bgList.length;
+    sourceElement.src = bgList[next];
+    try { localStorage.setItem('bgCycleIndex', String(next)); } catch (_) {}
+    videoElement.load();
+  }, { once: false });
+})();
 
 
 
