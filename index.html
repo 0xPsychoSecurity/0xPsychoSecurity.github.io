@@ -3,7 +3,7 @@
    
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Fuck Off ™️</title>
     <link rel="icon" type="image/png" href="assets/ico.png">
     <meta property="og:type" content="website">
@@ -772,20 +772,22 @@
 
             /* Keep profile block centered with translate */
             #profile-block {
-                width: 90vw;
-                max-width: 350px;
-                min-height: 240px;
-                padding: 12px;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
                 position: fixed;
                 z-index: 20;
-                max-height: calc(100vh - 24px);
+                left: 5vw;
+                right: 5vw;
+                top: calc(env(safe-area-inset-top) + 12px);
+                bottom: calc(env(safe-area-inset-bottom) + 12px);
+                width: auto;
+                max-width: 480px;
+                margin: 0 auto;
+                min-height: 240px;
+                padding: 12px 12px 20px; /* extra bottom padding to avoid overlap with ip box */
                 overflow-y: auto;
                 -webkit-overflow-scrolling: touch;
                 overscroll-behavior: contain;
                 box-sizing: border-box;
+                scrollbar-gutter: stable;
             }
 
             /* Skills block lives inside profile-block; keep it full-width of parent */
@@ -801,7 +803,7 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                min-height: 100vh;
+                min-height: 100dvh;
             }
 
             /* Keep subtitle and control bars centered */
