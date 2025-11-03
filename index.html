@@ -774,20 +774,25 @@
             #profile-block {
                 width: 90vw;
                 max-width: 350px;
-                min-height: 280px;
-                padding: 15px;
+                min-height: 240px;
+                padding: 12px;
                 top: 50%;
                 left: 50%;
                 transform: translate(-50%, -50%);
                 position: fixed;
                 z-index: 20;
+                max-height: calc(100vh - 24px);
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+                overscroll-behavior: contain;
+                box-sizing: border-box;
             }
 
             /* Skills block lives inside profile-block; keep it full-width of parent */
             #skills-block {
                 width: 100%;
                 max-width: 100%;
-                padding: 15px;
+                padding: 12px;
                 margin: 0;
             }
 
@@ -807,12 +812,19 @@
                 transform: translateX(-50%);
             }
 
+            /* Reduce chrome on small screens to avoid clipping */
+            .controls,
+            .top-controls {
+                display: none;
+            }
+
             /* Keep IP box in bottom-right on mobile */
             #ip-box {
                 right: 12px;
                 bottom: 12px;
                 left: auto;
                 transform: none;
+                position: fixed;
             }
 
             /* Center skill content within the box */
