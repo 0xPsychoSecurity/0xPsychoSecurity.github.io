@@ -770,19 +770,18 @@
 
         @media (max-width: 430px) {
 
-            /* Keep profile block centered with translate */
+            /* Center profile block horizontally and fit within viewport */
             #profile-block {
                 position: fixed;
                 z-index: 20;
-                left: 5vw;
-                right: 5vw;
+                left: 50%;
+                transform: translateX(-50%);
                 top: calc(env(safe-area-inset-top) + 12px);
                 bottom: calc(env(safe-area-inset-bottom) + 12px);
-                width: auto;
-                max-width: 480px;
-                margin: 0 auto;
+                width: min(92vw, 480px);
                 min-height: 240px;
                 padding: 12px 12px 20px; /* extra bottom padding to avoid overlap with ip box */
+                max-height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 24px);
                 overflow-y: auto;
                 -webkit-overflow-scrolling: touch;
                 overscroll-behavior: contain;
@@ -799,12 +798,7 @@
             }
 
             /* Center the overall content vertically/horizontally */
-            .container {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                min-height: 100dvh;
-            }
+            .container { min-height: 100dvh; }
 
             /* Keep subtitle and control bars centered */
             #site-subtitle,
