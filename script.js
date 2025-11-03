@@ -1,30 +1,43 @@
 const sourceElement = document.getElementById("bgSource");
-// Cycle background video among sources on each refresh
+// Random background video on each refresh, always different from the previous
 const bgList = [
   'assets/b-background.mp4',
-  'assets/b-background2.mp4'
+  'assets/b-background2.mp4',
+  'assets/b-background3.mp4',
 ];
+const storageKey = 'bgPrevIndex';
+let chosen = 0;
 try {
-  const prev = parseInt(localStorage.getItem('bgCycleIndex') || '-1', 10);
-  const next = isNaN(prev) || prev < 0 ? 0 : (prev + 1) % bgList.length;
-  sourceElement.src = bgList[next];
-  localStorage.setItem('bgCycleIndex', String(next));
+  const prev = parseInt(localStorage.getItem(storageKey) || '-1', 10);
+  const count = bgList.length;
+  if (count <= 1 || isNaN(prev) || prev < 0 || prev >= count) {
+    // First time or invalid prev: pick any at random
+    chosen = Math.floor(Math.random() * count);
+  } else {
+    // Build candidates excluding previous index
+    const candidates = [];
+    for (let i = 0; i < count; i++) if (i !== prev) candidates.push(i);
+    chosen = candidates[Math.floor(Math.random() * candidates.length)];
+  }
+  sourceElement.src = bgList[chosen];
+  localStorage.setItem(storageKey, String(chosen));
 } catch (_) {
   // Fallback if localStorage is unavailable
   sourceElement.src = bgList[0];
 }
 const videoElement = document.getElementById("background");
 
-// If selected video fails, try the next one in the list
+// If selected video fails, randomly try remaining videos without repeats
 (() => {
-  let attempts = 0;
-  const prev = parseInt(localStorage.getItem('bgCycleIndex') || '0', 10) || 0;
+  const tried = new Set([chosen]);
   videoElement.addEventListener('error', () => {
-    if (attempts >= bgList.length - 1) return;
-    attempts++;
-    const next = (prev + attempts) % bgList.length;
+    if (tried.size >= bgList.length) return;
+    const remaining = [];
+    for (let i = 0; i < bgList.length; i++) if (!tried.has(i)) remaining.push(i);
+    const next = remaining[Math.floor(Math.random() * remaining.length)];
+    tried.add(next);
     sourceElement.src = bgList[next];
-    try { localStorage.setItem('bgCycleIndex', String(next)); } catch (_) {}
+    try { localStorage.setItem(storageKey, String(next)); } catch (_) {}
     videoElement.load();
   }, { once: false });
 })();
@@ -252,7 +265,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
-  const startMessage = "Fuck Your Shitty Biolink";
+  const startMessage = "Give Me Money 😎";
   let startTextContent = '';
   let startIndex = 0;
   let startCursorVisible = true;
