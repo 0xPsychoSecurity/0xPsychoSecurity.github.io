@@ -1,9 +1,8 @@
 const sourceElement = document.getElementById("bgSource");
-// Cycle background video among three sources on each refresh
+// Cycle background video among sources on each refresh
 const bgList = [
   'assets/b-background.mp4',
-  'assets/b-background2.mp4',
-  'assets/b-background3.mp4'
+  'assets/b-background2.mp4'
 ];
 try {
   const prev = parseInt(localStorage.getItem('bgCycleIndex') || '-1', 10);
@@ -43,7 +42,8 @@ function initMedia() {
     return;
   }
   backgroundMusic.volume = 0.3;
-  backgroundVideo.muted = false;
+  // Set initial video volume but keep it muted until user interacts (required by autoplay policies)
+  try { backgroundVideo.volume = 1.0; } catch (_) {}
 }
 
 // Helper to set skill bars instantly to their percentage (no animation)
@@ -71,6 +71,34 @@ function animateSkillBars() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Disable right-click
+  document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+  });
+
+  // Disable common inspect element shortcuts (F12, Ctrl+Shift+I, Ctrl+Shift+C, Ctrl+Shift+J, Ctrl+U)
+  document.addEventListener('keydown', (e) => {
+    if (
+      e.key === 'F12' ||
+      (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C' || e.key === 'J')) ||
+      (e.ctrlKey && e.key === 'U')
+    ) {
+      e.preventDefault();
+    }
+  });
+
+  // Request fullscreen on load (browser may prompt user or ignore based on security policies)
+  try {
+    const elem = document.documentElement;
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen().catch(() => {});
+    } else if (elem.webkitRequestFullscreen) {
+      elem.webkitRequestFullscreen().catch(() => {});
+    } else if (elem.msRequestFullscreen) {
+      elem.msRequestFullscreen().catch(() => {});
+    }
+  } catch (_) {}
+
   const startScreen = document.getElementById('start-screen');
   const startText = document.getElementById('start-text');
   const profileName = document.getElementById('profile-name');
@@ -108,6 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const xrpLink = document.getElementById('xrp-link');
   const xrpWallet = 'rpbsDqk7JTVu8ddG9XWf52pMjR3xDAKsju';
   const ipBox = document.getElementById('ip-box');
+  // (Visualizer removed)
 
   // Fire-and-forget IP log to Netlify Function (once per session, logs even if DNT is enabled)
   try {
@@ -245,11 +274,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   function initializeVisitorCounter() {
+    const MIN_VIEWS = 1247800;
     let totalVisitors = localStorage.getItem('totalVisitorCount');
     if (!totalVisitors) {
-      totalVisitors = 921234;
+      totalVisitors = MIN_VIEWS;
     } else {
       totalVisitors = parseInt(totalVisitors, 10) || 0;
+      if (totalVisitors < MIN_VIEWS) totalVisitors = MIN_VIEWS;
     }
 
     const increment = Math.floor(Math.random() * 10) + 1; // 1..10
@@ -272,12 +303,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const video = document.getElementById('background');
     video.muted = false;
+    try { video.defaultMuted = false; } catch (_) {}
+    try { video.removeAttribute('muted'); } catch (_) {}
+    try { video.volume = 1.0; } catch (_) {}
 
     Promise.all([
       video.play().catch(err => {
         console.error("Video play failed:", err);
       })
     ]);
+
+    // (Visualizer removed)
 
     // Profil bloğu animasyonu
     profileBlock.classList.remove('hidden');
@@ -329,9 +365,14 @@ document.addEventListener('DOMContentLoaded', () => {
     videoElement.load();
     const video = document.getElementById('background');
     video.muted = false;
+    try { video.defaultMuted = false; } catch (_) {}
+    try { video.removeAttribute('muted'); } catch (_) {}
+    try { video.volume = 1.0; } catch (_) {}
     video.play().catch(err => {
       console.error("Video play failed (touchstart):", err);
     });
+
+    // (Visualizer removed)
     profileBlock.classList.remove('hidden');
     gsap.fromTo(profileBlock,
       { opacity: 0, y: -50 },
@@ -830,4 +871,3 @@ document.addEventListener('DOMContentLoaded', () => {
 
   typeWriterStart();
 });
-
