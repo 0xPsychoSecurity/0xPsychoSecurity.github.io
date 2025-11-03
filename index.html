@@ -779,6 +779,8 @@
                 top: 50%;
                 left: 50%;
                 transform: translate(-50%, -50%);
+                position: fixed;
+                z-index: 20;
             }
 
             /* Skills block lives inside profile-block; keep it full-width of parent */
@@ -787,6 +789,30 @@
                 max-width: 100%;
                 padding: 15px;
                 margin: 0;
+            }
+
+            /* Center the overall content vertically/horizontally */
+            .container {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-height: 100vh;
+            }
+
+            /* Keep subtitle and control bars centered */
+            #site-subtitle,
+            .controls,
+            .top-controls {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            /* Keep IP box in bottom-right on mobile */
+            #ip-box {
+                right: 12px;
+                bottom: 12px;
+                left: auto;
+                transform: none;
             }
 
             /* Center skill content within the box */

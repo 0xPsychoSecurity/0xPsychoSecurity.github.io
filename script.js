@@ -293,25 +293,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
   initializeVisitorCounter();
 
+  // Ensure background video plays on mobile with graceful fallback
+  function playVideoWithFallback(video) {
+    if (!video) return Promise.resolve();
+    try { video.setAttribute('playsinline', ''); } catch (_) {}
+    try { video.setAttribute('webkit-playsinline', ''); } catch (_) {}
+    try { video.setAttribute('autoplay', ''); } catch (_) {}
+    try { video.load(); } catch (_) {}
+
+    // Try with sound first
+    try { video.muted = false; video.removeAttribute('muted'); } catch (_) {}
+    try { video.volume = 1.0; } catch (_) {}
+
+    return video.play().catch(() => {
+      // Fallback: play muted, then unmute shortly after start
+      try { video.muted = true; video.setAttribute('muted', ''); } catch (_) {}
+      return video.play().then(() => {
+        const unmute = () => {
+          try { video.muted = false; video.removeAttribute('muted'); video.volume = 1.0; } catch (_) {}
+          video.removeEventListener('playing', unmute);
+        };
+        video.addEventListener('playing', unmute);
+        setTimeout(unmute, 400);
+      }).catch((err) => {
+        console.error('Video still failed to play:', err);
+      });
+    });
+  }
+
   startScreen.addEventListener('click', () => {
     startScreen.classList.add('hidden');
 
     // Ses ve video birlikte oynatılacak
     backgroundMusic.muted = false;
 
-    videoElement.load();
-
     const video = document.getElementById('background');
-    video.muted = false;
-    try { video.defaultMuted = false; } catch (_) {}
-    try { video.removeAttribute('muted'); } catch (_) {}
-    try { video.volume = 1.0; } catch (_) {}
-
-    Promise.all([
-      video.play().catch(err => {
-        console.error("Video play failed:", err);
-      })
-    ]);
+    playVideoWithFallback(video);
 
     // (Visualizer removed)
 
@@ -362,15 +379,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Ensure background video starts on mobile/touch as well
-    videoElement.load();
     const video = document.getElementById('background');
-    video.muted = false;
-    try { video.defaultMuted = false; } catch (_) {}
-    try { video.removeAttribute('muted'); } catch (_) {}
-    try { video.volume = 1.0; } catch (_) {}
-    video.play().catch(err => {
-      console.error("Video play failed (touchstart):", err);
-    });
+    playVideoWithFallback(video);
 
     // (Visualizer removed)
     profileBlock.classList.remove('hidden');
