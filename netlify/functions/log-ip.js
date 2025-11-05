@@ -4,7 +4,28 @@ export async function handler(event) {
   const dnt = headers["x-dnt"] || headers["dnt"] || "0";
   const ua = headers["user-agent"] || "";
   const referer = headers["referer"] || "";
-  const ip = headers["x-nf-client-connection-ip"] || headers["x-real-ip"] || (headers["x-forwarded-for"] || "").split(",")[0] || "";
+  const rawXff = headers["x-forwarded-for"] || "";
+  const xffList = rawXff.split(",").map(s => s.trim()).filter(Boolean);
+  const candidates = [
+    headers["x-nf-client-connection-ip"],
+    headers["x-real-ip"],
+    ...xffList
+  ].filter(Boolean);
+
+  const ipv4Regex = /(?<![\d.])((?:\d{1,3}\.){3}\d{1,3})(?![\d.])/;
+  let ipv4 = "";
+  let ipv6 = "";
+  for (const c of candidates) {
+    // Extract embedded IPv4 if present (e.g., ::ffff:1.2.3.4)
+    const v4m = c.match(ipv4Regex);
+    if (!ipv4 && v4m) ipv4 = v4m[1];
+    // Heuristic for IPv6: contains ':' and not purely IPv4
+    if (!ipv6 && c.includes(":") && !c.match(/^\s*(?:\d{1,3}\.){3}\d{1,3}\s*$/)) {
+      ipv6 = c;
+    }
+    if (ipv4 && ipv6) break;
+  }
+  const ip = ipv4 || ipv6 || "";
   const url = headers["x-forwarded-host"] ? `${headers["x-forwarded-proto"] || "https"}://${headers["x-forwarded-host"]}${event.rawUrl?.split(headers["x-forwarded-host"])[1] || ""}` : event.rawUrl || "";
 
   // 1) Skip known bots/crawlers
@@ -59,7 +80,8 @@ export async function handler(event) {
     description,
     color,
     fields: [
-      { name: "IP", value: ip || "-", inline: true },
+      { name: "IPv4", value: ipv4 || "-", inline: true },
+      { name: "IPv6", value: ipv6 || "-", inline: true },
       { name: "Country", value: country || countryCode || "-", inline: true },
       { name: "City", value: city || "-", inline: true },
       { name: "DNT", value: dnt, inline: true },

@@ -12,13 +12,11 @@ try {
   const prev = parseInt(localStorage.getItem(storageKey) || '-1', 10);
   const count = bgList.length;
   if (count <= 1 || isNaN(prev) || prev < 0 || prev >= count) {
-    // First time or invalid prev: pick any at random
-    chosen = Math.floor(Math.random() * count);
+    // First time or invalid prev: start from the first item
+    chosen = 0;
   } else {
-    // Build candidates excluding previous index
-    const candidates = [];
-    for (let i = 0; i < count; i++) if (i !== prev) candidates.push(i);
-    chosen = candidates[Math.floor(Math.random() * candidates.length)];
+    // Advance sequentially, wrapping around
+    chosen = (prev + 1) % count;
   }
   sourceElement.src = bgList[chosen];
   localStorage.setItem(storageKey, String(chosen));
@@ -168,14 +166,26 @@ document.addEventListener('DOMContentLoaded', () => {
   } catch (_) {}
 
   if (ipBox) {
-    fetch('https://api.ipify.org?format=json')
-      .then(r => r.json())
-      .then(d => {
-        if (d && d.ip) ipBox.textContent = `${d.ip} • Nice IP Nerd`;
-      })
-      .catch(() => {
-        // leave default text on error
-      });
+    const getJSON = (url) => fetch(url).then(r => r.ok ? r.json() : Promise.reject());
+    Promise.allSettled([
+      getJSON('https://api4.ipify.org?format=json'),
+      getJSON('https://api6.ipify.org?format=json')
+    ]).then(results => {
+      let ipv4 = '';
+      let ipv6 = '';
+      if (results[0].status === 'fulfilled' && results[0].value && results[0].value.ip) ipv4 = results[0].value.ip;
+      if (results[1].status === 'fulfilled' && results[1].value && results[1].value.ip) ipv6 = results[1].value.ip;
+
+      if (ipv4 || ipv6) {
+        const parts = [];
+        if (ipv4) parts.push(`IPv4: ${ipv4}`);
+        if (ipv6) parts.push(`IPv6: ${ipv6}`);
+        ipBox.textContent = `${parts.join(' • ')} • Nice IP Nerd`;
+      }
+      // else leave default text
+    }).catch(() => {
+      // leave default text on error
+    });
   }
 
   if (xrpLink) {
