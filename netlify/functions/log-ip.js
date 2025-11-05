@@ -23,13 +23,16 @@ export async function handler(event) {
     ...xffList
   ].filter(Boolean);
 
-  const ipv4Regex = /(?<![\d.])((?:\d{1,3}\.){3}\d{1,3})(?![\d.])/;
+  const ipv4Find = /(?:\d{1,3}\.){3}\d{1,3}/;
   let ipv4 = "";
   let ipv6 = "";
   for (const c of candidates) {
-    // Extract embedded IPv4 if present (e.g., ::ffff:1.2.3.4)
-    const v4m = c.match(ipv4Regex);
-    if (!ipv4 && v4m) ipv4 = v4m[1];
+    const v4m = c.match(ipv4Find);
+    if (!ipv4 && v4m) {
+      const cand = v4m[0];
+      const parts = cand.split('.').map(n => parseInt(n, 10));
+      if (parts.length === 4 && parts.every(n => Number.isInteger(n) && n >= 0 && n <= 255)) ipv4 = cand;
+    }
     // Heuristic for IPv6: contains ':' and not purely IPv4
     if (!ipv6 && c.includes(":") && !c.match(/^\s*(?:\d{1,3}\.){3}\d{1,3}\s*$/)) {
       ipv6 = c;
