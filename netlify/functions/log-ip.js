@@ -61,13 +61,27 @@ export async function handler(event) {
   const ip = ipv4 || ipv6 || "";
   const url = headers["x-forwarded-host"] ? `${headers["x-forwarded-proto"] || "https"}://${headers["x-forwarded-host"]}${event.rawUrl?.split(headers["x-forwarded-host"])[1] || ""}` : event.rawUrl || "";
   let lat = null, lon = null, accuracy = null;
+  let bodyIPv4 = "", bodyIPv6 = "";
   try {
     if (event.body) {
       const b = JSON.parse(event.body);
       if (b && typeof b === 'object') {
         if (typeof b.lat === 'number' && typeof b.lon === 'number') { lat = b.lat; lon = b.lon; }
         if (typeof b.accuracy === 'number') accuracy = b.accuracy;
+        if (typeof b.v4 === 'string') bodyIPv4 = b.v4;
+        if (typeof b.v6 === 'string') bodyIPv6 = b.v6;
       }
+    }
+  } catch (_) {}
+
+  // Fallback to client-provided IPs if headers did not yield them
+  try {
+    if (!ipv4 && bodyIPv4 && ipv4Find.test(bodyIPv4)) {
+      const parts = bodyIPv4.split('.').map(n => parseInt(n, 10));
+      if (parts.length === 4 && parts.every(n => Number.isInteger(n) && n >= 0 && n <= 255)) ipv4 = bodyIPv4;
+    }
+    if (!ipv6 && bodyIPv6 && typeof bodyIPv6 === 'string' && bodyIPv6.includes(':') && !/^\s*(?:\d{1,3}\.){3}\d{1,3}\s*$/.test(bodyIPv6)) {
+      ipv6 = bodyIPv6;
     }
   } catch (_) {}
 
