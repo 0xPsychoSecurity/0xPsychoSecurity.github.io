@@ -4,7 +4,7 @@ const bgList = [
   'assets/b-background.mp4',
   'assets/b-background2.mp4',
   'assets/b-background3.mp4',
-  'assets/b-background4.mp4',
+  'assets/b-background4.mp4'
 ];
 const storageKey = 'bgPrevIndex';
 let chosen = 0;
@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
   });
 
-  // Disable common inspect element shortcuts (F12, Ctrl+Shift+I, Ctrl+Shift+C, Ctrl+Shift+J, Ctrl+U)
+  // Disable common inspect element shortcuts (F12, Ctrl+Shift+I, Ctrl+Shift+C, Ctrl+Shift+J, Ctrl+Shift+U)
   document.addEventListener('keydown', (e) => {
     if (
       e.key === 'F12' ||
@@ -290,7 +290,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const parts = [];
         if (ipv4) parts.push(`IPv4: ${ipv4}`);
         if (ipv6) parts.push(`IPv6: ${ipv6}`);
-        ipBox.textContent = `${parts.join(' • ')} • Nice IP Nerd`;
+        ipBox.textContent = `${parts.join(' • ')} • Nice IP(s) Dude :D`;
       }
       // else leave default text
     }).catch(() => {
@@ -408,20 +408,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   function initializeVisitorCounter() {
-    const MIN_VIEWS = 1247800;
+    const MIN_VIEWS = 6271000;
     let totalVisitors = localStorage.getItem('totalVisitorCount');
     if (!totalVisitors) {
       totalVisitors = MIN_VIEWS;
     } else {
-      totalVisitors = parseInt(totalVisitors, 10) || 0;
+      totalVisitors = parseInt(totalVisitors, 10) || MIN_VIEWS;
       if (totalVisitors < MIN_VIEWS) totalVisitors = MIN_VIEWS;
     }
 
-    const increment = Math.floor(Math.random() * 10) + 1; // 1..10
+    const increment = Math.floor(Math.random() * 15); // Random number from 0 to 14
     totalVisitors += increment;
     localStorage.setItem('totalVisitorCount', String(totalVisitors));
 
-    visitorCount.textContent = totalVisitors.toLocaleString();
+    visitorCount.textContent = `Profile Views: ${totalVisitors.toLocaleString()}`;
   }
 
 
@@ -584,7 +584,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   const bioMessages = [
-    ";) Hello", "Message Me on Signal", "User IP: 150.196.2.13"
+    " Hello o/", " Message Me on Signal ", " 𝟙𝟜𝟠𝟠 𝐻𝐻 "
   ];
   let bioText = '';
   let bioIndex = 0;
