@@ -335,10 +335,9 @@
             right: -2px;
             bottom: -2px;
             border-radius: 50%;
-            background: radial-gradient(circle at 10px 10px,
-                    var(--primary-color, #8708F0) 10%,
-                    transparent 35%);
-            animation: orbit 2s linear infinite;
+            background: linear-gradient(45deg, #ff0000, #ff8000, #ffff00, #00ff00, #00ffff, #0000ff, #8000ff, #ff0000);
+            background-size: 400% 400%;
+            animation: orbit 2s linear infinite, rainbow 5s linear infinite;
             z-index: -1;
             filter: blur(1px);
             box-shadow: none;
@@ -745,6 +744,12 @@
             100% {
                 transform: rotate(360deg);
             }
+        }
+
+        @keyframes rainbow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 400% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
 

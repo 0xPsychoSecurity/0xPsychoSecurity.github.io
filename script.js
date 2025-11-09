@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
   });
 
-  // Disable common inspect element shortcuts (F12, Ctrl+Shift+I, Ctrl+Shift+C, Ctrl+Shift+J, Ctrl+Shift+U)
+  // Disable common inspect element shortcuts (F12, Ctrl+Shift+I, Ctrl+Shift+C, Ctrl+Shift+J, Ctrl+U)
   document.addEventListener('keydown', (e) => {
     if (
       e.key === 'F12' ||
@@ -408,7 +408,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   function initializeVisitorCounter() {
-    const MIN_VIEWS = 6271000;
+    const MIN_VIEWS = 6821900;
     let totalVisitors = localStorage.getItem('totalVisitorCount');
     if (!totalVisitors) {
       totalVisitors = MIN_VIEWS;
