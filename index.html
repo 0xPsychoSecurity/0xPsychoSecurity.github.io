@@ -61,6 +61,9 @@
             background-color: #000;
             color: #fff;
             overflow: hidden;
+            user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
         }
 
         .container {
@@ -1073,7 +1076,7 @@
                             <div class="badge-box-inner">
                                 <div class="badge-group">
                                     <div class="badge-container">
-                                        <img src="assets/staff.png" alt="Staff" class="badge" />
+                                        <img src="assets/money.gif" alt="Money" class="badge" />
 
                                     </div>
                                     <div class="badge-container">
@@ -1089,7 +1092,7 @@
 
                                     </div>
                                     <div class="badge-container">
-                                        <img src="assets/early-nitro.png" alt="Nitro" class="badge">
+                                        <img src="assets/Nighty.png" alt="Nighty" class="badge">
 
                                     </div>
                                     <div class="badge-container">
@@ -1268,7 +1271,36 @@
                 document.querySelector('#profile-name').textContent = user.username;
             });
 
+            // Disable right-click context menu
+            document.addEventListener('contextmenu', function (e) {
+                e.preventDefault();
+            });
 
+            // Block common DevTools / view-source shortcuts
+            document.addEventListener('keydown', function (e) {
+                // F12
+                if (e.key === 'F12') {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                }
+
+                // Ctrl+Shift+I / Ctrl+Shift+J / Ctrl+Shift+C
+                if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                }
+
+                // Ctrl+U (view source)
+                if (e.ctrlKey && (e.key === 'U' || e.key === 'u')) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                }
+            });
+ 
+ 
     </script>
     
     <script src="random-bg.js"></script>
