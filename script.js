@@ -1,5 +1,5 @@
 const sourceElement = document.getElementById("bgSource");
-// Random background video on each refresh, always different from the previous
+// Random background video on each refresh, no repetitions until all videos have been shown
 const bgList = [
   'assets/b-background.mp4',
   'assets/b-background2.mp4',
@@ -7,23 +7,35 @@ const bgList = [
   'assets/b-background4.mp4',
   'assets/b-background5.mp4',
 ];
-const storageKey = 'bgPrevIndex';
+const storageKey = 'bgShownVideos';
 let chosen = 0;
 try {
-  const prev = parseInt(localStorage.getItem(storageKey) || '-1', 10);
-  const count = bgList.length;
-  if (count <= 1 || isNaN(prev) || prev < 0 || prev >= count) {
-    // First time or invalid prev: start from the first item
-    chosen = 0;
+  // Get array of already shown video indices from localStorage
+  const shownVideosJson = localStorage.getItem(storageKey);
+  let shownVideos = shownVideosJson ? JSON.parse(shownVideosJson) : [];
+  
+  // Get videos that haven't been shown yet
+  const remainingVideos = bgList.filter((_, index) => !shownVideos.includes(index));
+  
+  if (remainingVideos.length === 0) {
+    // All videos have been shown, reset the cycle
+    shownVideos = [];
+    chosen = Math.floor(Math.random() * bgList.length);
   } else {
-    // Advance sequentially, wrapping around
-    chosen = (prev + 1) % count;
+    // Choose randomly from remaining videos
+    const randomIndex = Math.floor(Math.random() * remainingVideos.length);
+    chosen = bgList.indexOf(remainingVideos[randomIndex]);
   }
+  
+  // Add chosen video to shown videos
+  shownVideos.push(chosen);
+  localStorage.setItem(storageKey, JSON.stringify(shownVideos));
+  
   sourceElement.src = bgList[chosen];
-  localStorage.setItem(storageKey, String(chosen));
 } catch (_) {
   // Fallback if localStorage is unavailable
-  sourceElement.src = bgList[0];
+  chosen = Math.floor(Math.random() * bgList.length);
+  sourceElement.src = bgList[chosen];
 }
 const videoElement = document.getElementById("background");
 
@@ -37,7 +49,15 @@ const videoElement = document.getElementById("background");
     const next = remaining[Math.floor(Math.random() * remaining.length)];
     tried.add(next);
     sourceElement.src = bgList[next];
-    try { localStorage.setItem(storageKey, String(next)); } catch (_) {}
+    try {
+      // Update shown videos when fallback video is used
+      const shownVideosJson = localStorage.getItem(storageKey);
+      let shownVideos = shownVideosJson ? JSON.parse(shownVideosJson) : [];
+      if (!shownVideos.includes(next)) {
+        shownVideos.push(next);
+        localStorage.setItem(storageKey, JSON.stringify(shownVideos));
+      }
+    } catch (_) {}
     videoElement.load();
   }, { once: false });
 })();
