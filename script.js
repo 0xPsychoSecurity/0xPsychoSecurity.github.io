@@ -14,17 +14,21 @@ try {
   const shownVideosJson = localStorage.getItem(storageKey);
   let shownVideos = shownVideosJson ? JSON.parse(shownVideosJson) : [];
   
-  // Get videos that haven't been shown yet
-  const remainingVideos = bgList.filter((_, index) => !shownVideos.includes(index));
+  // Get indices of videos that haven't been shown yet
+  const remainingIndices = [];
+  for (let i = 0; i < bgList.length; i++) {
+    if (!shownVideos.includes(i)) {
+      remainingIndices.push(i);
+    }
+  }
   
-  if (remainingVideos.length === 0) {
+  if (remainingIndices.length === 0) {
     // All videos have been shown, reset the cycle
     shownVideos = [];
     chosen = Math.floor(Math.random() * bgList.length);
   } else {
-    // Choose randomly from remaining videos
-    const randomIndex = Math.floor(Math.random() * remainingVideos.length);
-    chosen = bgList.indexOf(remainingVideos[randomIndex]);
+    // Choose randomly from remaining video indices
+    chosen = remainingIndices[Math.floor(Math.random() * remainingIndices.length)];
   }
   
   // Add chosen video to shown videos
