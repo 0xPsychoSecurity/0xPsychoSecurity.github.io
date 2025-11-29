@@ -4,7 +4,8 @@ const bgList = [
   'assets/b-background.mp4',
   'assets/b-background2.mp4',
   'assets/b-background3.mp4',
-  'assets/b-background4.mp4'
+  'assets/b-background4.mp4',
+  'assets/b-background5.mp4',
 ];
 const storageKey = 'bgPrevIndex';
 let chosen = 0;
