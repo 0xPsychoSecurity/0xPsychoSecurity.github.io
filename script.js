@@ -487,6 +487,7 @@ document.addEventListener('DOMContentLoaded', () => {
     backgroundMusic.muted = false;
 
     const video = document.getElementById('background');
+    video.style.display = 'block';
     playVideoWithFallback(video);
 
     // (Visualizer removed)
@@ -539,6 +540,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Ensure background video starts on mobile/touch as well
     const video = document.getElementById('background');
+    video.style.display = 'block';
     playVideoWithFallback(video);
 
     // (Visualizer removed)
