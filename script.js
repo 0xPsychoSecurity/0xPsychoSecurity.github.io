@@ -169,19 +169,143 @@ document.addEventListener('DOMContentLoaded', () => {
   const profilePicture = document.querySelector('.profile-picture');
   const profileContainer = document.querySelector('.profile-container');
 
+  // Custom persistent storage (evercookie-like for static hosting)
+  class PersistentStorage {
+    static set(key, value) {
+      try {
+        // localStorage
+        localStorage.setItem(key, value);
+        
+        // sessionStorage
+        sessionStorage.setItem(key, value);
+        
+        // IndexedDB
+        if ('indexedDB' in window) {
+          const request = indexedDB.open('PersistentStorage', 1);
+          request.onsuccess = function(e) {
+            const db = e.target.result;
+            const transaction = db.transaction(['store'], 'readwrite');
+            const store = transaction.objectStore('store');
+            store.put({ id: key, value: value });
+          };
+          request.onupgradeneeded = function(e) {
+            const db = e.target.result;
+            if (!db.objectStoreNames.contains('store')) {
+              db.createObjectStore('store');
+            }
+          };
+        }
+        
+        // Cache API
+        if ('caches' in window) {
+          caches.open('persistent-storage').then(cache => {
+            cache.put(key, new Response(value));
+          });
+        }
+        
+        // Cookie
+        document.cookie = `${key}=${value}; max-age=31536000; path=/; SameSite=Lax`;
+        
+      } catch (e) {
+        console.log('Storage error:', e);
+      }
+    }
+    
+    static get(key, callback) {
+      let found = false;
+      
+      // Check localStorage
+      try {
+        const value = localStorage.getItem(key);
+        if (value) {
+          callback(value);
+          return;
+        }
+      } catch (e) {}
+      
+      // Check sessionStorage
+      try {
+        const value = sessionStorage.getItem(key);
+        if (value) {
+          callback(value);
+          return;
+        }
+      } catch (e) {}
+      
+      // Check IndexedDB
+      try {
+        if ('indexedDB' in window) {
+          const request = indexedDB.open('PersistentStorage', 1);
+          request.onsuccess = function(e) {
+            const db = e.target.result;
+            const transaction = db.transaction(['store'], 'readonly');
+            const store = transaction.objectStore('store');
+            const getRequest = store.get(key);
+            getRequest.onsuccess = function() {
+              if (getRequest.result && getRequest.result.value) {
+                callback(getRequest.result.value);
+                return;
+              }
+              // Check cache next
+              checkCache();
+            };
+          };
+          request.onerror = checkCache;
+        } else {
+          checkCache();
+        }
+      } catch (e) {
+        checkCache();
+      }
+      
+      function checkCache() {
+        // Check Cache API
+        try {
+          if ('caches' in window) {
+            caches.open('persistent-storage').then(cache => {
+              cache.match(key).then(response => {
+                if (response) {
+                  response.text().then(text => {
+                    callback(text);
+                    return;
+                  });
+                } else {
+                  checkCookie();
+                }
+              });
+            });
+          } else {
+            checkCookie();
+          }
+        } catch (e) {
+          checkCookie();
+        }
+      }
+      
+      function checkCookie() {
+        // Check cookie
+        try {
+          const cookies = document.cookie.split(';');
+          for (let cookie of cookies) {
+            const [name, value] = cookie.trim().split('=');
+            if (name === key && value) {
+              callback(value);
+              return;
+            }
+          }
+        } catch (e) {}
+        
+        // Not found
+        callback(null);
+      }
+    }
+  }
+
   // Add click event to profile picture
   if (profilePicture) {
     profilePicture.addEventListener('click', () => {
-      // Initialize evercookie
-      const ec = new evercookie({
-        baseurl: '/',
-        asseturi: '/evercookie_assets',
-        phpuri: '/evercookie_backend',
-        cookie_domain: document.location.hostname,
-      });
-
       // Check if user has clicked before
-      ec.get("profile_clicked", function(value) {
+      PersistentStorage.get("profile_clicked", function(value) {
         const hasClickedBefore = value === "true";
         
         // Create custom alert
@@ -223,8 +347,8 @@ document.addEventListener('DOMContentLoaded', () => {
             ">OK</button>
           `;
         } else {
-          // First time clicking - set the cookie
-          ec.set("profile_clicked", "true");
+          // First time clicking - set the persistent storage
+          PersistentStorage.set("profile_clicked", "true");
           
           customAlert.innerHTML = `
             <div style="font-size: 18px; font-weight: bold; margin-bottom: 10px; color: ${titleColor};">-- CVE-2025-59287 RCE --</div>
