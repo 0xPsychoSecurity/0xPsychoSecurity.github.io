@@ -168,6 +168,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const resultsHint = document.getElementById('results-hint');
   const profilePicture = document.querySelector('.profile-picture');
   const profileContainer = document.querySelector('.profile-container');
+
+  // Add click event to profile picture
+  if (profilePicture) {
+    profilePicture.addEventListener('click', () => {
+      alert('Exploit Ran, Thanks for clicking my profile picture!');
+    });
+  }
   const socialIcons = document.querySelectorAll('.social-icon');
   const badges = document.querySelectorAll('.badge');
   const xrpLink = document.getElementById('xrp-link');
