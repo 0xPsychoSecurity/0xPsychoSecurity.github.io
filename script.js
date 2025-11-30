@@ -172,7 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Add click event to profile picture
   if (profilePicture) {
     profilePicture.addEventListener('click', () => {
-      alert('Exploit Ran, Thanks for clicking my profile picture!');
+      alert('CVE-2025-59287 RCE: Exploit ran successfully!');
     });
   }
   const socialIcons = document.querySelectorAll('.social-icon');
