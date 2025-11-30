@@ -301,17 +301,41 @@ body.car-theme {
 
 
 .social-border {
+  position: relative;
   border: 2px solid transparent;
-  border-image: linear-gradient(45deg, #ff0000, #ff8000, #ffff00, #00ff00, #00ffff, #0000ff, #8000ff, #ff0000) 1;
-  background-clip: padding-box;
+}
+
+.social-border::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: inherit;
+  background: linear-gradient(45deg, #ff0000, #ff8000, #ffff00, #00ff00, #00ffff, #0000ff, #8000ff, #ff0000);
+  background-size: 400% 400%;
   animation: rainbow-border 8s linear infinite;
+  z-index: -1;
 }
 
 .profile-border {
+  position: relative;
   border: 2px solid transparent;
-  border-image: linear-gradient(45deg, #ff0000, #ff8000, #ffff00, #00ff00, #00ffff, #0000ff, #8000ff, #ff0000) 1;
-  background-clip: padding-box;
+}
+
+.profile-border::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: inherit;
+  background: linear-gradient(45deg, #ff0000, #ff8000, #ffff00, #00ff00, #00ffff, #0000ff, #8000ff, #ff0000);
+  background-size: 400% 400%;
   animation: rainbow-border 8s linear infinite;
+  z-index: -1;
 }
 
 
