@@ -121,6 +121,11 @@ body.car-theme {
   animation: slideInFade 1s ease-out forwards;
 }
 
+@keyframes rainbow-border {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 400% 50%; }
+}
+
 @keyframes slideInFade {
   0% {
     opacity: 0;
@@ -296,12 +301,17 @@ body.car-theme {
 
 
 .social-border {
-  border-color: var(--primary-color);
+  border: 2px solid transparent;
+  border-image: linear-gradient(45deg, #ff0000, #ff8000, #ffff00, #00ff00, #00ffff, #0000ff, #8000ff, #ff0000) 1;
+  background-clip: padding-box;
+  animation: rainbow-border 8s linear infinite;
 }
 
-
 .profile-border {
-  border-color: var(--primary-color);
+  border: 2px solid transparent;
+  border-image: linear-gradient(45deg, #ff0000, #ff8000, #ffff00, #00ff00, #00ffff, #0000ff, #8000ff, #ff0000) 1;
+  background-clip: padding-box;
+  animation: rainbow-border 8s linear infinite;
 }
 
 

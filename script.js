@@ -411,7 +411,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
-  const startMessage = "Give Me Money 😎";
+  const startMessage = "Fuck You, Pay Me XRP";
   let startTextContent = '';
   let startIndex = 0;
   let startCursorVisible = true;
