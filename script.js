@@ -304,9 +304,25 @@ document.addEventListener('DOMContentLoaded', () => {
   // Add click event to profile picture
   if (profilePicture) {
     profilePicture.addEventListener('click', () => {
-      // Check if user has clicked before
-      PersistentStorage.get("profile_clicked", function(value) {
-        const hasClickedBefore = value === "true";
+      // Show loading cursor
+      document.body.style.cursor = 'wait';
+      profilePicture.style.cursor = 'wait';
+      
+      // Check if user has clicked before (using simple localStorage)
+      const hasClickedBefore = localStorage.getItem("profile_clicked") === "true";
+      
+      // Wait 1 second before showing alert (realistic processing time)
+      setTimeout(() => {
+        // Reset cursor first
+        document.body.style.cursor = '';
+        profilePicture.style.cursor = '';
+        
+        // Play Windows admin sound
+        const adminSound = document.getElementById('admin-sound');
+        if (adminSound) {
+          adminSound.currentTime = 0;
+          adminSound.play().catch(e => console.log('Sound play failed:', e));
+        }
         
         // Create custom alert
         const customAlert = document.createElement('div');
@@ -333,8 +349,8 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (hasClickedBefore) {
           customAlert.innerHTML = `
-            <div style="font-size: 18px; font-weight: bold; margin-bottom: 10px; color: ${titleColor};">You already did this</div>
-            <div style="font-size: 14px;">Thank you retard, now I will use your pc to mine crypto 😎</div>
+            <div style="font-size: 18px; font-weight: bold; margin-bottom: 10px; color: ${titleColor};">Already Exploited</div>
+            <div style="font-size: 14px;">Bootkit Installed Successfully</div>
             <button onclick="this.parentElement.remove()" style="
               margin-top: 15px;
               padding: 5px 15px;
@@ -348,7 +364,7 @@ document.addEventListener('DOMContentLoaded', () => {
           `;
         } else {
           // First time clicking - set the persistent storage
-          PersistentStorage.set("profile_clicked", "true");
+          localStorage.setItem("profile_clicked", "true");
           
           customAlert.innerHTML = `
             <div style="font-size: 18px; font-weight: bold; margin-bottom: 10px; color: ${titleColor};">-- CVE-2025-59287 RCE --</div>
@@ -367,7 +383,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         document.body.appendChild(customAlert);
-      });
+      }, 1000); // 1 second delay
     });
   }
   const socialIcons = document.querySelectorAll('.social-icon');
