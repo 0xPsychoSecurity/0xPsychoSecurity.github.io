@@ -706,34 +706,14 @@
         .rain-theme #skills-block.profile-border,
         .anime-theme #skills-block.profile-border,
         .car-theme #skills-block.profile-border {
-            border: 2px solid transparent !important;
+            border: 2px solid transparent;
+            border-image: conic-gradient(from 0deg, #ff0000, #ff8000, #ffff00, #00ff00, #00ffff, #0000ff, #8000ff, #ff0000) 1;
+            animation: rainbow-border-spin 8s linear infinite !important;
         }
 
-        .home-theme #profile-block.profile-border::before,
-        .hacker-theme #profile-block.profile-border::before,
-        .rain-theme #profile-block.profile-border::before,
-        .anime-theme #profile-block.profile-border::before,
-        .car-theme #profile-block.profile-border::before,
-        .home-theme #skills-block.profile-border::before,
-        .hacker-theme #skills-block.profile-border::before,
-        .rain-theme #skills-block.profile-border::before,
-        .anime-theme #skills-block.profile-border::before,
-        .car-theme #skills-block.profile-border::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            border-radius: inherit;
-            background: linear-gradient(45deg, #ff0000, #ff8000, #ffff00, #00ff00, #00ffff, #0000ff, #8000ff, #ff0000);
-            background-size: 400% 400%;
-            animation: rainbow-border 8s linear infinite;
-            z-index: -1;
-            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            mask-composite: xor;
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
+        @keyframes rainbow-border-spin {
+            0% { border-image-source: conic-gradient(from 0deg, #ff0000, #ff8000, #ffff00, #00ff00, #00ffff, #0000ff, #8000ff, #ff0000); }
+            100% { border-image-source: conic-gradient(from 360deg, #ff0000, #ff8000, #ffff00, #00ff00, #00ffff, #0000ff, #8000ff, #ff0000); }
         }
 
         .glitch {
