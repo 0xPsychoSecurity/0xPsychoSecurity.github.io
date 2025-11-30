@@ -695,6 +695,42 @@
         }
 
 
+        .home-theme #profile-block.profile-border,
+        .hacker-theme #profile-block.profile-border,
+        .rain-theme #profile-block.profile-border,
+        .anime-theme #profile-block.profile-border,
+        .car-theme #profile-block.profile-border,
+        .home-theme #skills-block.profile-border,
+        .hacker-theme #skills-block.profile-border,
+        .rain-theme #skills-block.profile-border,
+        .anime-theme #skills-block.profile-border,
+        .car-theme #skills-block.profile-border {
+            border: 2px solid transparent !important;
+        }
+
+        .home-theme #profile-block.profile-border::before,
+        .hacker-theme #profile-block.profile-border::before,
+        .rain-theme #profile-block.profile-border::before,
+        .anime-theme #profile-block.profile-border::before,
+        .car-theme #profile-block.profile-border::before,
+        .home-theme #skills-block.profile-border::before,
+        .hacker-theme #skills-block.profile-border::before,
+        .rain-theme #skills-block.profile-border::before,
+        .anime-theme #skills-block.profile-border::before,
+        .car-theme #skills-block.profile-border::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: inherit;
+            background: linear-gradient(45deg, #ff0000, #ff8000, #ffff00, #00ff00, #00ffff, #0000ff, #8000ff, #ff0000);
+            background-size: 400% 400%;
+            animation: rainbow-border 8s linear infinite;
+            z-index: -1;
+        }
+
         .glitch {
             animation: glitch 0.2s ease-in-out;
         }
