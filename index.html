@@ -696,45 +696,6 @@
         }
 
 
-        .home-theme #profile-block.profile-border,
-        .hacker-theme #profile-block.profile-border,
-        .rain-theme #profile-block.profile-border,
-        .anime-theme #profile-block.profile-border,
-        .car-theme #profile-block.profile-border,
-        .home-theme #skills-block.profile-border,
-        .hacker-theme #skills-block.profile-border,
-        .rain-theme #skills-block.profile-border,
-        .anime-theme #skills-block.profile-border,
-        .car-theme #skills-block.profile-border {
-            border: 2px solid transparent;
-            border-radius: 0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .home-theme #profile-block.profile-border::before,
-        .hacker-theme #profile-block.profile-border::before,
-        .rain-theme #profile-block.profile-border::before,
-        .anime-theme #profile-block.profile-border::before,
-        .car-theme #profile-block.profile-border::before,
-        .home-theme #skills-block.profile-border::before,
-        .hacker-theme #skills-block.profile-border::before,
-        .rain-theme #skills-block.profile-border::before,
-        .anime-theme #skills-block.profile-border::before,
-        .car-theme #skills-block.profile-border::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, #ff0000, #ff8000, #ffff00, #00ff00, #00ffff, #0000ff, #8000ff, #ff0000);
-            background-size: 400% 400%;
-            animation: rainbow-border 8s linear infinite;
-            z-index: -1;
-            clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0 calc(100% - 10px), 10px 0);
-        }
-
         .glitch {
             animation: glitch 0.2s ease-in-out;
         }
@@ -1096,7 +1057,7 @@
         </div>
 
 
-        <div id="profile-block" class="profile-border">
+        <div id="profile-block">
             <div class="profile-header">
 
 
@@ -1147,7 +1108,7 @@
             <div class="bio-separator"></div>
             <div class="profile-footer">
 
-                <div id="skills-block" class="profile-border">
+                <div id="skills-block">
                     <h2 class="skills-title">Languages</h2>
                     <div class="skill">
                         <div class="skill-name">
@@ -1261,7 +1222,7 @@
                 <input id="transparency-slider" hidden>
             </div>
         </div>
-        <div id="ip-box" class="profile-border">Grab IP Failed, Nice one!</div>
+        <div id="ip-box">Grab IP Failed, Nice one!</div>
     </div>
 
 
