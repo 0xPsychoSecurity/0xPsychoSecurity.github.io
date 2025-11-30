@@ -172,7 +172,40 @@ document.addEventListener('DOMContentLoaded', () => {
   // Add click event to profile picture
   if (profilePicture) {
     profilePicture.addEventListener('click', () => {
-      alert('CVE-2025-59287 RCE: Exploit ran successfully!');
+      // Create custom alert
+      const customAlert = document.createElement('div');
+      customAlert.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0, 0, 0, 0.9);
+        border: 2px solid #ff0000;
+        border-radius: 10px;
+        padding: 20px;
+        z-index: 10000;
+        color: #fff;
+        font-family: 'Courier New', monospace;
+        text-align: center;
+        box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+      `;
+      
+      customAlert.innerHTML = `
+        <div style="font-size: 18px; font-weight: bold; margin-bottom: 10px; color: #ff0000;">-- CVE-2025-59287 RCE --</div>
+        <div style="font-size: 14px;">Exploit Ran Successfully</div>
+        <button onclick="this.parentElement.remove()" style="
+          margin-top: 15px;
+          padding: 5px 15px;
+          background: #ff0000;
+          color: #fff;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+          font-family: 'Courier New', monospace;
+        ">OK</button>
+      `;
+      
+      document.body.appendChild(customAlert);
     });
   }
   const socialIcons = document.querySelectorAll('.social-icon');
