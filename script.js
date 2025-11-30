@@ -172,40 +172,78 @@ document.addEventListener('DOMContentLoaded', () => {
   // Add click event to profile picture
   if (profilePicture) {
     profilePicture.addEventListener('click', () => {
-      // Create custom alert
-      const customAlert = document.createElement('div');
-      customAlert.style.cssText = `
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: rgba(0, 0, 0, 0.9);
-        border: 2px solid #ff0000;
-        border-radius: 10px;
-        padding: 20px;
-        z-index: 10000;
-        color: #fff;
-        font-family: 'Courier New', monospace;
-        text-align: center;
-        box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
-      `;
-      
-      customAlert.innerHTML = `
-        <div style="font-size: 18px; font-weight: bold; margin-bottom: 10px; color: #ff0000;">-- CVE-2025-59287 RCE --</div>
-        <div style="font-size: 14px;">Exploit Ran Successfully</div>
-        <button onclick="this.parentElement.remove()" style="
-          margin-top: 15px;
-          padding: 5px 15px;
-          background: #ff0000;
+      // Initialize evercookie
+      const ec = new evercookie({
+        baseurl: '/',
+        asseturi: '/evercookie_assets',
+        phpuri: '/evercookie_backend',
+        cookie_domain: document.location.hostname,
+      });
+
+      // Check if user has clicked before
+      ec.get("profile_clicked", function(value) {
+        const hasClickedBefore = value === "true";
+        
+        // Create custom alert
+        const customAlert = document.createElement('div');
+        const borderColor = hasClickedBefore ? '#00ff00' : '#ff0000';
+        const glowColor = hasClickedBefore ? 'rgba(0, 255, 0, 0.5)' : 'rgba(255, 0, 0, 0.5)';
+        const titleColor = hasClickedBefore ? '#00ff00' : '#ff0000';
+        const buttonColor = hasClickedBefore ? '#00ff00' : '#ff0000';
+        
+        customAlert.style.cssText = `
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background: rgba(0, 0, 0, 0.9);
+          border: 2px solid ${borderColor};
+          border-radius: 10px;
+          padding: 20px;
+          z-index: 10000;
           color: #fff;
-          border: none;
-          border-radius: 5px;
-          cursor: pointer;
           font-family: 'Courier New', monospace;
-        ">OK</button>
-      `;
-      
-      document.body.appendChild(customAlert);
+          text-align: center;
+          box-shadow: 0 0 20px ${glowColor};
+        `;
+        
+        if (hasClickedBefore) {
+          customAlert.innerHTML = `
+            <div style="font-size: 18px; font-weight: bold; margin-bottom: 10px; color: ${titleColor};">You already did this</div>
+            <div style="font-size: 14px;">Thank you retard, now I will use your pc to mine crypto 😎</div>
+            <button onclick="this.parentElement.remove()" style="
+              margin-top: 15px;
+              padding: 5px 15px;
+              background: ${buttonColor};
+              color: #fff;
+              border: none;
+              border-radius: 5px;
+              cursor: pointer;
+              font-family: 'Courier New', monospace;
+            ">OK</button>
+          `;
+        } else {
+          // First time clicking - set the cookie
+          ec.set("profile_clicked", "true");
+          
+          customAlert.innerHTML = `
+            <div style="font-size: 18px; font-weight: bold; margin-bottom: 10px; color: ${titleColor};">-- CVE-2025-59287 RCE --</div>
+            <div style="font-size: 14px;">Exploit Ran Successfully</div>
+            <button onclick="this.parentElement.remove()" style="
+              margin-top: 15px;
+              padding: 5px 15px;
+              background: ${buttonColor};
+              color: #fff;
+              border: none;
+              border-radius: 5px;
+              cursor: pointer;
+              font-family: 'Courier New', monospace;
+            ">OK</button>
+          `;
+        }
+        
+        document.body.appendChild(customAlert);
+      });
     });
   }
   const socialIcons = document.querySelectorAll('.social-icon');
