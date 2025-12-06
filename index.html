@@ -453,12 +453,78 @@
             transform: scale(1.2);
         }
 
+        .server-badge-container {
+            margin-top: 6px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: flex-end;
+            padding-right: 12px;
+        }
+
+        .server-badge-box {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(0, 0, 0, 0.25);
+            padding: 4px 8px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            max-width: fit-content;
+        }
+
+        .server-badge-image {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            object-fit: cover;
+        }
+
+        .server-badge-text {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
         #profile-bio {
             color: rgba(255, 255, 255, 0.8);
             font-size: 20px;
             line-height: 1.5;
+            margin-top: 12px;
             margin-bottom: 10px;
             opacity: 1 !important;
+        }
+
+        .primary-guild {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+            padding: 6px 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            opacity: 1 !important;
+        }
+
+        .guild-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .guild-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .guild-name {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+            font-weight: 500;
         }
 
         .bio-separator {
@@ -601,19 +667,19 @@
         }
 
         #seeplusplus-bar {
-            background: linear-gradient(90deg, hsl(135, 19%, 60%), #2bff01);
+            background: #ff0000;
         }
 
         #assembly-bar {
-            background: linear-gradient(90deg, #8da56d, #00f2fe);
+            background: #ff0000;
         }
 
         #prolog-bar {
-            background: linear-gradient(90deg, #8cb163, #38f9d7);
+            background: #ff8800;
         }
 
         #gcode-bar {
-            background: linear-gradient(90deg, #8fb88e, #4be010);
+            background: #00ff00;
         }
 
 
@@ -907,9 +973,32 @@
                 bottom: 110%;
             }
 
+            .server-badge-container {
+                margin-top: 4px;
+                margin-bottom: 6px;
+                display: flex;
+                justify-content: flex-end;
+                padding-right: 2px;
+            }
+
+            .server-badge-box {
+                padding: 3px 6px;
+                gap: 5px;
+            }
+
+            .server-badge-image {
+                width: 20px;
+                height: 20px;
+            }
+
+            .server-badge-text {
+                font-size: 12px;
+            }
+
             #profile-bio {
                 font-size: 14px;
                 line-height: 1.4;
+                margin-top: 8px;
             }
 
             .bio-separator {
@@ -1101,6 +1190,12 @@
                             </div>
                         </div>
                     </div>
+                    <div class="server-badge-container">
+                        <div class="server-badge-box">
+                            <img src="assets/redburnicon.png" alt="Server Badge" class="server-badge-image">
+                            <span class="server-badge-text">.GOV</span>
+                        </div>
+                    </div>
                     <div id="profile-bio"></div>
                 </div>
             </div>
@@ -1153,25 +1248,25 @@
                 </div>
 
                 <div class="social-links">
-                    <a href="https://signal.me/#eu/6kk1-aRZK4pmYLidTkVUUMAjfwsp0l4To2dYqRr_8yXpsD2Dsp1H7K0fSwINVWfT" target="_blank">
+                    <a href="https://signal.me/#eu/6kk1-aRZK4pmYLidTkVUUMAjfwsp0l4To2dYqRr_8yXpsD2Dsp1H7K0fSwINVWfT" target="_blank" title="Message Me on Signal">
                         <img src="assets/signal.png" alt="Signal" class="social-icon">
                     </a>
-                    <a id="xrp-link" href="https://xrpscan.com/account/rpbsDqk7JTVu8ddG9XWf52pMjR3xDAKsju" target="_blank">
+                    <a id="xrp-link" href="https://xrpscan.com/account/rpbsDqk7JTVu8ddG9XWf52pMjR3xDAKsju" target="_blank" title="My XRP Wallet">
                         <img src="assets/xrp.png" alt="XRP Wallet" class="social-icon">
                     </a>
-                    <a href="discord://-/users/1232545312233619462" target="_blank">
+                    <a href="discord://-/users/1232545312233619462" target="_blank" title="Add me on Discord">
                         <img src="assets/discord.png" alt="Discord" class="social-icon">
                     </a>
-                    <a href="https://x.com/comms_____up" target="_blank">
+                    <a href="https://x.com/comms_____up" target="_blank" title="Follow me on X/Twitter">
                         <img src="assets/twitter.png" alt="Twitter" class="social-icon">
                     </a>
-                    <a href="mailto:noreply@cia.contact" target="_blank">
+                    <a href="mailto:noreply@cia.contact" target="_blank" title="Email Me">
                         <img src="assets/whor.email.png" alt="Email" class="social-icon">
                     </a>
                     <a href="https://zws.im/%F3%A0%81%BA%F3%A0%81%B1%F3%A0%81%A3%F3%A0%81%B2%F3%A0%81%BA%F3%A0%81%BA%F3%A0%81%A2" target="_blank" title="My Leaked Dox">
                         <img src="assets/doxbin.png" alt="My Dox" class="social-icon">
                     </a>
-                    <a href="https://odysee.com/@cumfart:3?view=content" target="_blank">
+                    <a href="https://odysee.com/@cumfart:3?view=content" target="_blank" title="My Odysee Channel">
                         <img src="assets/odysee.png" alt="Odysee" class="social-icon">
                     </a>
                 </div>
@@ -1246,28 +1341,39 @@
             .then(res => res.json())
             .then(data => {
                 const user = data.data.discord_user;
-                console.warn(user
-                );
+                console.warn(user);
+                
                 // Avatar
                 const avatarFormat = user.avatar.startsWith('a_') ? 'gif' : 'png';
-                const avatarUrl = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.${avatarFormat}`;
+                const avatarUrl = 'https://cdn.discordapp.com/avatars/' + user.id + '/' + user.avatar + '.' + avatarFormat;
                 document.querySelector('.profile-picture').src = avatarUrl;
 
-                // Banner
-                fetch(`https://discordlookup.mesalytic.moe/v1/user/${userId}`)
+                // Try DiscordLookup API for banner
+                fetch('https://discordlookup.mesalytic.moe/v1/user/' + userId)
                     .then(res => res.json())
-                    .then(data => {
-                        const bannerUrl = data.banner?.link;
-                        if (bannerUrl) {
-                            document.querySelector('.profile-header').style.backgroundImage = `url('${bannerUrl}')`;
+                    .then(bannerData => {
+                        if (bannerData.banner && bannerData.banner.link) {
+                            const bannerUrl = bannerData.banner.link;
+                            document.querySelector('.profile-header').style.backgroundImage = 'url(\'' + bannerUrl + '\')';
                         } else {
-                            // Banner yoksa default banner
-                            document.querySelector('.profile-header').style.backgroundImage = `url('assets/def_banner.webp')`;
+                            document.querySelector('.profile-header').style.backgroundImage = 'url(\'assets/def_profile.gif\')';
                         }
+                    })
+                    .catch(function(error) {
+                        document.querySelector('.profile-header').style.backgroundImage = 'url(\'assets/def_profile.gif\')';
                     });
 
                 // İsim
                 document.querySelector('#profile-name').textContent = user.username;
+
+            })
+            .catch(function(error) {
+                console.error('Error with Lanyard API:', error);
+                // Show error on page
+                const errorEl = document.createElement('div');
+                errorEl.innerHTML = 'LANYARD API ERROR: ' + error.message;
+                errorEl.style.cssText = 'position: fixed; top: 10px; left: 10px; background: red; color: white; padding: 10px; z-index: 9999; font-size: 14px;';
+                document.body.appendChild(errorEl);
             });
 
             // Disable right-click context menu

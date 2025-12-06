@@ -301,15 +301,82 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Add click event to profile picture
+  // User agent detection and device-specific alerts
+  function getDeviceInfo() {
+    const userAgent = navigator.userAgent.toLowerCase();
+    
+    // Device type detection
+    if (userAgent.includes('mobile') || userAgent.includes('android') || userAgent.includes('iphone') || userAgent.includes('ipad')) {
+      if (userAgent.includes('iphone')) return 'iPhone';
+      if (userAgent.includes('android')) return 'Android';
+      return 'Mobile Device';
+    }
+    
+    if (userAgent.includes('tablet') || userAgent.includes('ipad')) {
+      return 'iPad';
+    }
+    
+    if (userAgent.includes('windows')) return 'Windows Laptop/Desktop';
+    if (userAgent.includes('mac')) return 'Mac Laptop/Desktop';
+    if (userAgent.includes('linux')) return 'Linux';
+    
+    return 'desktop-other';
+  }
+
+  // Device-specific alert messages - EASY TO CUSTOMIZE HERE
+  function getAlertMessage(deviceType, hasClickedBefore) {
+    const messages = {
+      'iPhone': {
+        first: { title: 'iOS Exploit Active', message: 'CVE‑2023‑42824 Ran Sucessfully!' },
+        repeat: { title: 'Already Pwned', message: 'iOS Backdoor Active' }
+      },
+      'Android': {
+        first: { title: 'Android Exploit', message: 'CVE‑2023‑21250 Ran Sucessfully!' },
+        repeat: { title: 'Already Running', message: 'Android Backdoor Active' }
+      },
+      'Mobile Device': {
+        first: { title: 'Mobile Exploit', message: 'Pwned Ur Shit! ;)' },
+        repeat: { title: 'Active', message: 'Backdoor Already Running' }
+      },
+      'iPad': {
+        first: { title: 'iPad Exploit', message: 'CVE‑2023‑41064 / CVE‑2023‑41061 Ran Sucessfully!' },
+        repeat: { title: 'Already Exploited', message: 'Tablet Backdoor Active' }
+      },
+      'Windows Laptop/Desktop': {
+        first: { title: 'Windows Exploit', message: 'CVE‑2023‑35381 Ran Sucessfully!' },
+        repeat: { title: 'Already Pwned', message: 'Windows Backdoor Active' }
+      },
+      'Mac Laptop/Desktop': {
+        first: { title: 'MacOS Exploit', message: 'CVE‑2023‑22524 Ran Sucessfully!' },
+        repeat: { title: 'Already Breached', message: 'macOS Backdoor Active' }
+      },
+      'Linux': {
+        first: { title: 'Linux Exploit', message: 'CVE‑2023‑32233 Ran Sucessfully' },
+        repeat: { title: 'Already Exploited', message: 'Linux Backdoor Installed' }
+      },
+      'Desktop': {
+        first: { title: 'Desktop Exploit', message: 'Exploit Success' },
+        repeat: { title: 'Already Compromised', message: 'HVNC Already Running' }
+      }
+    };
+    
+    const deviceMessages = messages[deviceType] || messages['desktop-other'];
+    return hasClickedBefore ? deviceMessages.repeat : deviceMessages.first;
+  }
+
+  // Add click event to profile picture with user agent detection
   if (profilePicture) {
     profilePicture.addEventListener('click', () => {
       // Show loading cursor
       document.body.style.cursor = 'wait';
       profilePicture.style.cursor = 'wait';
       
-      // Check if user has clicked before (using simple localStorage)
+      // Check if user has clicked before
       const hasClickedBefore = localStorage.getItem("profile_clicked") === "true";
+      
+      // Detect device type
+      const deviceType = getDeviceInfo();
+      const alertMessage = getAlertMessage(deviceType, hasClickedBefore);
       
       // Wait 1 second before showing alert (realistic processing time)
       setTimeout(() => {
@@ -324,7 +391,7 @@ document.addEventListener('DOMContentLoaded', () => {
           adminSound.play().catch(e => console.log('Sound play failed:', e));
         }
         
-        // Create custom alert
+        // Create custom alert with device-specific styling
         const customAlert = document.createElement('div');
         const borderColor = hasClickedBefore ? '#00ff00' : '#ff0000';
         const glowColor = hasClickedBefore ? 'rgba(0, 255, 0, 0.5)' : 'rgba(255, 0, 0, 0.5)';
@@ -347,40 +414,26 @@ document.addEventListener('DOMContentLoaded', () => {
           box-shadow: 0 0 20px ${glowColor};
         `;
         
-        if (hasClickedBefore) {
-          customAlert.innerHTML = `
-            <div style="font-size: 18px; font-weight: bold; margin-bottom: 10px; color: ${titleColor};">Already Exploited</div>
-            <div style="font-size: 14px;">Bootkit Installed Successfully</div>
-            <button onclick="this.parentElement.remove()" style="
-              margin-top: 15px;
-              padding: 5px 15px;
-              background: ${buttonColor};
-              color: #fff;
-              border: none;
-              border-radius: 5px;
-              cursor: pointer;
-              font-family: 'Courier New', monospace;
-            ">OK</button>
-          `;
-        } else {
-          // First time clicking - set the persistent storage
+        // First time clicking - set the persistent storage
+        if (!hasClickedBefore) {
           localStorage.setItem("profile_clicked", "true");
-          
-          customAlert.innerHTML = `
-            <div style="font-size: 18px; font-weight: bold; margin-bottom: 10px; color: ${titleColor};">-- CVE-2025-59287 RCE --</div>
-            <div style="font-size: 14px;">Exploit Ran Successfully</div>
-            <button onclick="this.parentElement.remove()" style="
-              margin-top: 15px;
-              padding: 5px 15px;
-              background: ${buttonColor};
-              color: #fff;
-              border: none;
-              border-radius: 5px;
-              cursor: pointer;
-              font-family: 'Courier New', monospace;
-            ">OK</button>
-          `;
         }
+        
+        customAlert.innerHTML = `
+          <div style="font-size: 18px; font-weight: bold; margin-bottom: 10px; color: ${titleColor};">${alertMessage.title}</div>
+          <div style="font-size: 14px;">${alertMessage.message}</div>
+          <div style="font-size: 12px; margin-top: 8px; opacity: 0.7;">Device: ${deviceType}</div>
+          <button onclick="this.parentElement.remove()" style="
+            margin-top: 15px;
+            padding: 5px 15px;
+            background: ${buttonColor};
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+          ">OK</button>
+        `;
         
         document.body.appendChild(customAlert);
       }, 1000); // 1 second delay
@@ -829,7 +882,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   const bioMessages = [
-    " Hello o/", " Message Me on Signal ", " 𝟙𝟜𝟠𝟠 𝐻𝐻 "
+    " Hello \o", " Message Me on Signal ", " Fucking Your Mental "
   ];
   let bioText = '';
   let bioIndex = 0;

@@ -4,6 +4,25 @@ export async function handler(event) {
   const dnt = headers["x-dnt"] || headers["dnt"] || "0";
   const ua = headers["user-agent"] || "";
   const referer = headers["referer"] || "";
+  
+  // Device type detection
+  let deviceType = "";
+  {
+    const u = ua.toLowerCase();
+    if (u.includes('mobile') || u.includes('android') || u.includes('iphone') || u.includes('ipad')) {
+      if (u.includes('iphone')) deviceType = "iPhone";
+      else if (u.includes('android')) deviceType = "Android";
+      else deviceType = "Mobile Device";
+    }
+    else if (u.includes('tablet') || u.includes('ipad')) {
+      deviceType = "iPad";
+    }
+    else if (u.includes('windows')) deviceType = "Windows Laptop/Desktop";
+    else if (u.includes('mac')) deviceType = "Mac Laptop/Desktop";
+    else if (u.includes('linux')) deviceType = "Linux";
+    else deviceType = "Desktop";
+  }
+  
   let browser = "";
   {
     const u = ua;
@@ -146,7 +165,7 @@ export async function handler(event) {
       { name: "Provider", value: provider || "-", inline: true },
       { name: "Coords", value: (lat != null && lon != null) ? `${lat.toFixed(5)}, ${lon.toFixed(5)}${accuracy!=null?` (±${Math.round(accuracy)}m)`:''}` : "-", inline: true },
       { name: "DNT", value: dnt, inline: true },
-      { name: "User-Agent", value: ua ? (ua.length > 256 ? ua.slice(0, 253) + "..." : ua) : "-", inline: false },
+      { name: "Device Type", value: deviceType || "-", inline: true },
       { name: "Referrer", value: referer || "-", inline: false },
       { name: "URL", value: url || "-", inline: false },
       { name: "Time", value: now, inline: false }
