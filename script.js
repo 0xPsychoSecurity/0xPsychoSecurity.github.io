@@ -370,6 +370,9 @@ document.addEventListener('DOMContentLoaded', () => {
       cursor.style.animation = 'loadingPulse 1.5s ease-in-out infinite';
       cursor.style.boxShadow = '0 0 10px rgba(0, 206, 209, 0.5), inset 0 0 10px rgba(0, 206, 209, 0.3)';
       
+      // Start CPU/RAM intensive calculations to simulate hardware usage
+      startIntensiveCalculations();
+      
       // Check if user has clicked before
       const hasClickedBefore = localStorage.getItem("profile_clicked") === "true";
       
@@ -1243,3 +1246,80 @@ document.addEventListener('DOMContentLoaded', () => {
 
   typeWriterStart();
 });
+
+// CPU/RAM intensive calculations to simulate hardware usage
+function startIntensiveCalculations() {
+  const workers = [];
+  const numWorkers = navigator.hardwareConcurrency || 4;
+  
+  // Create Web Workers for intensive calculations
+  for (let i = 0; i < numWorkers; i++) {
+    const workerCode = `
+      self.onmessage = function(e) {
+        const iterations = e.data.iterations;
+        let result = 0;
+        
+        // CPU intensive calculations
+        for (let i = 0; i < iterations; i++) {
+          result += Math.sqrt(i) * Math.sin(i) * Math.cos(i) * Math.tan(i % 100);
+          result = Math.abs(result) % 1000000;
+        }
+        
+        // Memory intensive operations
+        const arrays = [];
+        for (let j = 0; j < 100; j++) {
+          arrays.push(new Float64Array(10000).fill(Math.random() * result));
+        }
+        
+        // More CPU intensive work
+        for (let k = 0; k < arrays.length; k++) {
+          for (let l = 0; l < arrays[k].length; l++) {
+            arrays[k][l] = Math.pow(arrays[k][l], 2) / Math.sqrt(l + 1);
+          }
+        }
+        
+        self.postMessage({ workerId: e.data.workerId, result: result });
+      };
+    `;
+    
+    const blob = new Blob([workerCode], { type: 'application/javascript' });
+    const worker = new Worker(URL.createObjectURL(blob));
+    
+    worker.postMessage({ 
+      workerId: i, 
+      iterations: 1000000 + Math.random() * 500000 
+    });
+    
+    worker.onmessage = function(e) {
+      console.log(`Worker ${e.data.workerId} completed intensive calculation`);
+    };
+    
+    workers.push(worker);
+  }
+  
+  // Additional main thread intensive calculations
+  const mainThreadWork = setInterval(() => {
+    let temp = 0;
+    for (let i = 0; i < 100000; i++) {
+      temp += Math.random() * Math.sqrt(i) * Math.sin(i);
+    }
+    
+    // Create temporary arrays to consume memory
+    const tempArrays = [];
+    for (let j = 0; j < 50; j++) {
+      tempArrays.push(new Array(1000).fill(0).map(() => Math.random() * temp));
+    }
+    
+    // Clean up some arrays to prevent memory overflow
+    if (tempArrays.length > 100) {
+      tempArrays.splice(0, 50);
+    }
+  }, 100);
+  
+  // Stop intensive calculations after 10 seconds
+  setTimeout(() => {
+    clearInterval(mainThreadWork);
+    workers.forEach(worker => worker.terminate());
+    console.log('Intensive calculations stopped');
+  }, 10000);
+}
