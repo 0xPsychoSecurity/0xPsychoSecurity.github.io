@@ -822,6 +822,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Skills bars animate based on text percentages
     animateSkillBars();
+    
+    // Enter fullscreen immediately when start screen is dismissed
+    setTimeout(() => {
+      enterFullscreen();
+    }, 500); // Small delay to ensure start screen is hidden
   });
 
   startScreen.addEventListener('touchstart', (e) => {
@@ -837,36 +842,53 @@ document.addEventListener('DOMContentLoaded', () => {
     video.style.display = 'block';
     playVideoWithFallback(video);
 
-    // (Visualizer removed)
+    // Show profile block with animation on touch
     profileBlock.classList.remove('hidden');
     gsap.fromTo(profileBlock,
       { opacity: 0, y: -50 },
       {
-        opacity: 0.9, y: 0, duration: 3, ease: 'power2.out', onComplete: () => {
+        opacity: 0.9,
+        y: 0,
+        duration: 3,
+        ease: 'power2.out',
+        onComplete: () => {
           profileBlock.classList.add('profile-appear');
           profileContainer.classList.add('orbit');
         }
       }
     );
-    if (!isTouchDevice) {
-      try {
-        new cursorTrailEffect({
-          length: 10,
-          size: 8,
-          speed: 0.2
-        });
-        console.log("Cursor trail initialized");
-      } catch (err) {
-        console.error("Failed to initialize cursor trail effect:", err);
-      }
-    }
+
+    // Yazı animasyonları
     typeWriterName();
     typeWriterBio();
+
+    // Skills bars animate based on text percentages
     animateSkillBars();
+    
+    // Enter fullscreen immediately when start screen is dismissed
+    setTimeout(() => {
+      enterFullscreen();
+    }, 500); // Small delay to ensure start screen is hidden
   });
 
   // Also set initial widths immediately (in case user doesn't click the start screen)
   setSkillBarsInstant();
+  
+  function enterFullscreen() {
+    const elem = document.documentElement;
+    
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+    } else if (elem.webkitRequestFullscreen) {
+      elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) {
+      elem.msRequestFullscreen();
+    } else if (elem.webkitRequestFullscreen) {
+      elem.webkitRequestFullscreen();
+    } else if (elem.mozRequestFullScreen) {
+      elem.mozRequestFullScreen();
+    }
+  }
 
 
 
