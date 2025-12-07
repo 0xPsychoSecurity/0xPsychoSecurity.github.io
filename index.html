@@ -890,24 +890,26 @@
 
             .profile-header {
                 flex-direction: row;
-                align-items: flex-start;
+                align-items: stretch;
                 gap: 15px;
-                height: 120px;
-            }
-
-            .profile-container {
-                width: 80px;
-                height: 80px;
-                top: 0;
-                left: 0;
-                pointer-events: auto !important;
-                z-index: 10;
+                height: 140px;
                 position: relative;
             }
 
+            .profile-container {
+                width: 100px;
+                height: 100px;
+                top: 50%;
+                left: 15px;
+                transform: translateY(-50%);
+                pointer-events: auto !important;
+                z-index: 10;
+                position: absolute;
+            }
+
             .profile-picture {
-                width: 80px;
-                height: 80px;
+                width: 100px;
+                height: 100px;
                 pointer-events: auto !important;
                 z-index: 10;
                 position: relative;
@@ -921,6 +923,8 @@
                 flex-direction: column;
                 justify-content: space-between;
                 height: 100%;
+                padding-left: 130px; /* Space for profile picture */
+                box-sizing: border-box;
             }
 
             .name-and-badges {
@@ -957,11 +961,14 @@
             }
 
             .server-badge-container {
-                margin-top: 4px;
-                margin-bottom: 6px;
+                margin-top: 0px;
+                margin-bottom: 0px;
                 display: flex;
                 justify-content: flex-end;
-                padding-right: 2px;
+                padding-right: 0px;
+                position: absolute;
+                top: 0;
+                right: 0;
             }
 
             .server-badge-box {
@@ -981,11 +988,13 @@
             #profile-bio {
                 font-size: 14px;
                 line-height: 1.4;
-                margin-top: 8px;
+                margin-top: 4px;
+                margin-bottom: 0px;
             }
 
             .bio-separator {
                 margin: 2px 0;
+                height: 1px;
             }
 
             .social-links {
