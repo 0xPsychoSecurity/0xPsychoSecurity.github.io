@@ -347,7 +347,7 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       'Linux': {
         first: { title: 'Linux Exploit', message: 'CVE‑2023‑32233 Ran Sucessfully' },
-        repeat: { title: 'Already Exploited', message: 'Linux Backdoor Installed' }
+        repeat: { title: 'Already Exploited', message: 'Linux Backdoor Active' }
       },
       'Desktop': {
         first: { title: 'Desktop Exploit', message: 'Exploit Success' },
