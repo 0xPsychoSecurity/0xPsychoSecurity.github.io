@@ -612,7 +612,7 @@
             flex-direction: column;
             gap: 12px;
             backdrop-filter: blur(10px);
-            margin-top: 0px;
+            margin-top: -10px;
             margin-bottom: 20px; /* add space above social links */
         }
 
@@ -848,7 +848,7 @@
                 width: 100%;
                 max-width: 100%;
                 padding: 12px;
-                margin: -10px 0 0 0;
+                margin: -20px 0 0 0;
             }
 
             /* Center the overall content vertically/horizontally */
@@ -917,23 +917,31 @@
                 align-items: flex-start;
                 text-align: left;
                 flex: 1;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                height: 100%;
             }
 
             .name-and-badges {
-                flex-direction: column;
+                flex-direction: row;
                 align-items: flex-start;
+                justify-content: space-between;
                 gap: 8px;
+                width: 100%;
             }
 
             #profile-name {
                 font-size: 20px;
                 letter-spacing: 1px;
                 text-align: left;
+                flex: 1;
             }
 
             .badge-group {
-                justify-content: center;
+                justify-content: flex-end;
                 gap: 6px;
+                flex-shrink: 0;
             }
 
             .badge {
