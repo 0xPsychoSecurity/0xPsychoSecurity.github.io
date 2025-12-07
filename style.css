@@ -10,6 +10,7 @@
   padding: 0;
   box-sizing: border-box;
   transition: all 0.3s ease;
+  cursor: none !important;
 }
 
 body {
@@ -19,63 +20,43 @@ body {
   overflow-x: hidden;
   overflow-y: auto;
   perspective: 1000px;
-  cursor: none;
+  cursor: none !important;
 }
 
+a, button, input, textarea, select, [onclick], [role="button"] {
+  cursor: none !important;
+}
 
 .custom-cursor {
   position: fixed;
   width: 32px;
   height: 32px;
-  background: url('assets/custom_cursor.png') no-repeat center center;
+  background: url('assets/cursor.png') no-repeat center center;
   background-size: contain;
   pointer-events: none;
-  z-index: 10000;
+  z-index: 99999;
   transition: transform 0.1s ease-out;
-  filter: hue-rotate(var(--cursor-hue, 0deg));
+  transform: translate(-16px, -8px);
+  opacity: 1;
 }
 
-
-body.home-theme {
-  --primary-gradient: from-purple-400;
-  --secondary-gradient: to-pink-600;
-  --primary-color: #00CED1;
-  --secondary-color: #FF6B9E;
-  --cursor-hue: 180deg;
+@keyframes loadingPulse {
+  0% {
+    transform: translate(-16px, -8px) scale(0.8);
+    opacity: 0.5;
+    box-shadow: 0 0 10px rgba(0, 206, 209, 0.5), inset 0 0 10px rgba(0, 206, 209, 0.3);
+  }
+  50% {
+    transform: translate(-16px, -8px) scale(1.2);
+    opacity: 1;
+    box-shadow: 0 0 20px rgba(0, 206, 209, 0.8), inset 0 0 15px rgba(0, 206, 209, 0.5);
+  }
+  100% {
+    transform: translate(-16px, -8px) scale(0.8);
+    opacity: 0.5;
+    box-shadow: 0 0 10px rgba(0, 206, 209, 0.5), inset 0 0 10px rgba(0, 206, 209, 0.3);
+  }
 }
-
-body.hacker-theme {
-  --primary-gradient: from-green-500;
-  --secondary-gradient: to-teal-600;
-  --primary-color: #22C55E;
-  --secondary-color: #2DD4BF;
-  --cursor-hue: 120deg;
-}
-
-body.rain-theme {
-  --primary-gradient: from-blue-800;
-  --secondary-gradient: to-blue-600;
-  --primary-color: #1E3A8A;
-  --secondary-color: #2563EB;
-  --cursor-hue: 240deg;
-}
-
-body.anime-theme {
-  --primary-gradient: from-red-600;
-  --secondary-gradient: to-red-400;
-  --primary-color: #DC2626;
-  --secondary-color: #F87171;
-  --cursor-hue: 0deg;
-}
-
-body.car-theme {
-  --primary-gradient: from-yellow-500;
-  --secondary-gradient: to-yellow-300;
-  --primary-color: #EAB308;
-  --secondary-color: #FACC15;
-  --cursor-hue: 60deg;
-}
-
 
 .video-background {
   transform: scale(1.02);
@@ -114,8 +95,45 @@ body.car-theme {
   /* Flüssigere Transition */
   width: 640px;
   max-width: 90vw;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  position: relative;
 }
 
+#profile-block::before,
+#skills-block::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: inherit;
+  background: linear-gradient(45deg, 
+      #FF006E, #FB5607, #FFBE0B, #8338EC, 
+      #3A86FF, #06FFB4, #FF4365, #00D9FF);
+  background-size: 400% 400%;
+  animation: borderCycle 8s ease infinite;
+  z-index: -1;
+}
+
+@keyframes borderCycle {
+  0% {
+    background-position: 0% 50%;
+  }
+  25% {
+    background-position: 100% 50%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  75% {
+    background-position: 0% 100%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
 
 #profile-block.profile-appear {
   animation: slideInFade 1s ease-out forwards;
@@ -421,26 +439,6 @@ body.car-theme {
   backdrop-filter: blur(5px);
 }
 
-.theme-button {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  background-color: rgba(0, 0, 0, 0.5);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s;
-  font-size: 14px;
-  font-weight: bold;
-}
-
-.theme-button:hover {
-  transform: scale(1.1);
-  border-color: rgba(255, 255, 255, 0.8);
-}
-
 
 .top-controls {
   position: fixed;
@@ -558,13 +556,50 @@ body.car-theme {
 
   #profile-block,
   #skills-block {
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    position: relative;
     width: 85vw;
     max-width: 360px;
     padding: 15px;
     left: 50%;
     transform: translateX(-50%);
   }
-
+  
+  #profile-block::before,
+  #skills-block::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: inherit;
+    background: linear-gradient(45deg, 
+        #FF006E, #FB5607, #FFBE0B, #8338EC, 
+        #3A86FF, #06FFB4, #FF4365, #00D9FF);
+    background-size: 400% 400%;
+    animation: borderCycle 8s ease infinite;
+    z-index: -1;
+  }
+  
+  @keyframes borderCycle {
+    0% {
+      background-position: 0% 50%;
+    }
+    25% {
+      background-position: 100% 50%;
+    }
+    50% {
+      background-position: 100% 100%;
+    }
+    75% {
+      background-position: 0% 100%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
 
   .profile-picture {
     width: 80px;
@@ -633,13 +668,6 @@ body.car-theme {
     left: 50%;
     transform: translateX(-50%);
   }
-
-  .theme-button {
-    width: 25px;
-    height: 25px;
-    font-size: 12px;
-  }
-
 
   .top-controls {
     bottom: calc(50% - 200px - 60px);

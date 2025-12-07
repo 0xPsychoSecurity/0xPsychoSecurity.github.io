@@ -47,13 +47,14 @@
 
         .custom-cursor {
             position: fixed;
-            width: 40px;
-            height: 40px;
-            background: url('') no-repeat center center;
+            width: 32px;
+            height: 32px;
+            background: url('assets/cursor.png') no-repeat center center;
             background-size: contain;
             pointer-events: none;
-            z-index: 9999;
-            transform: translate(-50%, -50%);
+            z-index: 99999;
+            transform: translate(-16px, -8px);
+            opacity: 1;
         }
 
 
@@ -64,6 +65,15 @@
             user-select: none;
             -webkit-user-select: none;
             -ms-user-select: none;
+            cursor: none !important;
+        }
+        
+        * {
+            cursor: none !important;
+        }
+        
+        a, button, input, textarea, select, [onclick], [role="button"] {
+            cursor: none !important;
         }
 
         .container {
@@ -154,27 +164,6 @@
             border-radius: 20px;
             backdrop-filter: blur(5px);
         }
-
-        .theme-button {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            background-color: rgba(0, 0, 0, 0.5);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        .theme-button:hover {
-            transform: scale(1.1);
-            border-color: rgba(255, 255, 255, 0.8);
-        }
-
 
         .volume-control {
             display: flex;
@@ -617,14 +606,13 @@
             position: relative;
             width: 100%;
             background: rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.15);
             padding: 16px;
             border-radius: 12px;
             display: flex;
             flex-direction: column;
             gap: 12px;
             backdrop-filter: blur(10px);
-            margin-top: 10px;
+            margin-top: 0px;
             margin-bottom: 20px; /* add space above social links */
         }
 
@@ -736,31 +724,7 @@
         }
 
 
-        .home-theme #profile-block,
-        .home-theme #skills-block {
-            border-color: rgba(0, 195, 255, 0.5);
-        }
-
-        .hacker-theme #profile-block,
-        .hacker-theme #skills-block {
-            border-color: rgba(0, 255, 0, 0.5);
-        }
-
-        .rain-theme #profile-block,
-        .rain-theme #skills-block {
-            border-color: rgba(100, 149, 237, 0.5);
-        }
-
-        .anime-theme #profile-block,
-        .anime-theme #skills-block {
-            border-color: rgba(255, 0, 255, 0.5);
-        }
-
-        .car-theme #profile-block,
-        .car-theme #skills-block {
-            border-color: rgba(255, 165, 0, 0.5);
-        }
-
+        
 
         .glitch {
             animation: glitch 0.2s ease-in-out;
@@ -884,7 +848,7 @@
                 width: 100%;
                 max-width: 100%;
                 padding: 12px;
-                margin: 0;
+                margin: -10px 0 0 0;
             }
 
             /* Center the overall content vertically/horizontally */
@@ -925,35 +889,46 @@
             }
 
             .profile-header {
-                flex-direction: column;
-                align-items: center;
-                gap: 10px;
+                flex-direction: row;
+                align-items: flex-start;
+                gap: 15px;
+                height: 120px;
             }
 
             .profile-container {
-                width: 120px;
-                height: 120px;
+                width: 80px;
+                height: 80px;
+                top: 0;
+                left: 0;
+                pointer-events: auto !important;
+                z-index: 10;
+                position: relative;
             }
 
             .profile-picture {
-                width: 120px;
-                height: 120px;
+                width: 80px;
+                height: 80px;
+                pointer-events: auto !important;
+                z-index: 10;
+                position: relative;
             }
 
             .profile-info {
-                align-items: center;
-                text-align: center;
+                align-items: flex-start;
+                text-align: left;
+                flex: 1;
             }
 
             .name-and-badges {
                 flex-direction: column;
-                align-items: center;
+                align-items: flex-start;
                 gap: 8px;
             }
 
             #profile-name {
-                font-size: 24px;
-                letter-spacing: 2px;
+                font-size: 20px;
+                letter-spacing: 1px;
+                text-align: left;
             }
 
             .badge-group {
@@ -1053,12 +1028,7 @@
                 padding: 5px 8px;
             }
 
-            .theme-button {
-                width: 28px;
-                height: 28px;
-                font-size: 12px;
-            }
-
+            
 
             .top-controls {
                 bottom: 70px;
@@ -1294,14 +1264,7 @@
         </div>
 
 
-        <div class="controls" style="display: none;">
-            <div id="home-theme" class="theme-button">1</div>
-            <div id="hacker-theme" class="theme-button">2</div>
-            <div id="rain-theme" class="theme-button">3</div>
-            <div id="anime-theme" class="theme-button">4</div>
-            <div id="car-theme" class="theme-button">5</div>
-        </div>
-
+        
 
         <div class="top-controls">
             <div class="volume-control">

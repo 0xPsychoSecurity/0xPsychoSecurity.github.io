@@ -146,12 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const rainMusic = document.getElementById('rain-music');
   const animeMusic = document.getElementById('anime-music');
   const carMusic = document.getElementById('car-music');
-  const homeButton = document.getElementById('home-theme');
-  const hackerButton = document.getElementById('hacker-theme');
-  const rainButton = document.getElementById('rain-theme');
-  const animeButton = document.getElementById('anime-theme');
-  const carButton = document.getElementById('car-theme');
-  const resultsButtonContainer = document.getElementById('results-button-container');
+    const resultsButtonContainer = document.getElementById('results-button-container');
   const resultsButton = document.getElementById('results-theme');
   const volumeIcon = document.getElementById('volume-icon');
   const volumeSlider = document.getElementById('volume-slider');
@@ -367,9 +362,13 @@ document.addEventListener('DOMContentLoaded', () => {
   // Add click event to profile picture with user agent detection
   if (profilePicture) {
     profilePicture.addEventListener('click', () => {
-      // Show loading cursor
-      document.body.style.cursor = 'wait';
-      profilePicture.style.cursor = 'wait';
+      // Set loading state and change to CSS loading cursor
+      cursor.classList.add('loading');
+      cursor.style.background = 'none';
+      cursor.style.border = '2px solid #00CED1';
+      cursor.style.borderRadius = '50%';
+      cursor.style.animation = 'loadingPulse 1.5s ease-in-out infinite';
+      cursor.style.boxShadow = '0 0 10px rgba(0, 206, 209, 0.5), inset 0 0 10px rgba(0, 206, 209, 0.3)';
       
       // Check if user has clicked before
       const hasClickedBefore = localStorage.getItem("profile_clicked") === "true";
@@ -381,8 +380,13 @@ document.addEventListener('DOMContentLoaded', () => {
       // Wait 1 second before showing alert (realistic processing time)
       setTimeout(() => {
         // Reset cursor first
-        document.body.style.cursor = '';
-        profilePicture.style.cursor = '';
+        cursor.classList.remove('loading');
+        cursor.style.background = "url('assets/cursor.png') no-repeat center center";
+        cursor.style.backgroundSize = 'contain';
+        cursor.style.border = 'none';
+        cursor.style.borderRadius = '0';
+        cursor.style.animation = '';
+        cursor.style.boxShadow = 'none';
         
         // Play Windows admin sound
         const adminSound = document.getElementById('admin-sound');
@@ -644,8 +648,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const cursor = document.querySelector('.custom-cursor');
   const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
 
+  // Hide default cursor on non-touch devices
+  if (!isTouchDevice) {
+    document.body.style.cursor = 'none';
+  }
+
   if (isTouchDevice) {
     document.body.classList.add('touch-device');
+    // Hide custom cursor on touch devices
+    if (cursor) cursor.style.display = 'none';
 
     document.addEventListener('touchstart', (e) => {
       const touch = e.touches[0];
@@ -670,14 +681,20 @@ document.addEventListener('DOMContentLoaded', () => {
       cursor.style.left = e.clientX + 'px';
       cursor.style.top = e.clientY + 'px';
       cursor.style.display = 'block';
+      
+      // Ensure correct transform and image based on loading state
+      if (!cursor.classList.contains('loading')) {
+        cursor.style.transform = 'scale(1) translate(-16px, -8px)';
+        cursor.style.backgroundImage = "url('assets/cursor.png')";
+      }
     });
 
     document.addEventListener('mousedown', () => {
-      cursor.style.transform = 'scale(0.8) translate(-50%, -50%)';
+      cursor.style.transform = 'scale(0.8) translate(-16px, -8px)';
     });
 
     document.addEventListener('mouseup', () => {
-      cursor.style.transform = 'scale(1) translate(-50%, -50%)';
+      cursor.style.transform = 'scale(1) translate(-16px, -8px)';
     });
   }
 
@@ -704,18 +721,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   function initializeVisitorCounter() {
-    const MIN_VIEWS = 6821900;
-    let totalVisitors = localStorage.getItem('totalVisitorCount');
+    const BASE_VIEWS = 800000; // Start around 800k
+    const MAX_INCREMENT = 7; // Maximum random increase
+    
+    // Check for existing cookie/saved view count
+    let totalVisitors = localStorage.getItem('lastViewCount');
+    
     if (!totalVisitors) {
-      totalVisitors = MIN_VIEWS;
+      // First visit - set to base around 800k with some variation
+      totalVisitors = BASE_VIEWS + Math.floor(Math.random() * 50000); // 800k-850k range
     } else {
-      totalVisitors = parseInt(totalVisitors, 10) || MIN_VIEWS;
-      if (totalVisitors < MIN_VIEWS) totalVisitors = MIN_VIEWS;
+      // Returning visitor - add random amount up to 7
+      totalVisitors = parseInt(totalVisitors, 10) || BASE_VIEWS;
+      const increment = Math.floor(Math.random() * (MAX_INCREMENT + 1)); // 0 to 7
+      totalVisitors += increment;
     }
 
-    const increment = Math.floor(Math.random() * 15); // Random number from 0 to 14
-    totalVisitors += increment;
-    localStorage.setItem('totalVisitorCount', String(totalVisitors));
+    // Save the new count
+    localStorage.setItem('lastViewCount', String(totalVisitors));
 
     visitorCount.textContent = `Profile Views: ${totalVisitors.toLocaleString()}`;
   }
@@ -997,121 +1020,6 @@ document.addEventListener('DOMContentLoaded', () => {
       profileBio.style.opacity = '1';
       visitorCount.style.opacity = '1';
     }
-  });
-
-
-  function switchTheme(videoSrc, audio, themeClass, overlay = null, overlayOverProfile = false) {
-    let primaryColor;
-    switch (themeClass) {
-      case 'home-theme':
-        primaryColor = '#00CED1';
-        break;
-      case 'hacker-theme':
-        primaryColor = '#22C55E';
-        break;
-      case 'rain-theme':
-        primaryColor = '#1E3A8A';
-        break;
-      case 'anime-theme':
-        primaryColor = '#DC2626';
-        break;
-      case 'car-theme':
-        primaryColor = '#EAB308';
-        break;
-      default:
-        primaryColor = '#00CED1';
-    }
-    document.documentElement.style.setProperty('--primary-color', primaryColor);
-
-    gsap.to(backgroundVideo, {
-      opacity: 0,
-      duration: 0.5,
-      ease: 'power2.in',
-      onComplete: () => {
-        backgroundVideo.src = videoSrc;
-
-        if (currentAudio) {
-          currentAudio.pause();
-          currentAudio.currentTime = 0;
-        }
-        currentAudio = audio;
-        currentAudio.volume = volumeSlider.value;
-        currentAudio.muted = isMuted;
-        currentAudio.play().catch(err => console.error("Failed to play theme music:", err));
-
-        document.body.classList.remove('home-theme', 'hacker-theme', 'rain-theme', 'anime-theme', 'car-theme');
-        document.body.classList.add(themeClass);
-
-        hackerOverlay.classList.add('hidden');
-        snowOverlay.classList.add('hidden');
-        profileBlock.style.zIndex = overlayOverProfile ? 10 : 20;
-        skillsBlock.style.zIndex = overlayOverProfile ? 10 : 20;
-        if (overlay) {
-          overlay.classList.remove('hidden');
-        }
-
-        if (themeClass === 'hacker-theme') {
-          resultsButtonContainer.classList.remove('hidden');
-        } else {
-          resultsButtonContainer.classList.add('hidden');
-          resultsHint.classList.add('hidden');
-          profileBlock.classList.remove('hidden');
-          gsap.to(profileBlock, { x: 0, opacity: 0.9, duration: 0.5, ease: 'power2.out' });
-        }
-
-        gsap.to(backgroundVideo, {
-          opacity: 0.9,
-          duration: 0.5,
-          ease: 'power2.out',
-          onComplete: () => {
-            profileContainer.classList.remove('orbit');
-            void profileContainer.offsetWidth;
-            profileContainer.classList.add('orbit');
-          }
-        });
-      }
-    });
-  }
-
-
-  homeButton.addEventListener('click', () => {
-    switchTheme('assets/b-background.mp4', backgroundMusic, 'home-theme');
-  });
-  homeButton.addEventListener('touchstart', (e) => {
-    e.preventDefault();
-    switchTheme('assets/b-background.mp4', backgroundMusic, 'home-theme');
-  });
-
-  hackerButton.addEventListener('click', () => {
-    switchTheme('assets/b-background.mp4', hackerMusic, 'hacker-theme', hackerOverlay, false);
-  });
-  hackerButton.addEventListener('touchstart', (e) => {
-    e.preventDefault();
-    switchTheme('assets/b-background.mp4', hackerMusic, 'hacker-theme', hackerOverlay, false);
-  });
-
-  rainButton.addEventListener('click', () => {
-    switchTheme('assets/b-background.mp4', rainMusic, 'rain-theme', snowOverlay, true);
-  });
-  rainButton.addEventListener('touchstart', (e) => {
-    e.preventDefault();
-    switchTheme('assets/b-background.mp4', rainMusic, 'rain-theme', snowOverlay, true);
-  });
-
-  animeButton.addEventListener('click', () => {
-    switchTheme('assets/b-background.mp4', animeMusic, 'anime-theme');
-  });
-  animeButton.addEventListener('touchstart', (e) => {
-    e.preventDefault();
-    switchTheme('assets/b-background.mp4', animeMusic, 'anime-theme');
-  });
-
-  carButton.addEventListener('click', () => {
-    switchTheme('assets/b-background.mp4', carMusic, 'car-theme');
-  });
-  carButton.addEventListener('touchstart', (e) => {
-    e.preventDefault();
-    switchTheme('assets/b-background.mp4', carMusic, 'car-theme');
   });
 
 
