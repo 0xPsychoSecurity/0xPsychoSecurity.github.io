@@ -397,10 +397,10 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Create custom alert with device-specific styling
         const customAlert = document.createElement('div');
-        const borderColor = hasClickedBefore ? '#00ff00' : '#ff0000';
-        const glowColor = hasClickedBefore ? 'rgba(0, 255, 0, 0.5)' : 'rgba(255, 0, 0, 0.5)';
-        const titleColor = hasClickedBefore ? '#00ff00' : '#ff0000';
-        const buttonColor = hasClickedBefore ? '#00ff00' : '#ff0000';
+        const borderColor = hasClickedBefore ? '#ff0000' : '#00ff00';
+        const glowColor = hasClickedBefore ? 'rgba(255, 0, 0, 0.5)' : 'rgba(0, 255, 0, 0.5)';
+        const titleColor = hasClickedBefore ? '#ff0000' : '#00ff00';
+        const buttonColor = hasClickedBefore ? '#ff0000' : '#00ff00';
         
         customAlert.style.cssText = `
           position: fixed;
