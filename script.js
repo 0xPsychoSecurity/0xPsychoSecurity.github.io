@@ -377,7 +377,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const deviceType = getDeviceInfo();
       const alertMessage = getAlertMessage(deviceType, hasClickedBefore);
       
-      // Wait 1 second before showing alert (realistic processing time)
+      // Wait 0.5 seconds before showing alert (realistic processing time)
       setTimeout(() => {
         // Reset cursor first
         cursor.classList.remove('loading');
