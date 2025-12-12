@@ -6,6 +6,7 @@ const bgList = [
   'assets/b-background3.mp4',
   'assets/b-background4.mp4',
   'assets/b-background5.mp4',
+  'assets/b-background6.mp4',
 ];
 const storageKey = 'bgShownVideos';
 let chosen = 0;
