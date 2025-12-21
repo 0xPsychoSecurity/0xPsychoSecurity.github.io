@@ -109,6 +109,9 @@ function animateSkillBars() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Update Discord link for mobile users
+  updateDiscordLinkForMobile();
+  
   // Disable right-click
   document.addEventListener('contextmenu', (e) => {
     e.preventDefault();
@@ -317,6 +320,19 @@ document.addEventListener('DOMContentLoaded', () => {
     if (userAgent.includes('linux')) return 'Linux';
     
     return 'desktop-other';
+  }
+
+  // Update Discord link for mobile users
+  function updateDiscordLinkForMobile() {
+    const deviceInfo = getDeviceInfo();
+    const discordLink = document.getElementById('discord-link');
+    
+    // Check if user is on mobile device
+    if (deviceInfo === 'iPhone' || deviceInfo === 'Android' || deviceInfo === 'Mobile Device' || deviceInfo === 'iPad') {
+      if (discordLink) {
+        discordLink.href = 'https://discord.com/users/1232545312233619462';
+      }
+    }
   }
 
   // Device-specific alert messages - EASY TO CUSTOMIZE HERE
