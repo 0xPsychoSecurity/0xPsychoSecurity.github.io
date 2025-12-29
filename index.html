@@ -1171,16 +1171,13 @@
             width: 100%;
         }
 
-        /* Lanyard Container - Side by Side Layout */
+        /* Lanyard Container - Side by Side Layout Inside Profile */
         .lanyard-container {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
             display: flex;
             gap: 20px;
-            z-index: 19;
-            pointer-events: none;
+            margin: 20px 0;
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
         /* Lanyard RPC Status - Left Side */
@@ -1192,6 +1189,8 @@
             padding: 15px;
             backdrop-filter: blur(10px);
             pointer-events: auto;
+            flex: 1;
+            min-width: 250px;
         }
 
         .lanyard-rpc-title {
@@ -1213,6 +1212,8 @@
             padding: 15px;
             backdrop-filter: blur(10px);
             pointer-events: auto;
+            flex: 1;
+            min-width: 250px;
         }
 
         .lanyard-stats-title {
@@ -1227,16 +1228,13 @@
 
         /* Spotify Player - Underneath Both */
         .spotify-player {
-            position: fixed;
-            top: calc(50% + 180px);
-            left: 50%;
-            transform: translateX(-50%);
-            width: 580px;
+            width: 100%;
+            max-width: 580px;
+            margin: 20px auto 0;
             background: rgba(0, 0, 0, 0.35);
             border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 15px;
             padding: 15px;
-            z-index: 19;
             backdrop-filter: blur(10px);
             pointer-events: auto;
         }
@@ -1339,17 +1337,17 @@
         @media (max-width: 768px) {
             .lanyard-container {
                 flex-direction: column;
-                gap: 10px;
-                top: 45%;
+                gap: 15px;
+                margin: 15px 0;
             }
 
             .lanyard-rpc, .lanyard-stats {
-                width: 250px;
+                width: 100%;
+                min-width: unset;
             }
 
             .spotify-player {
-                width: 520px;
-                top: calc(45% + 200px);
+                margin: 15px 0 0;
             }
 
             .spotify-activity {
@@ -1377,18 +1375,22 @@
 
         @media (max-width: 600px) {
             .lanyard-container {
-                top: 40%;
+                gap: 10px;
+                margin: 10px 0;
             }
 
             .lanyard-rpc, .lanyard-stats {
-                width: 220px;
                 padding: 10px;
             }
 
             .spotify-player {
-                width: 460px;
-                top: calc(40% + 180px);
                 padding: 10px;
+                margin: 10px 0 0;
+            }
+
+            .spotify-activity {
+                gap: 8px;
+                padding: 6px;
             }
 
             .spotify-image {
@@ -1613,33 +1615,6 @@
 
     <div class="container">
 
-        <!-- Discord Lanyard Container - Activity and Status Side by Side -->
-        <div class="lanyard-container">
-            <!-- Discord Lanyard RPC Status - Left Side -->
-            <div id="lanyard-rpc" class="lanyard-rpc">
-                <div class="lanyard-rpc-title">Discord Activity</div>
-                <div id="lanyard-rpc-content" class="lanyard-rpc-content">
-                    <div class="lanyard-loading">Loading Discord activity...</div>
-                </div>
-            </div>
-
-            <!-- Discord Lanyard Custom Stats - Right Side -->
-            <div id="lanyard-stats" class="lanyard-stats">
-                <div class="lanyard-stats-title">Discord Status</div>
-                <div id="lanyard-custom-stats" class="lanyard-custom-stats">
-                    <div class="lanyard-loading">Loading Discord status...</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Spotify Player - Underneath Both -->
-        <div id="spotify-player" class="spotify-player">
-            <div class="spotify-title">Spotify</div>
-            <div id="spotify-content" class="spotify-content">
-                <div class="lanyard-loading">Loading Spotify...</div>
-            </div>
-        </div>
-
         <video id="background" loop playsinline webkit-playsinline>
             <source id="bgSource" src="assets/b-background.mp4" type="video/mp4">
         </video>
@@ -1709,7 +1684,36 @@
                 </div>
             </div>
             
-            <div class="profile-quote">𝕵𝖊𝖘𝖚𝖘, 𝕾𝖔𝖓 𝖔𝖋 𝕯𝖆𝖛𝖎𝖉, �𝖆𝖛𝖊 𝖒𝖊𝖗𝖈𝖞 𝖔𝖓 𝖒𝖊 𝖆 𝖘𝖎𝖓𝖓𝖊𝖗.</div>
+            <div class="profile-quote">𝔍𝔢𝔰𝔲𝔰, 𝔖𝔬𝔫 𝔬𝔣 𝔊𝔬𝔡, ℌ𝔞𝔳𝔢 𝔪𝔢𝔯𝔠𝔶 𝔬𝔫 𝔪𝔢, 𝔞 𝔖𝔦𝔫𝔫𝔢𝔯.
+</div>
+            
+            <!-- Discord Lanyard Container - Inside Profile Block -->
+            <div class="lanyard-container">
+                <!-- Discord Lanyard RPC Status - Left Side -->
+                <div id="lanyard-rpc" class="lanyard-rpc">
+                    <div class="lanyard-rpc-title">Discord Activity</div>
+                    <div id="lanyard-rpc-content" class="lanyard-rpc-content">
+                        <div class="lanyard-loading">Loading Discord activity...</div>
+                    </div>
+                </div>
+
+                <!-- Discord Lanyard Custom Stats - Right Side -->
+                <div id="lanyard-stats" class="lanyard-stats">
+                    <div class="lanyard-stats-title">Discord Status</div>
+                    <div id="lanyard-custom-stats" class="lanyard-custom-stats">
+                        <div class="lanyard-loading">Loading Discord status...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Spotify Player - Underneath Both -->
+            <div id="spotify-player" class="spotify-player">
+                <div class="spotify-title">Spotify</div>
+                <div id="spotify-content" class="spotify-content">
+                    <div class="lanyard-loading">Loading Spotify...</div>
+                </div>
+            </div>
+            
             <div class="bio-separator"></div>
             <div class="profile-footer">
 
