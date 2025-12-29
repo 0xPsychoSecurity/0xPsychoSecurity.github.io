@@ -442,6 +442,38 @@
             transform: scale(1.2);
         }
 
+        /* BadgeVault styling */
+        .badgevault-badge {
+            position: relative;
+        }
+
+        .badgevault-badge .badge.badgevault-global-badge {
+            border: 2px solid rgba(255, 215, 0, 0.4);
+            border-radius: 6px;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .badgevault-badge .badge.badgevault-global-badge:hover {
+            transform: scale(1.3);
+            border-color: rgba(255, 215, 0, 0.6);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+        }
+
+        .badgevault-badge .tooltip {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.2));
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+            font-size: 12px;
+            white-space: nowrap;
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: #ffd700;
+            font-weight: bold;
+        }
+
         .server-badge-container {
             margin-top: 6px;
             margin-bottom: 8px;
@@ -1138,6 +1170,222 @@
             align-items: center;
             width: 100%;
         }
+
+        /* Lanyard RPC Status - Left Side */
+        .lanyard-rpc {
+            position: fixed;
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
+            width: 280px;
+            background: rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 15px;
+            z-index: 19;
+            backdrop-filter: blur(10px);
+            pointer-events: auto;
+        }
+
+        .lanyard-rpc-title {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 5px;
+        }
+
+        .rpc-activity {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .rpc-image {
+            width: 60px;
+            height: 60px;
+            flex-shrink: 0;
+        }
+
+        .rpc-image img {
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .rpc-details {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .rpc-name {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .rpc-state {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 12px;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .rpc-details-text {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 11px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .rpc-progress {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            margin-top: 4px;
+            overflow: hidden;
+        }
+
+        .rpc-progress-bar {
+            height: 100%;
+            background: #1db954;
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+
+        .spotify-activity {
+            border-left: 3px solid #1db954;
+        }
+
+        .rpc-idle {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 12px;
+            text-align: center;
+            padding: 10px;
+            font-style: italic;
+        }
+
+        /* Lanyard Custom Stats - Right Side */
+        .lanyard-stats {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .lanyard-stats-title {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 5px;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 0;
+            min-height: 20px;
+        }
+
+        .stat-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .stat-icon {
+            font-size: 14px;
+            flex-shrink: 0;
+            width: 20px;
+            text-align: center;
+        }
+
+        .stat-text {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 12px;
+            flex: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .lanyard-loading, .lanyard-error {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 12px;
+            text-align: center;
+            padding: 10px;
+            font-style: italic;
+        }
+
+        .lanyard-error {
+            color: #ff6b6b;
+        }
+
+        /* Mobile responsive adjustments */
+        @media (max-width: 430px) {
+            .lanyard-rpc {
+                position: fixed;
+                top: auto;
+                bottom: 140px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: calc(100vw - 40px);
+                max-width: 320px;
+                z-index: 19;
+            }
+
+            .lanyard-stats {
+                margin-bottom: 8px;
+                padding: 8px;
+            }
+
+            .lanyard-stats-title {
+                font-size: 14px;
+            }
+
+            .stat-text {
+                font-size: 11px;
+            }
+
+            .rpc-name {
+                font-size: 12px;
+            }
+
+            .rpc-state {
+                font-size: 11px;
+            }
+
+            .rpc-details-text {
+                font-size: 10px;
+            }
+
+            .rpc-image {
+                width: 50px;
+                height: 50px;
+            }
+        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Retro+Gaming&display=swap" rel="stylesheet">
 </head>
@@ -1152,6 +1400,14 @@
     </div>
 
     <div class="container">
+
+        <!-- Discord Lanyard RPC Status - Left Side -->
+        <div id="lanyard-rpc" class="lanyard-rpc">
+            <div class="lanyard-rpc-title">Discord Activity</div>
+            <div id="lanyard-rpc-content" class="lanyard-rpc-content">
+                <div class="lanyard-loading">Loading Discord activity...</div>
+            </div>
+        </div>
 
         <video id="background" loop playsinline webkit-playsinline>
             <source id="bgSource" src="assets/b-background.mp4" type="video/mp4">
@@ -1186,17 +1442,28 @@
 
                                     </div>
                                     <div class="badge-container">
+                                        <img src="assets/active_developer.png" alt="Active Developer" class="badge">
+
+                                    </div>
+                                    <div class="badge-container">
                                         <img src="assets/templar-cross.png" alt="Templar Cross" class="badge">
 
                                     </div>
                                     <div class="badge-container">
-                                        <img src="assets/glock-spin.gif" alt="Glock Spin" class="badge">
+                                        <img src="assets/quests.png" alt="Quests" class="badge">
 
                                     </div>
                                     <div class="badge-container">
-                                        <img src="assets/Nighty.gif" alt="Nighty" class="badge">
+                                        <img src="assets/Nighty.png" alt="Nighty" class="badge">
 
                                     </div>
+                                    <div class="badge-container">
+                                        <img src="assets/discord-golden-bug-hunter-.png" alt="Golden Bug Hunter" class="badge">
+
+                                    </div>
+                                    <div class="badge-container">
+<img src="assets/g59.png" alt="$B$" class="badge">
+ </div>
                                 </div>
                             </div>
                         </div>
@@ -1210,6 +1477,15 @@
                     <div id="profile-bio"></div>
                 </div>
             </div>
+            
+            <!-- Discord Lanyard Custom Stats - Right Side -->
+            <div id="lanyard-stats" class="lanyard-stats">
+                <div class="lanyard-stats-title">Discord Status</div>
+                <div id="lanyard-custom-stats" class="lanyard-custom-stats">
+                    <div class="lanyard-loading">Loading Discord status...</div>
+                </div>
+            </div>
+            
             <div class="profile-quote">𝕵𝖊𝖘𝖚𝖘, 𝕾𝖔𝖓 𝖔𝖋 𝕯𝖆𝖛𝖎𝖉, 𝖍𝖆𝖛𝖊 𝖒𝖊𝖗𝖈𝖞 𝖔𝖓 𝖒𝖊 𝖆 𝖘𝖎𝖓𝖓𝖊𝖗.</div>
             <div class="bio-separator"></div>
             <div class="profile-footer">
@@ -1345,7 +1621,9 @@
             .then(res => res.json())
             .then(data => {
                 const user = data.data.discord_user;
-                console.warn(user);
+                const activities = data.data.activities;
+                const spotify = data.data.spotify;
+                console.warn(user, activities, spotify);
                 
                 // Avatar
                 const avatarFormat = user.avatar.startsWith('a_') ? 'gif' : 'png';
@@ -1370,6 +1648,15 @@
                 // İsim
                 document.querySelector('#profile-name').textContent = user.username;
 
+                // Fetch and display BadgeVault badges
+                fetchBadgeVaultBadges(userId);
+
+                // Update Lanyard RPC Status (Left Side)
+                updateLanyardRPC(activities, spotify);
+
+                // Update Lanyard Custom Stats (Right Side)
+                updateLanyardStats(user, activities, spotify);
+
             })
             .catch(function(error) {
                 console.error('Error with Lanyard API:', error);
@@ -1378,7 +1665,163 @@
                 errorEl.innerHTML = 'LANYARD API ERROR: ' + error.message;
                 errorEl.style.cssText = 'position: fixed; top: 10px; left: 10px; background: red; color: white; padding: 10px; z-index: 9999; font-size: 14px;';
                 document.body.appendChild(errorEl);
+                
+                // Update error states for both components
+                document.getElementById('lanyard-rpc-content').innerHTML = '<div class="lanyard-error">Failed to load Discord activity</div>';
+                document.getElementById('lanyard-custom-stats').innerHTML = '<div class="lanyard-error">Failed to load Discord status</div>';
             });
+
+        // Function to fetch and display BadgeVault badges
+        async function fetchBadgeVaultBadges(userId) {
+            try {
+                const response = await fetch(`https://api.domi-btnr.dev/clientmodbadges/users/${userId}`);
+                const badgesData = await response.json();
+                
+                const badgeVaultBadges = badgesData.BadgeVault || [];
+                const badgeContainer = document.querySelector('.badge-group');
+                
+                if (badgeVaultBadges.length > 0) {
+                    badgeVaultBadges.forEach(badge => {
+                        const badgeElement = document.createElement('div');
+                        badgeElement.className = 'badge-container badgevault-badge';
+                        badgeElement.innerHTML = `
+                            <img src="${badge.badge}" alt="${badge.name}" class="badge badgevault-global-badge" />
+                            <span class="tooltip">${badge.name}</span>
+                        `;
+                        badgeContainer.appendChild(badgeElement);
+                    });
+                }
+            } catch (error) {
+                console.log('Failed to load BadgeVault badges:', error);
+            }
+        }
+
+        // Function to update Lanyard RPC Status (Left Side)
+        function updateLanyardRPC(activities, spotify) {
+            const rpcContent = document.getElementById('lanyard-rpc-content');
+            let rpcHTML = '';
+
+            // Check for Spotify first
+            if (spotify && spotify.track_id) {
+                const albumArt = spotify.album_art_url ? spotify.album_art_url : 'assets/discord.png';
+                const artists = spotify.artists.join(', ');
+                const progressPercent = (spotify.track_progress_ms / spotify.track_length_ms) * 100;
+                
+                rpcHTML = `
+                    <div class="rpc-activity spotify-activity">
+                        <div class="rpc-image">
+                            <img src="${albumArt}" alt="Album Art" onerror="this.src='assets/discord.png'">
+                        </div>
+                        <div class="rpc-details">
+                            <div class="rpc-name">Listening to Spotify</div>
+                            <div class="rpc-state">${spotify.song}</div>
+                            <div class="rpc-details-text">${artists}</div>
+                            <div class="rpc-progress">
+                                <div class="rpc-progress-bar" style="width: ${progressPercent}%"></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } 
+            // Check for custom activities
+            else if (activities && activities.length > 0) {
+                const activity = activities[0]; // Get first activity
+                const activityImage = activity.assets && activity.assets.large_image ? 
+                    (activity.assets.large_image.startsWith('mp:') ? 'https://media.discordapp.net/' + activity.assets.large_image.slice(3) : activity.assets.large_image) : 
+                    'assets/discord.png';
+                
+                rpcHTML = `
+                    <div class="rpc-activity">
+                        <div class="rpc-image">
+                            <img src="${activityImage}" alt="Activity" onerror="this.src='assets/discord.png'">
+                        </div>
+                        <div class="rpc-details">
+                            <div class="rpc-name">${activity.name || 'Activity'}</div>
+                            <div class="rpc-state">${activity.state || ''}</div>
+                            ${activity.details ? `<div class="rpc-details-text">${activity.details}</div>` : ''}
+                        </div>
+                    </div>
+                `;
+            } else {
+                rpcHTML = '<div class="rpc-idle">No current activity</div>';
+            }
+
+            rpcContent.innerHTML = rpcHTML;
+        }
+
+        // Function to update Lanyard Custom Stats (Right Side)
+        function updateLanyardStats(user, activities, spotify) {
+            const statsContent = document.getElementById('lanyard-custom-stats');
+            let statsHTML = '';
+
+            // Discord status indicator
+            const statusColors = {
+                online: '#43b581',
+                idle: '#faa61a',
+                dnd: '#f04747',
+                offline: '#747f8d'
+            };
+            const statusText = {
+                online: 'Online',
+                idle: 'Idle',
+                dnd: 'Do Not Disturb',
+                offline: 'Offline'
+            };
+
+            const userStatus = data.data.discord_status;
+            const statusColor = statusColors[userStatus] || statusColors.offline;
+
+            statsHTML = `
+                <div class="stat-item">
+                    <div class="stat-indicator" style="background-color: ${statusColor}"></div>
+                    <div class="stat-text">${statusText[userStatus] || 'Offline'}</div>
+                </div>
+            `;
+
+            // Add Spotify info if active
+            if (spotify && spotify.track_id) {
+                statsHTML += `
+                    <div class="stat-item">
+                        <div class="stat-icon">🎵</div>
+                        <div class="stat-text">Listening to ${spotify.song}</div>
+                    </div>
+                `;
+            }
+
+            // Add custom activity info if present
+            if (activities && activities.length > 0) {
+                const activity = activities[0];
+                if (activity.name) {
+                    const activityIcons = {
+                        'Visual Studio Code': '💻',
+                        'Code': '💻',
+                        'Spotify': '🎵',
+                        'YouTube': '📺',
+                        'Twitter': '🐦',
+                        'GitHub': '🐙',
+                        'Steam': '🎮'
+                    };
+                    const icon = activityIcons[activity.name] || '🎮';
+                    
+                    statsHTML += `
+                        <div class="stat-item">
+                            <div class="stat-icon">${icon}</div>
+                            <div class="stat-text">${activity.name}</div>
+                        </div>
+                    `;
+                }
+            }
+
+            // Add Discord user info
+            statsHTML += `
+                <div class="stat-item">
+                    <div class="stat-icon">👤</div>
+                    <div class="stat-text">${user.username}#${user.discriminator}</div>
+                </div>
+            `;
+
+            statsContent.innerHTML = statsHTML;
+        }
 
             // Disable right-click context menu
             document.addEventListener('contextmenu', function (e) {
