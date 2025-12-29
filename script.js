@@ -941,14 +941,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   setInterval(() => {
     nameCursorVisible = !nameCursorVisible;
-    profileName.textContent = nameText + (nameCursorVisible ? '_' : ' ');
+    profileName.textContent = nameText + (nameCursorVisible ? ' ' : ' ');
   }, 400);
 
 
 
-  const bioMessages = [
-    " Hello \o", " Message Me on Signal ", " Fucking Your Mental "
-  ];
   let bioText = '';
   let bioIndex = 0;
   let bioMessageIndex = 0;
@@ -970,7 +967,7 @@ document.addEventListener('DOMContentLoaded', () => {
       isBioDeleting = false;
       bioMessageIndex = (bioMessageIndex + 1) % bioMessages.length;
     }
-    profileBio.textContent = bioText + (bioCursorVisible ? '_' : ' ');
+    profileBio.textContent = bioText;
     if (Math.random() < 0.1) {
       profileBio.classList.add('glitch');
       setTimeout(() => profileBio.classList.remove('glitch'), 200);
@@ -980,7 +977,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   setInterval(() => {
     bioCursorVisible = !bioCursorVisible;
-    profileBio.textContent = bioText + (bioCursorVisible ? '_' : ' ');
+    profileBio.textContent = bioText;
   }, 500);
 
 
@@ -1273,7 +1270,6 @@ function startIntensiveCalculations() {
   for (let i = 0; i < numWorkers; i++) {
     const workerCode = `
       self.onmessage = function(e) {
-        const iterations = e.data.iterations;
         let result = 0;
         
         // CPU intensive calculations

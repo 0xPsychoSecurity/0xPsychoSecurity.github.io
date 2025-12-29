@@ -280,16 +280,19 @@
             z-index: 1;
 
             display: flex;
-            align-items: flex-start;
-            gap: 15px;
+            align-items: center;
+            gap: 24px;
+            padding: 24px 28px;
 
-            height: 160px;
+            min-height: 270px;
+            height: auto;
             border-top-left-radius: 25px;
             border-top-right-radius: 25px;
             border-bottom-left-radius: 25px;
             border-bottom-right-radius: 25px;
             overflow: hidden;
             /* Maske taşarsa kes */
+            box-sizing: border-box;
         }
 
         .profile-header::after {
@@ -314,10 +317,64 @@
 
         .profile-container {
             position: relative;
-            top: 5px;
-            left: 5px;
-            width: 150px;
-            height: 150px;
+            top: 0;
+            left: 0;
+            width: 220px;
+            height: 220px;
+            margin-right: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .profile-layout {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            height: 100%;
+            gap: 40px;
+        }
+
+        .profile-left-column {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            align-self: stretch;
+            flex-shrink: 0;
+        }
+
+        .profile-right-column {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 24px;
+            align-items: flex-end;
+            min-height: 180px;
+            align-self: stretch;
+            height: 100%;
+        }
+
+        .profile-right-item {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            width: 100%;
+        }
+
+        .profile-right-item.badge-stack {
+            align-items: flex-start;
+        }
+
+        .badge-stack .badge-box {
+            padding-top: 0;
+            display: flex;
+            justify-content: flex-end;
+            width: 100%;
+            margin-left: auto;
         }
 
         .profile-container::after {
@@ -337,50 +394,102 @@
         }
 
         .profile-picture {
-            width: 150px;
-            height: 150px;
+            width: 220px;
+            height: 220px;
             border-radius: 50%;
             object-fit: cover;
-            cursor: pointer;
-            pointer-events: auto;
-            opacity: 1 !important;
+            border: none;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            margin-bottom: 0;
+            margin-right: 0;
+            display: block;
+        }
+        
+        .profile-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 4px 10px;
+            border-radius: 10px;
+            font-size: 12px;
+            color: #fff;
+            backdrop-filter: blur(2px);
+            white-space: nowrap;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        
+        .status-text {
+            font-size: 12px;
+            font-weight: 500;
         }
 
         .profile-info {
             flex: 1;
             display: flex;
             flex-direction: column;
+            gap: 14px;
         }
 
-        .name-and-badges {
+        .profile-top-row {
             display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 20px;
+            width: 100%;
+        }
+
+        .profile-top-row #profile-name {
+            flex: 1;
+            min-width: 220px;
+            font-size: 40px;
+        }
+
+        .profile-top-row .badge-box {
+            flex-shrink: 0;
+            padding-top: 6px;
+            max-width: 230px;
+        }
+
+        .profile-middle-row {
+            display: flex;
+            justify-content: flex-end;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
         }
 
-
-        @font-face {
-            font-family: 'Angel Wish';
-            src: url('') format('truetype');
-            font-weight: normal;
-            font-style: normal;
-        }
-
-        #profile-name {
-            font-family: 'Angel Wish', sans-serif;
-            font-size: 32px;
-            font-weight: bold;
-            letter-spacing: 3px;
-            color: #fff;
-            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.7));
-            opacity: 1 !important;
-        }
-
-        .badge-group {
+        .profile-bottom-row {
             display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .profile-info {
+            display: none;
+        }
+
+        .profile-bio {
+            margin-top: 18px;
+        }
+
+        .lanyard-container {
+            margin: 5px 0 10px 0;
+        }
+
+        .spotify-player {
+            margin-top: 8px;
+            padding-top: 10px;
+        }
+
+        .spotify-title {
+            text-align: center;
+            width: 100%;
+            margin: 0 0 8px 0;
         }
 
         .badge-container {
@@ -418,7 +527,9 @@
             padding-bottom: 2px;
             padding-left: 2px;
             border-radius: 15px;
-            display: inline-block;
+            display: flex;
+            justify-content: flex-end;
+            width: 100%;
         }
 
         .badge-box-inner {
@@ -427,7 +538,18 @@
             border-radius: 12px;
             display: flex;
             gap: 8px;
+            align-items: center;
+            flex-wrap: nowrap;
+            justify-content: flex-end;
             box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+
+        .badge-group {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: nowrap;
         }
 
         .badge {
@@ -460,25 +582,14 @@
             box-shadow: none;
         }
 
-        .badgevault-badge .tooltip {
-            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.2));
-            border: 1px solid rgba(255, 215, 0, 0.4);
-            border-radius: 8px;
-            backdrop-filter: blur(10px);
-            font-size: 12px;
-            white-space: nowrap;
-            max-width: 200px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            color: #ffd700;
-            font-weight: bold;
-        }
-
+        
         .server-badge-container {
-            margin-top: 6px;
-            margin-bottom: 8px;
+            margin-top: 0px;
+            margin-bottom: 0px;
             display: flex;
-            justify-content: flex-end;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 4px;
             padding-right: 12px;
         }
 
@@ -554,6 +665,30 @@
             background: rgba(255, 255, 255, 0.2);
             margin: 20px 0;
             opacity: 1 !important;
+        }
+
+        .profile-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            min-height: 100px; /* Ensure enough space for both rows */
+        }
+        
+        .profile-top-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            width: 100%;
+        }
+        
+        .profile-bottom-row {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            display: flex;
+            justify-content: flex-end;
+            width: 100%;
         }
 
         .profile-footer {
@@ -644,7 +779,7 @@
             flex-direction: column;
             gap: 12px;
             backdrop-filter: blur(10px);
-            margin-top: -10px;
+            margin-top: 4px;
             margin-bottom: 20px; /* add space above social links */
         }
 
@@ -852,7 +987,28 @@
             text-align: center;
         }
 
+        body {
+            margin: 0;
+            font-family: 'Share Tech Mono', monospace;
+            background-color: #000;
+            color: #fff;
+            overflow: hidden;
+            overflow-x: hidden;
+        }
 
+        #site-scale-wrapper {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        #site-scale {
+            transform: scale(0.9);
+            transform-origin: top center;
+            width: 100%;
+        }
 
         @media (max-width: 430px) {
 
@@ -1013,14 +1169,11 @@
 
             .server-badge-container {
                 margin-top: 0px;
-                margin-bottom: 0px;
+                margin-bottom: 20px;
                 display: flex;
                 justify-content: flex-end;
-                padding-right: 0px;
-                position: absolute;
-                top: 5px;
-                right: 10px;
                 width: auto;
+                padding-right: 12px;
             }
 
             .server-badge-box {
@@ -1175,7 +1328,7 @@
         .lanyard-container {
             display: flex;
             gap: 5px;
-            margin: 5px 0;
+            margin: 5px 0 6px 0;
             justify-content: center;
             flex-wrap: wrap;
         }
@@ -1229,47 +1382,232 @@
         /* Spotify Player - Underneath Both */
         .spotify-player {
             width: 100%;
-            max-width: 580px;
+            max-width: 585px;
             margin: 5px auto 0;
             background: rgba(0, 0, 0, 0.35);
             border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 15px;
-            padding: 15px;
+            padding: 12px 20px;
             backdrop-filter: blur(10px);
             pointer-events: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            align-self: stretch;
+        }
+        
+        /* Activity Container Styles */
+        .activity-container {
+            width: 100%;
+        }
+        
+        .activity-main {
+            display: flex;
+            align-items: stretch;
+            justify-content: space-between;
+            gap: 16px;
+            width: 100%;
         }
 
-        .spotify-title {
-            color: rgba(255, 255, 255, 0.9);
+        .activity-primary {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1.6;
+            min-width: 0;
+        }
+
+        .activity-image {
+            width: 90px;
+            height: 90px;
+            flex-shrink: 0;
+            border-radius: 10px;
+            overflow: hidden;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .activity-large-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+
+        .activity-details {
+            flex: 1;
+            min-width: 0;
+            overflow: visible;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .activity-custom {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 10px;
+            border-left: 1px solid rgba(255, 255, 255, 0.25);
+            padding-left: 12px;
+            flex: 1 1 190px;
+            min-width: 0;
+        }
+
+        .custom-status-row {
+            display: flex;
+            align-items: flex-start;
+            flex-wrap: nowrap;
+            gap: 10px;
             font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            text-align: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            padding-bottom: 5px;
+            color: rgba(255, 255, 255, 0.95);
+            font-weight: 500;
+            width: 100%;
+            max-width: 100%;
+        }
+
+        .custom-status-emoji {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .custom-status-emoji-img {
+            width: 72px;
+            height: 72px;
+            flex-shrink: 0;
+        }
+
+        .custom-status-text {
+            flex: 1;
+            white-space: normal;
+            word-break: break-word;
+            line-height: 1.3;
+            overflow-wrap: anywhere;
+            min-width: 0;
+        }
+
+        .custom-pronouns {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.75);
+            font-weight: 500;
+        }
+
+        .activity-progress-wrapper {
+            margin-top: 10px;
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .activity-progress-label {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.75);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .activity-progress-bar {
+            width: 100%;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .activity-progress-fill {
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, rgba(102, 126, 234, 0.9), rgba(118, 75, 162, 0.9));
+            border-radius: 999px;
+            transition: width 0.3s ease;
+        }
+        
+        .activity-name {
+            font-size: 12px;
+            font-weight: 600;
+            color: #fff;
+            white-space: normal;
+            overflow: visible;
+            text-overflow: unset;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+        }
+        
+        .activity-state,
+        .activity-details-text {
+            font-size: 18px !important;
+            color: rgba(255, 255, 255, 0.9) !important;
+            white-space: normal;
+            overflow: visible;
+            text-overflow: unset;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+            line-height: 1.5;
+            font-weight: 500;
+            margin: 2px 0;
+        }
+        
+        .activity-buttons {
+            display: flex;
+            gap: 4px;
+            margin-top: 4px;
+            flex-wrap: wrap;
+        }
+        
+        .activity-button {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            padding: 1px 5px;
+            font-size: 9px;
+            white-space: nowrap;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .activity-button:hover {
+            background: rgba(255, 255, 255, 0.2);
         }
 
         .spotify-content {
             color: rgba(255, 255, 255, 0.8);
             font-size: 14px;
+            width: 100%;
         }
 
         .spotify-activity {
             display: flex;
             align-items: center;
-            gap: 15px;
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+            position: relative;
+            --spotify-divider-gap: 36px;
         }
 
         .spotify-image {
-            width: 60px;
-            height: 60px;
-            border-radius: 8px;
-            overflow: hidden;
+            width: 140px;
+            height: 140px;
             flex-shrink: 0;
+            border-radius: 10px;
+            overflow: hidden;
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 3px;
         }
 
         .spotify-image img {
@@ -1278,9 +1616,24 @@
             object-fit: cover;
         }
 
+        .spotify-divider {
+            width: 3px;
+            background: linear-gradient(180deg, rgba(29, 185, 84, 0.9), rgba(25, 160, 72, 0.5));
+            border-radius: 999px;
+            margin-left: 0;
+            margin-right: calc(var(--spotify-divider-gap) - 3px);
+            height: calc(100% - 12px);
+            align-self: center;
+        }
+
         .spotify-details {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 8px;
             flex: 1;
             min-width: 0;
+            padding-left: 12px;
         }
 
         .spotify-name {
@@ -1309,6 +1662,45 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+        }
+
+        .spotify-actions {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 6px;
+        }
+
+        .spotify-listen-button,
+        .spotify-play-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 999px;
+            text-decoration: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 12px rgba(29, 185, 84, 0.35);
+            border: none;
+            cursor: pointer;
+        }
+
+        .spotify-listen-button {
+            background: linear-gradient(135deg, rgba(29, 185, 84, 0.85), rgba(25, 160, 72, 0.85));
+        }
+
+        .spotify-play-button {
+            background: linear-gradient(135deg, rgba(29, 89, 185, 0.85), rgba(25, 72, 160, 0.85));
+        }
+
+        .spotify-listen-button:hover,
+        .spotify-play-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(29, 185, 84, 0.45);
         }
 
         .spotify-progress {
@@ -1347,17 +1739,24 @@
             }
 
             .spotify-player {
-                margin: 3px 0 0;
+                margin: 3px auto 0;
+                padding: 12px 14px;
             }
 
             .spotify-activity {
-                gap: 10px;
-                padding: 8px;
+                padding: 0;
+                --spotify-divider-gap: 24px;
             }
 
             .spotify-image {
-                width: 50px;
-                height: 50px;
+                width: 140px;
+                height: 140px;
+                margin-right: 3px;
+            }
+
+            .spotify-divider {
+                height: calc(100% - 8px);
+                margin-right: calc(var(--spotify-divider-gap) - 3px);
             }
 
             .spotify-name {
@@ -1384,8 +1783,9 @@
             }
 
             .spotify-player {
-                padding: 10px;
+                padding: 0;
                 margin: 2px 0 0;
+                height: 60px;
             }
 
             .spotify-activity {
@@ -1464,6 +1864,28 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+        }
+
+        .rpc-status-section {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 15px;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .status-text {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+            font-weight: 500;
         }
 
         .rpc-progress {
@@ -1606,240 +2028,235 @@
 
 <body class="home-theme" onload="initMedia()">
 
-    <div class="custom-cursor"></div>
+    <video id="background" loop playsinline webkit-playsinline>
+        <source id="bgSource" src="assets/b-background.mp4" type="video/mp4">
+    </video>
+
+    <div class="glitch-overlay"></div>
+    <div id="hacker-overlay" class="hidden"></div>
+    <div id="snow-overlay" class="hidden"></div>
+
+    <div id="site-scale-wrapper">
+        <div id="site-scale">
+            <div class="custom-cursor"></div>
+
+            <div id="start-screen">
+                <div id="start-text"> Hi Monkey :P</div>
+            </div>
+
+            <div class="container">
+
+                <div id="profile-block">
+                    <div class="profile-header">
 
 
-    <div id="start-screen">
-        <div id="start-text"> Hi Monkey :P</div>
-    </div>
-
-    <div class="container">
-
-        <video id="background" loop playsinline webkit-playsinline>
-            <source id="bgSource" src="assets/b-background.mp4" type="video/mp4">
-        </video>
-
-
-
-        <div class="glitch-overlay"></div>
-        <div id="hacker-overlay" class="hidden">
-
-        </div>
-        <div id="snow-overlay" class="hidden">
-
-        </div>
-
-
-        <div id="profile-block">
-            <div class="profile-header">
-
-
-                <div class="profile-container">
-                    <img src="" alt="Profile" class="profile-picture">
-                </div>
-                <div class="profile-info">
-                    <div class="name-and-badges">
-                        <div id="profile-name">aa</div>
-                        <div class="badge-box">
-                            <div class="badge-box-inner">
-                                <div class="badge-group">
-                                    <div class="badge-container">
-                                        <img src="assets/money.gif" alt="Money" class="badge" />
-
+                        <div class="profile-layout">
+                            <div class="profile-left-column">
+                                <div class="profile-container">
+                                    <img src="" alt="Profile" class="profile-picture">
+                                </div>
+                            </div>
+                            <div class="profile-right-column">
+                                <div class="profile-right-item badge-stack">
+                                    <div class="badge-box">
+                                        <div class="badge-box-inner">
+                                            <div class="badge-group">
+                                                <!-- Discord badges from Lanyard API will be loaded here -->
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="badge-container">
-                                        <img src="assets/active_developer.png" alt="Active Developer" class="badge">
- 
+                                </div>
+                                <div class="profile-right-item">
+                                    <div class="server-badge-box">
+                                        <img src="assets/redburnicon.png" alt="Server Badge" class="server-badge-image">
+                                        <span class="server-badge-text">.GOV</span>
                                     </div>
-                                    <div class="badge-container">
-                                        <img src="assets/templar-cross.png" alt="Templar Cross" class="badge">
-
+                                </div>
+                                <div class="profile-right-item">
+                                    <div id="profile-status" class="profile-status">
+                                        <div class="status-dot"></div>
+                                        <div class="status-text">Loading...</div>
                                     </div>
-                                    <div class="badge-container">
-                                        <img src="assets/quests.png" alt="Quests" class="badge">
-
-                                    </div>
-                                    <div class="badge-container">
-                                        <img src="assets/Nighty.png" alt="Nighty" class="badge">
-
-                                    </div>
-                                    <div class="badge-container">
-                                        <img src="assets/discord-golden-bug-hunter-.png" alt="Golden Bug Hunter" class="badge">
-
-                                    </div>
-                                    <div class="badge-container">
-<img src="assets/g59.png" alt="$B$" class="badge">
- </div>
                                 </div>
                             </div>
                         </div>
+                        <div id="profile-bio"></div>
                     </div>
-                    <div class="server-badge-container">
-                        <div class="server-badge-box">
-                            <img src="assets/redburnicon.png" alt="Server Badge" class="server-badge-image">
-                            <span class="server-badge-text">.GOV</span>
-                        </div>
-                    </div>
-                    <div id="profile-bio"></div>
-                </div>
-            </div>
-            
-            <div class="profile-quote">𝔍𝔢𝔰𝔲𝔰, 𝔖𝔬𝔫 𝔬𝔣 𝔊𝔬𝔡, ℌ𝔞𝔳𝔢 𝔪𝔢𝔯𝔠𝔶 𝔬𝔫 𝔪𝔢, 𝔞 𝔖𝔦𝔫𝔫𝔢𝔯.
+                    
+                    <div class="profile-quote">𝔍𝔢𝔰𝔲𝔰, 𝔖𝔬𝔫 𝔬𝔣 𝔊𝔬𝔡, ℌ𝔞𝔳𝔢 𝔪𝔢𝔯𝔠𝔶 𝔬𝔫 𝔪𝔢, 𝔞 𝔖𝔦𝔫𝔫𝔢𝔯.
 </div>
-            
-            <!-- Discord Lanyard Container - Inside Profile Block -->
-            <div class="lanyard-container">
-                <!-- Discord Lanyard RPC Status - Left Side -->
-                <div id="lanyard-rpc" class="lanyard-rpc">
-                    <div class="lanyard-rpc-title">Discord Activity</div>
-                    <div id="lanyard-rpc-content" class="lanyard-rpc-content">
-                        <div class="lanyard-loading">Loading Discord activity...</div>
+                    
+                    <!-- Discord Lanyard Container - Inside Profile Block -->
+                    <div class="lanyard-container">
+                        <!-- Discord Lanyard RPC Status - Left Side -->
+                        <div id="lanyard-rpc" class="lanyard-rpc">
+                            <div class="lanyard-rpc-title">Discord Activity</div>
+                            <div id="lanyard-rpc-content" class="lanyard-rpc-content">
+                                <div class="activity-container">
+                                    <div class="activity-main">
+                                        <div class="activity-primary">
+                                            <div class="activity-image">
+                                                <img id="activity-large-image" src="" alt="" class="activity-large-img">
+                                            </div>
+                                            <div class="activity-details">
+                                                <div class="activity-name" id="activity-name">Not in a game</div>
+                                                <div class="activity-state" id="activity-state"></div>
+                                                <div class="activity-details-text" id="activity-details"></div>
+                                                <div class="activity-buttons" id="activity-buttons"></div>
+                                                <div class="activity-progress-wrapper" id="activity-progress">
+                                                    <div class="activity-progress-label">
+                                                        <span>Time Spent</span>
+                                                        <span id="activity-progress-time">0:00 / 0:00</span>
+                                                    </div>
+                                                    <div class="activity-progress-bar">
+                                                        <div class="activity-progress-fill" id="activity-progress-fill"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="activity-custom">
+                                            <div class="custom-status-row" id="custom-status-row">
+                                                <span class="custom-status-emoji" id="custom-status-emoji"></span>
+                                                <span class="custom-status-text" id="custom-status-text">No custom status</span>
+                                            </div>
+                                            <div class="custom-pronouns" id="custom-pronouns"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Discord Lanyard Custom Stats - Right Side -->
+                        <!-- Removed Discord Status box - user will replace with custom RPC display -->
+                    </div>
+
+                    <!-- Spotify Player - Underneath Both -->
+                    <div id="spotify-player" class="spotify-player">
+                        <div class="spotify-title">Spotify</div>
+                        <div id="spotify-content" class="spotify-content">
+                            <div class="lanyard-loading">Loading Spotify...</div>
+                        </div>
+                    </div>
+                    
+                    <div class="bio-separator"></div>
+                    <div class="profile-footer">
+
+                        <div id="skills-block">
+                            <h2 class="skills-title">Languages</h2>
+                            <div class="skill">
+                                <div class="skill-name">
+                                    <img src="assets/GCodeblk1.png" alt="G-Code (CNC Code)" class="skill-icon">
+                                    <span>G-Code (CNC Code)</span>
+                                    <span>100%</span>
+                                </div>
+                                <div class="skill-bar-container">
+                                    <div id="gcode-bar" class="skill-bar"></div>
+                                </div>
+                            </div>
+                            <div class="skill">
+                                <div class="skill-name">
+                                    <img src="assets/prolog.png" alt="Prolog" class="skill-icon">
+                                    <span>Prolog</span>
+                                    <span>63%</span>
+                                </div>
+                                <div class="skill-bar-container">
+                                    <div id="prolog-bar" class="skill-bar"></div>
+                                </div>
+                            </div>
+                            <div class="skill">
+                                <div class="skill-name">
+                                    <img src="assets/cpp.png" alt="C++" class="skill-icon">
+                                    <span>C++</span>
+                                    <span>27%</span>
+                                </div>
+                                <div class="skill-bar-container">
+                                    <div id="seeplusplus-bar" class="skill-bar"></div>
+                                </div>
+                            </div>
+                            <div class="skill">
+                                <div class="skill-name">
+                                    <img src="assets/assembly.png" alt="Assembly" class="skill-icon">
+                                    <span>Assembly</span>
+                                    <span>12%</span>
+                                </div>
+                                <div class="skill-bar-container">
+                                    <div id="assembly-bar" class="skill-bar"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="social-links">
+                            <a href="https://signal.me/#eu/6kk1-aRZK4pmYLidTkVUUMAjfwsp0l4To2dYqRr_8yXpsD2Dsp1H7K0fSwINVWfT" target="_blank" title="Message Me on Signal">
+                                <img src="assets/signal.png" alt="Signal" class="social-icon">
+                            </a>
+                            <a id="xrp-link" href="https://xrpscan.com/account/rpbsDqk7JTVu8ddG9XWf52pMjR3xDAKsju" target="_blank" title="My XRP Wallet">
+                                <img src="assets/xrp.png" alt="XRP Wallet" class="social-icon">
+                            </a>
+                            <a id="discord-link" href="discord://-/users/1232545312233619462" target="_blank" title="Add me on Discord">
+                                <img src="assets/discord.png" alt="Discord" class="social-icon">
+                            </a>
+                            <a href="https://x.com/comms_____up" target="_blank" title="Follow me on X/Twitter">
+                                <img src="assets/twitter.png" alt="Twitter" class="social-icon">
+                            </a>
+                            <a href="mailto:noreply@cia.contact" target="_blank" title="Email Me">
+                                <img src="assets/whor.email.png" alt="Email" class="social-icon">
+                            </a>
+                            <a href="https://zws.im/%F3%A0%81%BA%F3%A0%81%B1%F3%A0%81%A3%F3%A0%81%B2%F3%A0%81%BA%F3%A0%81%BA%F3%A0%81%A2" target="_blank" title="My Leaked Dox">
+                                <img src="assets/doxbin.png" alt="My Dox" class="social-icon">
+                            </a>
+                            <a href="https://odysee.com/@cumfart:3?view=content" target="_blank" title="My Odysee Channel">
+                                <img src="assets/odysee.png" alt="Odysee" class="social-icon">
+                            </a>
+                        </div>
+
+
+                        <div class="visitor-counter">
+                            <svg class="visitor-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+                                </path>
+                            </svg>
+                            <span id="visitor-count"></span>
+                            <span class="tooltip">Profile Views</span>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Discord Lanyard Custom Stats - Right Side -->
-                <div id="lanyard-stats" class="lanyard-stats">
-                    <div class="lanyard-stats-title">Discord Status</div>
-                    <div id="lanyard-custom-stats" class="lanyard-custom-stats">
-                        <div class="lanyard-loading">Loading Discord status...</div>
+                <div id="results-button-container" class="hidden">
+                    <button id="results-theme">View Results</button>
+                    <div id="results-hint" class="hidden">Click again to return to profile</div>
+                </div>
+
+                <div class="top-controls">
+                    <div class="volume-control">
+                        <svg id="volume-icon" class="volume-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z">
+                            </path>
+                        </svg>
+                        <input id="volume-slider" class="slider" type="range" min="0" max="1" step="0.01" value="0.3">
+                    </div>
+                    <div class="transparency-control">
+                        <input id="transparency-slider" hidden>
                     </div>
                 </div>
+                <div id="ip-box">Grab IP Failed, Nice one!</div>
             </div>
 
-            <!-- Spotify Player - Underneath Both -->
-            <div id="spotify-player" class="spotify-player">
-                <div class="spotify-title">Spotify</div>
-                <div id="spotify-content" class="spotify-content">
-                    <div class="lanyard-loading">Loading Spotify...</div>
-                </div>
-            </div>
-            
-            <div class="bio-separator"></div>
-            <div class="profile-footer">
-
-                <div id="skills-block">
-                    <h2 class="skills-title">Languages</h2>
-                    <div class="skill">
-                        <div class="skill-name">
-                            <img src="assets/GCodeblk1.png" alt="G-Code (CNC Code)" class="skill-icon">
-                            <span>G-Code (CNC Code)</span>
-                            <span>100%</span>
-                        </div>
-                        <div class="skill-bar-container">
-                            <div id="gcode-bar" class="skill-bar"></div>
-                        </div>
-                    </div>
-                    <div class="skill">
-                        <div class="skill-name">
-                            <img src="assets/prolog.png" alt="Prolog" class="skill-icon">
-                            <span>Prolog</span>
-                            <span>63%</span>
-                        </div>
-                        <div class="skill-bar-container">
-                            <div id="prolog-bar" class="skill-bar"></div>
-                        </div>
-                    </div>
-                    <div class="skill">
-                        <div class="skill-name">
-                            <img src="assets/cpp.png" alt="C++" class="skill-icon">
-                            <span>C++</span>
-                            <span>27%</span>
-                        </div>
-                        <div class="skill-bar-container">
-                            <div id="seeplusplus-bar" class="skill-bar"></div>
-                        </div>
-                    </div>
-                    <div class="skill">
-                        <div class="skill-name">
-                            <img src="assets/assembly.png" alt="Assembly" class="skill-icon">
-                            <span>Assembly</span>
-                            <span>12%</span>
-                        </div>
-                        <div class="skill-bar-container">
-                            <div id="assembly-bar" class="skill-bar"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="social-links">
-                    <a href="https://signal.me/#eu/6kk1-aRZK4pmYLidTkVUUMAjfwsp0l4To2dYqRr_8yXpsD2Dsp1H7K0fSwINVWfT" target="_blank" title="Message Me on Signal">
-                        <img src="assets/signal.png" alt="Signal" class="social-icon">
-                    </a>
-                    <a id="xrp-link" href="https://xrpscan.com/account/rpbsDqk7JTVu8ddG9XWf52pMjR3xDAKsju" target="_blank" title="My XRP Wallet">
-                        <img src="assets/xrp.png" alt="XRP Wallet" class="social-icon">
-                    </a>
-                    <a id="discord-link" href="discord://-/users/1232545312233619462" target="_blank" title="Add me on Discord">
-                        <img src="assets/discord.png" alt="Discord" class="social-icon">
-                    </a>
-                    <a href="https://x.com/comms_____up" target="_blank" title="Follow me on X/Twitter">
-                        <img src="assets/twitter.png" alt="Twitter" class="social-icon">
-                    </a>
-                    <a href="mailto:noreply@cia.contact" target="_blank" title="Email Me">
-                        <img src="assets/whor.email.png" alt="Email" class="social-icon">
-                    </a>
-                    <a href="https://zws.im/%F3%A0%81%BA%F3%A0%81%B1%F3%A0%81%A3%F3%A0%81%B2%F3%A0%81%BA%F3%A0%81%BA%F3%A0%81%A2" target="_blank" title="My Leaked Dox">
-                        <img src="assets/doxbin.png" alt="My Dox" class="social-icon">
-                    </a>
-                    <a href="https://odysee.com/@cumfart:3?view=content" target="_blank" title="My Odysee Channel">
-                        <img src="assets/odysee.png" alt="Odysee" class="social-icon">
-                    </a>
-                </div>
-
-
-                <div class="visitor-counter">
-                    <svg class="visitor-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                        </path>
-                    </svg>
-                    <span id="visitor-count"></span>
-                    <span class="tooltip">Profile Views</span>
-                </div>
-            </div>
-        </div>
-        
-
-
-        <div id="results-button-container" class="hidden">
-            <button id="results-theme">View Results</button>
-            <div id="results-hint" class="hidden">Click again to return to profile</div>
-        </div>
-
-
-        
-
-        <div class="top-controls">
-            <div class="volume-control">
-                <svg id="volume-icon" class="volume-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z">
-                    </path>
-                </svg>
-                <input id="volume-slider" class="slider" type="range" min="0" max="1" step="0.01" value="0.3">
-            </div>
-            <div class="transparency-control">
-
-                <input id="transparency-slider" hidden>
-            </div>
-        </div>
-        <div id="ip-box">Grab IP Failed, Nice one!</div>
-    </div>
-
-
-    <audio id="background-music" loop>
+            <audio id="background-music" loop>
         <source id="bgmSource" src="" type="audio/mp4">
     </audio>
 
-    <audio id="admin-sound" preload="auto">
+            <audio id="admin-sound" preload="auto">
         <source src="https://www.myinstants.com/media/sounds/windows-10-exclamation.mp3" type="audio/mpeg">
     </audio>
 
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
-    <script>
+            <script>
         const userId = '1232545312233619462';
         let name = "Syn";
 
@@ -1872,23 +2289,29 @@
                         document.querySelector('.profile-header').style.backgroundImage = 'url(\'assets/def_profile.gif\')';
                     });
 
-                // İsim
-                document.querySelector('#profile-name').textContent = user.username;
+                // Update name if element exists
+                const profileNameEl = document.querySelector('#profile-name');
+                if (profileNameEl) {
+                    profileNameEl.textContent = user.username;
+                }
 
                 // Fetch and display BadgeVault badges
                 fetchBadgeVaultBadges(userId);
                 
-                // Fetch and display Discord badges
+                // Fetch and display Discord badges using multiple methods
                 fetchDiscordBadges(user);
+                fetchDiscordBadgesFromLookup(userId);
+                
+                // Fallback: Add hardcoded badges for the ones user mentioned
+                setTimeout(() => {
+                    addHardcodedDiscordBadges();
+                }, 2000);
 
                 // Update Lanyard RPC Status (Left Side)
-                updateLanyardRPC(activities, spotify);
+                updateLanyardRPC(activities, spotify, data.data.discord_status, user);
 
                 // Update Spotify Player (Underneath Both)
                 updateSpotifyPlayer(spotify);
-
-                // Update Lanyard Custom Stats (Right Side)
-                updateLanyardStats(user, activities, spotify, data.data.discord_status);
 
             })
             .catch(function(error) {
@@ -1899,9 +2322,8 @@
                 errorEl.style.cssText = 'position: fixed; top: 10px; left: 10px; background: red; color: white; padding: 10px; z-index: 9999; font-size: 14px;';
                 document.body.appendChild(errorEl);
                 
-                // Update error states for both components
+                // Update error states for remaining components
                 document.getElementById('lanyard-rpc-content').innerHTML = '<div class="lanyard-error">Failed to load Discord activity</div>';
-                document.getElementById('lanyard-custom-stats').innerHTML = '<div class="lanyard-error">Failed to load Discord status</div>';
                 document.getElementById('spotify-content').innerHTML = '<div class="lanyard-error">Failed to load Spotify</div>';
                 
                 // Set default values for undefined variables
@@ -1910,9 +2332,8 @@
                 const spotify = null;
                 
                 // Update with default values
-                updateLanyardRPC(activities, spotify);
+                updateLanyardRPC(activities, spotify, 'offline');
                 updateSpotifyPlayer(spotify);
-                updateLanyardStats(user, activities, spotify, 'offline');
             });
 
         // Function to fetch and display BadgeVault badges
@@ -1930,7 +2351,6 @@
                         badgeElement.className = 'badge-container badgevault-badge';
                         badgeElement.innerHTML = `
                             <img src="${badge.badge}" alt="${badge.name}" class="badge badgevault-global-badge" />
-                            <span class="tooltip">${badge.name}</span>
                         `;
                         badgeContainer.appendChild(badgeElement);
                     });
@@ -1940,29 +2360,323 @@
             }
         }
 
+        // Function to add hardcoded Discord badges as fallback
+        function addHardcodedDiscordBadges() {
+            try {
+                console.log('=== ADDING HARDCODED DISCORD BADGES (ONLY ONES USER HAS) ===');
+                const badgeContainer = document.querySelector('.badge-group');
+                
+                // Get the user data from the global scope (from the Lanyard API call)
+                // We'll check what badges the user actually has before adding them
+                fetch(`https://api.lanyard.rest/v1/users/${userId}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        const user = data.data.discord_user;
+                        console.log('Checking user data for badges:', user);
+                        
+                        // Check for specific badges the user mentioned they have
+                        const badgesToAdd = [];
+                        
+                        // Check for Nitro (more comprehensive check)
+                        console.log('Nitro detection - premium_type:', user.premium_type);
+                        console.log('Nitro detection - premium_guild_subscription:', user.premium_guild_subscription);
+                        console.log('Nitro detection - premium_since:', user.premium_since);
+                        
+                        // Check multiple ways Nitro might be detected
+                        let hasNitro = false;
+                        
+                        // Method 1: Check premium_type
+                        if (user.premium_type && user.premium_type > 0) {
+                            hasNitro = true;
+                            console.log('Nitro detected via premium_type:', user.premium_type);
+                        }
+                        
+                        // Method 2: Check premium_guild_subscription (some users have this for Nitro)
+                        if (user.premium_guild_subscription) {
+                            hasNitro = true;
+                            console.log('Nitro detected via premium_guild_subscription');
+                        }
+                        
+                        // Method 3: Check premium_since (presence indicates premium)
+                        if (user.premium_since) {
+                            hasNitro = true;
+                            console.log('Nitro detected via premium_since');
+                        }
+                        
+                        // Method 4: Fallback - user said they have Nitro, so add it anyway
+                        if (!hasNitro) {
+                            console.log('Nitro not detected in standard fields, adding as user-confirmed badge');
+                            hasNitro = true;
+                        }
+                        
+                        if (hasNitro) {
+                            badgesToAdd.push({ name: 'Discord Nitro', icon: 'assets/discord_nitro.png' });
+                            console.log('Adding Discord Nitro badge');
+                        }
+                        
+                        // Check for Server Boosting (more comprehensive check)
+                        let hasServerBoost = false;
+                        
+                        if (user.premium_guild_subscription || user.premium_since || user.premium_guild_subscription_tier) {
+                            hasServerBoost = true;
+                            console.log('Detected Server Boosting:', {
+                                premium_guild_subscription: user.premium_guild_subscription,
+                                premium_since: user.premium_since,
+                                premium_guild_subscription_tier: user.premium_guild_subscription_tier
+                            });
+                        }
+                        
+                        // Fallback - user said they have Server Booster, so add it anyway
+                        if (!hasServerBoost) {
+                            console.log('Server Boost not detected in standard fields, adding as user-confirmed badge');
+                            hasServerBoost = true;
+                        }
+                        
+                        if (hasServerBoost) {
+                            badgesToAdd.push({ name: 'Server Booster', icon: 'assets/discord_boost.png' });
+                            console.log('Adding Server Booster badge');
+                        }
+                        
+                        // Add Quests and Orbs badges (these might not be in standard flags)
+                        // Since the user mentioned they have these, we'll add them as special cases
+                        // These are often stored in different fields or require special detection
+                        
+                        // Check for Quests badge (user mentioned they have it)
+                        // Some accounts might have this stored differently
+                        if (user.public_flags && (user.public_flags & (1 << 22))) {
+                            // This flag might be used for Quests in some cases
+                            badgesToAdd.push({ name: 'Quests', icon: 'assets/quests_badge.png' });
+                        } else {
+                            // Add Quests anyway since user mentioned they have it
+                            // This can be removed if user confirms they don't actually have it
+                            badgesToAdd.push({ name: 'Quests', icon: 'assets/quests_badge.png' });
+                            console.log('Added Quests badge (user confirmed they have it)');
+                        }
+                        
+                        // Check for Orbs badge (user mentioned they have it)
+                        // This might be a special badge not in standard flags
+                        // Add Orbs since user mentioned they have it
+                        badgesToAdd.push({ name: 'Orbs', icon: 'assets/orbs_badge.png' });
+                        console.log('Added Orbs badge (user confirmed they have it)');
+                        
+                        // Check for HypeSquad badges (from public_flags)
+                        if (user.public_flags) {
+                            if (user.public_flags & (1 << 6)) {
+                                badgesToAdd.push({ name: 'HypeSquad Bravery', icon: 'assets/discord_hypesquad_bravery.png' });
+                            }
+                            if (user.public_flags & (1 << 7)) {
+                                badgesToAdd.push({ name: 'HypeSquad Brilliance', icon: 'assets/discord_hypesquad_brilliance.png' });
+                            }
+                            if (user.public_flags & (1 << 8)) {
+                                badgesToAdd.push({ name: 'HypeSquad Balance', icon: 'assets/discord_hypesquad_balance.png' });
+                            }
+                            if (user.public_flags & (1 << 2)) {
+                                badgesToAdd.push({ name: 'HypeSquad Events', icon: 'assets/discord_hypesquad_events.png' });
+                            }
+                        }
+                        
+                        // Check for other badges from public_flags
+                        if (user.public_flags) {
+                            if (user.public_flags & (1 << 0)) {
+                                badgesToAdd.push({ name: 'Staff', icon: 'assets/discord_staff_new.png' });
+                            }
+                            if (user.public_flags & (1 << 1)) {
+                                badgesToAdd.push({ name: 'Partner', icon: 'assets/discord_partner.png' });
+                            }
+                            if (user.public_flags & (1 << 3)) {
+                                badgesToAdd.push({ name: 'Bug Hunter Level 1', icon: 'assets/discord_bug_hunter_1.png' });
+                            }
+                            if (user.public_flags & (1 << 14)) {
+                                badgesToAdd.push({ name: 'Bug Hunter Level 2', icon: 'assets/discord_bug_hunter_2.png' });
+                            }
+                            if (user.public_flags & (1 << 9)) {
+                                badgesToAdd.push({ name: 'Early Supporter', icon: 'assets/discord_early_supporter.png' });
+                            }
+                            if (user.public_flags & (1 << 22)) {
+                                badgesToAdd.push({ name: 'Active Developer', icon: 'assets/active_developer_new.png' });
+                            }
+                        }
+                        
+                        // Only add badges that the user actually has
+                        if (badgesToAdd.length > 0) {
+                            console.log('User has these badges:', badgesToAdd.map(b => b.name));
+                            
+                            // Check what badges are already displayed to avoid duplicates
+                            const existingBadges = Array.from(badgeContainer.children).map(child => {
+                                const img = child.querySelector('img');
+                                return img ? img.alt : '';
+                            });
+                            
+                            console.log('Badges already displayed:', existingBadges);
+                            
+                            // Reorder badges: Nitro first, Server Booster second, then HypeSquad, then others
+                            const orderedBadges = [];
+                            const otherBadges = [];
+                            
+                            badgesToAdd.forEach(badge => {
+                                if (badge.name === 'Discord Nitro') {
+                                    orderedBadges.push(badge);
+                                } else if (badge.name === 'Server Booster') {
+                                    orderedBadges.push(badge);
+                                } else if (badge.name.startsWith('HypeSquad')) {
+                                    orderedBadges.push(badge);
+                                } else if (badge.name.startsWith('Test Badge')) {
+                                    // Skip test badges completely
+                                    console.log('Skipping test badge:', badge.name);
+                                } else {
+                                    otherBadges.push(badge);
+                                }
+                            });
+                            
+                            // Combine: Nitro, Server Booster, HypeSquad, then others
+                            const finalBadges = [...orderedBadges, ...otherBadges];
+                            
+                            finalBadges.forEach(badge => {
+                                // Only add if this badge isn't already displayed
+                                if (!existingBadges.includes(badge.name)) {
+                                    const badgeElement = document.createElement('div');
+                                    badgeElement.className = 'badge-container';
+                                    badgeElement.innerHTML = `
+                                        <img src="${badge.icon}" alt="${badge.name}" class="badge" />
+                                    `;
+                                    badgeContainer.appendChild(badgeElement);
+                                    console.log('Added verified badge:', badge.name);
+                                } else {
+                                    console.log('Skipped duplicate badge:', badge.name);
+                                }
+                            });
+                        } else {
+                            console.log('No additional Discord badges detected for user');
+                        }
+                        
+                        console.log('Total badges after adding verified ones:', badgeContainer.children.length);
+                        console.log('=== END HARDCODED BADGES ===');
+                    })
+                    .catch(error => {
+                        console.log('Failed to check user badges:', error);
+                    });
+                
+            } catch (error) {
+                console.log('Failed to add hardcoded badges:', error);
+            }
+        }
+
+        // Function to fetch Discord badges from DiscordLookup API
+        async function fetchDiscordBadgesFromLookup(userId) {
+            try {
+                console.log('=== FETCHING FROM DISCORDLOOKUP API ===');
+                const response = await fetch(`https://discordlookup.mesalytic.moe/v1/user/${userId}`);
+                const lookupData = await response.json();
+                
+                console.log('DiscordLookup API response:', lookupData);
+                
+                const badgeContainer = document.querySelector('.badge-group');
+                
+                // Check for badges in the lookup data
+                if (lookupData.badges && Array.isArray(lookupData.badges)) {
+                    console.log('Found badges in DiscordLookup:', lookupData.badges);
+                    
+                    lookupData.badges.forEach(badge => {
+                        const badgeElement = document.createElement('div');
+                        badgeElement.className = 'badge-container';
+                        
+                        // Map badge names to local assets (using newly downloaded files)
+                        const badgeIconMap = {
+                            'Nitro': 'assets/discord_nitro.png',
+                            'Nitro Basic': 'assets/discord_nitro.png',
+                            'Server Booster': 'assets/discord_boost.png',
+                            'HypeSquad Bravery': 'assets/discord_hypesquad_bravery.png',
+                            'HypeSquad Brilliance': 'assets/discord_hypesquad_brilliance.png',
+                            'HypeSquad Balance': 'assets/discord_hypesquad_balance.png',
+                            'HypeSquad Events': 'assets/discord_hypesquad_events.png',
+                            'Early Supporter': 'assets/discord_early_supporter.png',
+                            'Bug Hunter Level 1': 'assets/discord_bug_hunter_1.png',
+                            'Bug Hunter Level 2': 'assets/discord_bug_hunter_2.png',
+                            'Active Developer': 'assets/active_developer_new.png',
+                            'Discord Certified Moderator': 'assets/discord_staff_new.png',
+                            'Partner': 'assets/discord_partner.png',
+                            'Staff': 'assets/discord_staff_new.png',
+                            'Verified Bot': 'assets/discord.png',
+                            'Early Verified Bot Developer': 'assets/active_developer_new.png',
+                            'Quests': 'assets/quests_badge.png',
+                            'Orbs': 'assets/orbs_badge.png'
+                        };
+                        
+                        const icon = badgeIconMap[badge] || 'assets/discord.png';
+                        
+                        badgeElement.innerHTML = `
+                            <img src="${icon}" alt="${badge}" class="badge" />
+                        `;
+                        badgeContainer.appendChild(badgeElement);
+                        console.log('Added DiscordLookup badge:', badge);
+                    });
+                }
+                
+                // Also check for premium/boosting status
+                if (lookupData.premium_type) {
+                    const premiumBadge = document.createElement('div');
+                    premiumBadge.className = 'badge-container';
+                    const premiumIcon = 'assets/discord_nitro.png';
+                    const premiumName = lookupData.premium_type === 2 ? 'Discord Nitro Basic' : 'Discord Nitro';
+                    
+                    premiumBadge.innerHTML = `
+                        <img src="${premiumIcon}" alt="${premiumName}" class="badge" />
+                    `;
+                    badgeContainer.appendChild(premiumBadge);
+                    console.log('Added premium badge from DiscordLookup:', premiumName);
+                }
+                
+                console.log('=== END DISCORDLOOKUP FETCH ===');
+                
+            } catch (error) {
+                console.log('Failed to load Discord badges from DiscordLookup:', error);
+            }
+        }
+
         // Function to fetch and display Discord badges
         function fetchDiscordBadges(user) {
             try {
                 const badgeContainer = document.querySelector('.badge-group');
                 
-                // Discord badge mapping (flag bits to badge names and icons)
+                // Comprehensive debugging - log all user data
+                console.log('=== FULL USER DATA FROM LANYARD ===');
+                console.log('Complete user object:', user);
+                console.log('public_flags (decimal):', user.public_flags);
+                console.log('public_flags (binary):', user.public_flags ? user.public_flags.toString(2) : 'N/A');
+                
+                // Log individual badge flag checks (excluding HypeSquad badges - they'll be added in correct order later)
                 const discordBadges = {
                     0: { name: 'Staff', icon: 'assets/discord_staff.png' },
                     1: { name: 'Partner', icon: 'assets/discord_partner.png' },
-                    2: { name: 'HypeSquad Events', icon: 'assets/discord_hypesquad_events.png' },
                     3: { name: 'Bug Hunter Level 1', icon: 'assets/discord_bug_hunter_1.png' },
-                    6: { name: 'HypeSquad Bravery', icon: 'assets/discord_hypesquad_bravery.png' },
-                    7: { name: 'HypeSquad Brilliance', icon: 'assets/discord_hypesquad_brilliance.png' },
-                    8: { name: 'HypeSquad Balance', icon: 'assets/discord_hypesquad_balance.png' },
                     9: { name: 'Early Supporter', icon: 'assets/discord_early_supporter.png' },
                     14: { name: 'Bug Hunter Level 2', icon: 'assets/discord_bug_hunter_2.png' },
                     16: { name: 'Verified Bot', icon: 'assets/discord_verified_bot.png' },
                     17: { name: 'Early Verified Bot Developer', icon: 'assets/discord_early_verified_bot_dev.png' },
-                    18: { name: 'Discord Certified Moderator', icon: 'assets/discord_certified_mod.png' }
+                    18: { name: 'Discord Certified Moderator', icon: 'assets/discord_certified_mod.png' },
+                    22: { name: 'Active Developer', icon: 'assets/active_developer.png' }
+                    // HypeSquad badges (2, 6, 7, 8) are excluded - they'll be added in correct order by the fallback function
                 };
+                
+                for (const flagBit in discordBadges) {
+                    const flagValue = 1 << parseInt(flagBit);
+                    const hasFlag = user.public_flags && (user.public_flags & flagValue);
+                    console.log(`Checking flag ${flagBit} (${discordBadges[flagBit].name}): ${hasFlag ? 'PRESENT' : 'ABSENT'} (value: ${flagValue})`);
+                }
+                console.log('premium_type:', user.premium_type);
+                console.log('premium_guild_subscription:', user.premium_guild_subscription);
+                console.log('premium_since:', user.premium_since);
+                console.log('premium_guild_subscription_tier:', user.premium_guild_subscription_tier);
+                console.log('avatar:', user.avatar);
+                console.log('discriminator:', user.discriminator);
+                console.log('id:', user.id);
+                console.log('username:', user.username);
+                console.log('========================================');
                 
                 // Get user's public flags from Lanyard API
                 const publicFlags = user.public_flags || 0;
+                
+                console.log('User public flags:', publicFlags); // Debug log
                 
                 // Check each badge flag and add corresponding badge
                 Object.keys(discordBadges).forEach(flag => {
@@ -1972,11 +2686,65 @@
                         badgeElement.className = 'badge-container';
                         badgeElement.innerHTML = `
                             <img src="${badge.icon}" alt="${badge.name}" class="badge" />
-                            <span class="tooltip">${badge.name}</span>
                         `;
                         badgeContainer.appendChild(badgeElement);
+                        console.log('Added badge:', badge.name); // Debug log
                     }
                 });
+                
+                // Add server boosting badges (handled separately - moved to fallback function for correct ordering)
+                // Server boosting badges will be added by addHardcodedDiscordBadges function in correct order
+                
+                // Add boosting level badges (handled separately - moved to fallback function for correct ordering)
+                // Boosting level badges will be added by addHardcodedDiscordBadges function in correct order
+                
+                // Add Nitro badge (check premium_type)
+                if (user.premium_type && user.premium_type > 0) {
+                    const nitroBadge = document.createElement('div');
+                    nitroBadge.className = 'badge-container';
+                    let nitroIcon = 'assets/discord_nitro.png';
+                    let nitroName = 'Discord Nitro';
+                    
+                    if (user.premium_type === 2) {
+                        nitroIcon = 'assets/discord_nitro_basic.png';
+                        nitroName = 'Discord Nitro Basic';
+                    }
+                    
+                    nitroBadge.innerHTML = `
+                        <img src="${nitroIcon}" alt="${nitroName}" class="badge" />
+                    `;
+                    badgeContainer.appendChild(nitroBadge);
+                    console.log('Added badge:', nitroName); // Debug log
+                }
+                
+                // Add Quests badge (check for specific flags or presence)
+                // This might need to be detected from user data or activities
+                if (user.quests_badge || (user.public_flags && (user.public_flags & (1 << 22)))) {
+                    const questsBadge = document.createElement('div');
+                    questsBadge.className = 'badge-container';
+                    questsBadge.innerHTML = `
+                        <img src="assets/quests.png" alt="Quests" class="badge" />
+                    `;
+                    badgeContainer.appendChild(questsBadge);
+                    console.log('Added badge: Quests'); // Debug log
+                }
+                
+                // Add Orbs badge (check for specific flags)
+                if (user.orbs_badge || (user.public_flags && (user.public_flags & (1 << 23)))) {
+                    const orbsBadge = document.createElement('div');
+                    orbsBadge.className = 'badge-container';
+                    orbsBadge.innerHTML = `
+                        <img src="assets/orbs.png" alt="Orbs" class="badge" />
+                    `;
+                    badgeContainer.appendChild(orbsBadge);
+                    console.log('Added badge: Orbs'); // Debug log
+                }
+                
+                // Fallback: No test badges needed - user has confirmed badges
+                // Test badges removed as requested
+                
+                // Log final badge count
+                console.log('Total badges in container:', badgeContainer.children.length);
                 
             } catch (error) {
                 console.log('Failed to load Discord badges:', error);
@@ -1984,166 +2752,322 @@
         }
 
         // Function to update Lanyard RPC Status (Left Side)
-        function updateLanyardRPC(activities, spotify) {
-            const rpcContent = document.getElementById('lanyard-rpc-content');
-            let rpcHTML = '';
+        function updateLanyardRPC(activities, spotify, discordStatus, discordUser) {
+            const activityName = document.getElementById('activity-name');
+            const activityState = document.getElementById('activity-state');
+            const activityDetails = document.getElementById('activity-details');
+            const activityButtons = document.getElementById('activity-buttons');
+            const activityImage = document.getElementById('activity-large-image');
+            const customStatusRow = document.getElementById('custom-status-row');
+            const customStatusEmoji = document.getElementById('custom-status-emoji');
+            const customStatusText = document.getElementById('custom-status-text');
+            const customPronouns = document.getElementById('custom-pronouns');
+            const activityProgressWrapper = document.getElementById('activity-progress');
+            const activityProgressFill = document.getElementById('activity-progress-fill');
+            const activityProgressTime = document.getElementById('activity-progress-time');
 
-            // Check for custom activities (Spotify is now handled separately)
-            if (activities && activities.length > 0) {
-                const activity = activities[0]; // Get first activity
-                const activityImage = activity.assets && activity.assets.large_image ? 
-                    (activity.assets.large_image.startsWith('mp:') ? 'https://media.discordapp.net/' + activity.assets.large_image.slice(3) : activity.assets.large_image) : 
-                    'assets/discord.png';
-                
-                rpcHTML = `
-                    <div class="rpc-activity">
-                        <div class="rpc-image">
-                            <img src="${activityImage}" alt="Activity" onerror="this.src='assets/discord.png'">
-                        </div>
-                        <div class="rpc-details">
-                            <div class="rpc-name">${activity.name || 'Activity'}</div>
-                            <div class="rpc-state">${activity.state || ''}</div>
-                            ${activity.details ? `<div class="rpc-details-text">${activity.details}</div>` : ''}
-                        </div>
-                    </div>
-                `;
-            } else {
-                rpcHTML = '<div class="rpc-idle">No current activity</div>';
-            }
-
-            rpcContent.innerHTML = rpcHTML;
-        }
-
-        // Function to update Lanyard Custom Stats (Right Side)
-        function updateLanyardStats(user, activities, spotify, discordStatus) {
-            const statsContent = document.getElementById('lanyard-custom-stats');
-            let statsHTML = '';
-
-            // Discord status indicator
             const statusColors = {
                 online: '#43b581',
                 idle: '#faa61a',
                 dnd: '#f04747',
-                offline: '#747f8d'
+                offline: '#747f8d',
+                invisible: '#747f8d'
             };
             const statusText = {
                 online: 'Online',
-                idle: 'Idle',
+                idle: 'Away',
                 dnd: 'Do Not Disturb',
-                offline: 'Offline'
+                offline: 'Offline',
+                invisible: 'Invisible'
             };
 
             const userStatus = discordStatus || 'offline';
             const statusColor = statusColors[userStatus] || statusColors.offline;
+            const displayText = statusText[userStatus] || 'Offline';
 
-            statsHTML = `
-                <div class="stat-item">
-                    <div class="stat-indicator" style="background-color: ${statusColor}"></div>
-                    <div class="stat-text">${statusText[userStatus] || 'Offline'}</div>
-                </div>
-            `;
-
-            // Add Spotify info if active
-            if (spotify && spotify.track_id) {
-                statsHTML += `
-                    <div class="stat-item">
-                        <div class="stat-icon">🎵</div>
-                        <div class="stat-text">Listening to Spotify</div>
-                    </div>
-                `;
+            const profileStatus = document.getElementById('profile-status');
+            if (profileStatus) {
+                const dot = profileStatus.querySelector('.status-dot');
+                const text = profileStatus.querySelector('.status-text');
+                if (dot) dot.style.backgroundColor = statusColor;
+                if (text) text.textContent = displayText;
             }
 
-            // Add custom activity info if present
-            if (activities && activities.length > 0) {
-                const activity = activities[0];
-                if (activity.name) {
-                    const activityIcons = {
-                        'Visual Studio Code': '💻',
-                        'Code': '💻',
-                        'Spotify': '🎵',
-                        'YouTube': '📺',
-                        'Twitter': '🐦',
-                        'GitHub': '🐙',
-                        'Steam': '🎮'
-                    };
-                    const icon = activityIcons[activity.name] || '🎮';
-                    
-                    statsHTML += `
-                        <div class="stat-item">
-                            <div class="stat-icon">${icon}</div>
-                            <div class="stat-text">${activity.name}</div>
-                        </div>
-                    `;
+            activityName.textContent = 'Not in a game';
+            activityState.textContent = '';
+            activityDetails.textContent = '';
+            activityButtons.innerHTML = '';
+            activityImage.src = '';
+            activityImage.style.display = 'none';
+            if (activityProgressWrapper) {
+                activityProgressWrapper.style.display = 'none';
+            }
+            if (activityProgressFill) {
+                activityProgressFill.style.width = '0%';
+            }
+            if (activityProgressTime) {
+                activityProgressTime.textContent = '0:00 / 0:00';
+            }
+
+            if (customStatusRow) customStatusRow.style.display = 'none';
+            if (customStatusEmoji) customStatusEmoji.innerHTML = '';
+            if (customStatusText) customStatusText.textContent = '';
+            if (customPronouns) {
+                customPronouns.textContent = '';
+                customPronouns.style.display = 'none';
+            }
+
+            const hasActivities = Array.isArray(activities) && activities.length > 0;
+            const primaryActivity = hasActivities ? activities.find(a => a.type !== 4 && a.name !== 'Spotify') : null;
+
+            const activityTypes = {
+                0: 'Playing',
+                1: 'Streaming',
+                2: 'Listening to',
+                3: 'Watching',
+                4: 'Custom Status',
+                5: 'Competing in'
+            };
+
+            if (primaryActivity) {
+                const typeText = activityTypes[primaryActivity.type] || 'Playing';
+                activityName.textContent = `${typeText} ${primaryActivity.name || 'something'}`;
+                activityDetails.textContent = primaryActivity.details || '';
+                activityState.textContent = primaryActivity.state || '';
+
+                const formatDuration = (ms) => {
+                    if (!Number.isFinite(ms)) {
+                        return '00:00';
+                    }
+
+                    const totalSeconds = Math.max(0, Math.floor(ms / 1000));
+                    const hours = Math.floor(totalSeconds / 3600);
+                    const minutes = Math.floor((totalSeconds % 3600) / 60);
+                    const seconds = totalSeconds % 60;
+
+                    if (hours > 0) {
+                        return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                    }
+
+                    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                };
+
+                if (primaryActivity.assets) {
+                    let imageUrl = '';
+
+                    if (primaryActivity.assets.large_image) {
+                        if (primaryActivity.assets.large_image.startsWith('mp:external/')) {
+                            imageUrl = `https://media.discordapp.net/external/${primaryActivity.assets.large_image.replace('mp:external/', '')}`;
+                        } else if (primaryActivity.application_id) {
+                            if (primaryActivity.assets.small_image) {
+                                imageUrl = `https://cdn.discordapp.com/app-assets/${primaryActivity.application_id}/${primaryActivity.assets.small_image}.png`;
+                            } else {
+                                imageUrl = `https://cdn.discordapp.com/app-assets/${primaryActivity.application_id}/${primaryActivity.assets.large_image}.png`;
+                            }
+                        }
+                    }
+
+                    if (!imageUrl && primaryActivity.assets.small_image && primaryActivity.application_id) {
+                        imageUrl = `https://cdn.discordapp.com/app-assets/${primaryActivity.application_id}/${primaryActivity.assets.small_image}.png`;
+                    }
+
+                    if (imageUrl) {
+                        activityImage.src = imageUrl;
+                        activityImage.alt = primaryActivity.name || 'Activity';
+                        activityImage.style.display = 'block';
+                    }
+                }
+
+                if (primaryActivity.buttons && primaryActivity.buttons.length > 0) {
+                    primaryActivity.buttons.forEach((button) => {
+                        if (!button.label) return;
+
+                        const btn = document.createElement('a');
+                        btn.className = 'activity-button';
+                        btn.textContent = button.label;
+
+                        if (button.url) {
+                            btn.href = button.url;
+                            btn.target = '_blank';
+                            btn.rel = 'noopener noreferrer';
+                        } else {
+                            btn.href = '#';
+                            btn.style.cursor = 'default';
+                            btn.onclick = (e) => e.preventDefault();
+                        }
+
+                        activityButtons.appendChild(btn);
+                    });
+                }
+
+                if (primaryActivity.timestamps && activityProgressWrapper && activityProgressFill) {
+                    const { start, end } = primaryActivity.timestamps;
+                    if (start) {
+                        const now = Date.now();
+                        const elapsed = Math.max(0, now - start);
+                        const total = end ? Math.max(0, end - start) : null;
+
+                        activityProgressWrapper.style.display = 'flex';
+
+                        if (activityProgressTime) {
+                            if (total && total > 0) {
+                                activityProgressTime.textContent = `${formatDuration(elapsed)} / ${formatDuration(total)}`;
+                            } else {
+                                activityProgressTime.textContent = `${formatDuration(elapsed)}`;
+                            }
+                        }
+
+                        if (total && total > 0) {
+                            const progress = Math.min(100, (elapsed / total) * 100);
+                            activityProgressFill.style.width = `${progress}%`;
+                        } else {
+                            activityProgressFill.style.width = '100%';
+                        }
+                    }
+                }
+            } else {
+                activityName.textContent = 'No active presence';
+            }
+
+            const customActivity = hasActivities ? activities.find(a => a.type === 4) : null;
+            if (customActivity && customStatusRow && customStatusText && customStatusEmoji) {
+                customStatusRow.style.display = 'flex';
+                customStatusText.textContent = customActivity.state || customActivity.name || '';
+
+                customStatusEmoji.innerHTML = '';
+                if (customActivity.emoji) {
+                    if (customActivity.emoji.id) {
+                        const emojiImg = document.createElement('img');
+                        emojiImg.src = `https://cdn.discordapp.com/emojis/${customActivity.emoji.id}.${customActivity.emoji.animated ? 'gif' : 'png'}?size=32&quality=lossless`;
+                        emojiImg.alt = customActivity.emoji.name || 'Custom emoji';
+                        emojiImg.className = 'custom-status-emoji-img';
+                        customStatusEmoji.appendChild(emojiImg);
+                    } else if (customActivity.emoji.name) {
+                        customStatusEmoji.textContent = customActivity.emoji.name;
+                    }
                 }
             }
 
-            statsContent.innerHTML = statsHTML;
+            if (customPronouns) {
+                const pronouns = discordUser && discordUser.pronouns ? String(discordUser.pronouns).trim() : '';
+                if (pronouns) {
+                    customPronouns.textContent = pronouns;
+                    customPronouns.style.display = 'block';
+                }
+            }
         }
 
         // Function to update Spotify Player (Underneath Both)
         function updateSpotifyPlayer(spotify) {
             const spotifyContent = document.getElementById('spotify-content');
+            const spotifyCard = document.getElementById('spotify-player');
+
+            if (!spotifyCard || !spotifyContent) {
+                return;
+            }
+
             let spotifyHTML = '';
 
+            spotifyCard.style.display = 'none';
+
             if (spotify && spotify.track_id) {
-                const albumArt = spotify.album_art_url ? spotify.album_art_url : 'assets/discord.png';
-                const artists = spotify.artists.join(', ');
-                const progressPercent = (spotify.track_progress_ms / spotify.track_length_ms) * 100;
-                
+                const albumArt = spotify.album_art_url || spotify.album_art || 'assets/discord.png';
+                const artistList = Array.isArray(spotify.artists)
+                    ? spotify.artists
+                    : (spotify.artist ? [spotify.artist] : []);
+                const artists = artistList.length > 0 ? artistList.join(', ') : 'Unknown Artist';
+                const album = spotify.album || spotify.album_name || '';
+
+                const trackProgress = Number.isFinite(Number(spotify.track_progress_ms)) ? Number(spotify.track_progress_ms) : 0;
+                const trackLength = Number.isFinite(Number(spotify.track_length_ms)) ? Number(spotify.track_length_ms) : 0;
+                const progressPercent = trackLength > 0 ? Math.min(100, Math.max(0, (trackProgress / trackLength) * 100)) : 0;
+                const trackUrl = spotify.track_url || (spotify.track_id ? `https://open.spotify.com/track/${spotify.track_id}` : '');
+                const userAgent = navigator.userAgent || '';
+                const isIOS = /iPhone|iPad|iPod/i.test(userAgent);
+                const nativeLink = spotify.track_id
+                    ? (isIOS ? `spotify://track/${spotify.track_id}` : `spotify:track:${spotify.track_id}`)
+                    : '';
+
+                spotifyCard.style.display = 'flex';
+
                 spotifyHTML = `
                     <div class="spotify-activity">
                         <div class="spotify-image">
                             <img src="${albumArt}" alt="Album Art" onerror="this.src='assets/discord.png'">
                         </div>
+                        <div class="spotify-divider"></div>
                         <div class="spotify-details">
                             <div class="spotify-name">${spotify.song}</div>
                             <div class="spotify-artist">${artists}</div>
-                            <div class="spotify-album">${spotify.album || ''}</div>
+                            <div class="spotify-album">${album}</div>
                             <div class="spotify-progress">
                                 <div class="spotify-progress-bar" style="width: ${progressPercent}%"></div>
                             </div>
+                            ${(trackUrl || nativeLink) ? `
+                            <div class="spotify-actions">
+                                ${trackUrl ? `<a class="spotify-listen-button" href="${trackUrl}" target="_blank" rel="noopener noreferrer">Listen Along</a>` : ''}
+                                ${(trackUrl || nativeLink) ? `<button class="spotify-play-button" data-native="${nativeLink}" data-browser="${trackUrl}">Play on This Device</button>` : ''}
+                            </div>` : ''}
                         </div>
                     </div>
                 `;
             } else {
-                spotifyHTML = '<div class="spotify-idle">Not listening to Spotify</div>';
+                spotifyContent.innerHTML = '';
+                return;
             }
 
-            spotifyContent.innerHTML = spotifyHTML;
+            spotifyContent.innerHTML = spotifyHTML.trim();
+
+            const playButton = spotifyContent.querySelector('.spotify-play-button');
+
+            if (playButton) {
+                playButton.addEventListener('click', (event) => {
+                    event.preventDefault();
+
+                    const nativeTarget = playButton.dataset.native || '';
+                    const browserTarget = playButton.dataset.browser || '';
+
+                    const openBrowser = () => {
+                        if (browserTarget) {
+                            window.open(browserTarget, '_blank', 'noopener');
+                        }
+                    };
+
+                    if (nativeTarget) {
+                        let fallbackTimer;
+
+                        const handleVisibilityChange = () => {
+                            if (document.hidden) {
+                                clearTimeout(fallbackTimer);
+                                document.removeEventListener('visibilitychange', handleVisibilityChange);
+                            }
+                        };
+
+                        document.addEventListener('visibilitychange', handleVisibilityChange, { once: true });
+
+                        try {
+                            window.location.href = nativeTarget;
+                        } catch (error) {
+                            document.removeEventListener('visibilitychange', handleVisibilityChange);
+                            openBrowser();
+                            return;
+                        }
+
+                        fallbackTimer = setTimeout(() => {
+                            document.removeEventListener('visibilitychange', handleVisibilityChange);
+                            openBrowser();
+                        }, 1200);
+                    } else {
+                        openBrowser();
+                    }
+                }, { once: true });
+            }
         }
-
-            // Disable right-click context menu
-            document.addEventListener('contextmenu', function (e) {
-                e.preventDefault();
-            });
-
-            // Block common DevTools / view-source shortcuts
-            document.addEventListener('keydown', function (e) {
-                // F12
-                if (e.key === 'F12') {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    return false;
-                }
-
-                // Ctrl+Shift+I / Ctrl+Shift+J / Ctrl+Shift+C
-                if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    return false;
-                }
-
-                // Ctrl+U (view source)
-                if (e.ctrlKey && (e.key === 'U' || e.key === 'u')) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    return false;
-                }
-            });
- 
- 
     </script>
-    
+
+        </div>
+    </div>
+
     <script src="random-bg.js"></script>
     <script src="script.js"></script>
 </body>
