@@ -23,8 +23,8 @@
       })();
     </script>
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Fuck Off ™️">
-    <meta property="og:description" content="Fuck your shitty Biolink">
+    <meta property="og:title" content="Better Than Your Biolink">
+    <meta property="og:description" content="👌👌👌👌👌👌👌👌">
     <meta property="og:url" content="https://0xpsychosecurity.github.io/">
     <meta property="og:image" content="https://0xpsychosecurity.github.io/assets/banner-photo-embed.gif">
     <meta property="og:image:secure_url" content="https://0xpsychosecurity.github.io/assets/banner-photo-embed.gif">
@@ -33,7 +33,7 @@
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Fuck Off ™️">
+    <meta name="twitter:title" content="Better Than Your Biolink">
     <meta name="twitter:description" content="Fuck your shitty Biolink">
     <meta name="twitter:image" content="https://0xpsychosecurity.github.io/assets/banner-photo-embed.gif">
     <style>
@@ -367,10 +367,12 @@
 
         .profile-right-item.badge-stack {
             align-items: flex-start;
+            padding-left: 16px;
         }
 
         .badge-stack .badge-box {
             padding-top: 0;
+            padding-right: 0;
             display: flex;
             justify-content: flex-end;
             width: 100%;
@@ -614,8 +616,8 @@
 
         .server-badge-text {
             color: rgba(255, 255, 255, 0.9);
-            font-size: 14px;
-            font-weight: 500;
+            font-size: 18px;
+            font-weight: bold;
         }
 
         #profile-bio {
@@ -2067,9 +2069,9 @@
                                     </div>
                                 </div>
                                 <div class="profile-right-item">
-                                    <div class="server-badge-box">
-                                        <img src="assets/redburnicon.png" alt="Server Badge" class="server-badge-image">
-                                        <span class="server-badge-text">.GOV</span>
+                                    <div id="clan-tag" class="server-badge-box hidden">
+                                        <img id="clan-badge" src="" alt="Clan Badge" class="server-badge-image hidden">
+                                        <span id="clan-text" class="server-badge-text">LEX</span>
                                     </div>
                                 </div>
                                 <div class="profile-right-item">
@@ -2315,6 +2317,25 @@
 
                 // Update Spotify Player (Underneath Both)
                 updateSpotifyPlayer(spotify);
+
+                // 5. Clan/Tag with Badge (RE-ADDED)
+                const clan = user.primary_guild;
+                const clanEl = document.getElementById('clan-tag');
+                if (clan && clan.tag) {
+                    clanEl.classList.remove('hidden');
+                    document.getElementById('clan-text').textContent = clan.tag;
+
+                    const badgeEl = document.getElementById('clan-badge');
+                    if (clan.badge) {
+                        badgeEl.classList.remove('hidden');
+                        // Constructs the URL: https://cdn.discordapp.com/clan-badges/%7Bguild_id%7D/%7Bbadge_hash%7D.png
+                        badgeEl.src = `https://cdn.discordapp.com/clan-badges/${clan.identity_guild_id}/${clan.badge}.png`;
+                    } else {
+                        badgeEl.classList.add('hidden');
+                    }
+                } else {
+                    clanEl.classList.add('hidden');
+                }
 
             })
             .catch(function(error) {
