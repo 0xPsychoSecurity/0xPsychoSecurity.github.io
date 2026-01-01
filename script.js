@@ -1,5 +1,5 @@
 const sourceElement = document.getElementById("bgSource");
-// Random background video on each refresh, no repetitions until all videos have been shown
+// Sequential background video playback in order (1, 2, 3, etc.) with no repeats until full cycle
 const bgList = [
   'assets/b-background.mp4',
   'assets/b-background2.mp4',
@@ -10,60 +10,41 @@ const bgList = [
   'assets/b-background7.mp4',
   'assets/b-background8.mp4',
 ];
-const storageKey = 'bgShownVideos';
+const storageKey = 'bgCurrentVideoIndex';
 let chosen = 0;
 try {
-  // Get array of already shown video indices from localStorage
-  const shownVideosJson = localStorage.getItem(storageKey);
-  let shownVideos = shownVideosJson ? JSON.parse(shownVideosJson) : [];
+  // Get current video index from localStorage
+  const currentIndexJson = localStorage.getItem(storageKey);
+  let currentIndex = currentIndexJson ? parseInt(currentIndexJson, 10) : -1;
   
-  // Get indices of videos that haven't been shown yet
-  const remainingIndices = [];
-  for (let i = 0; i < bgList.length; i++) {
-    if (!shownVideos.includes(i)) {
-      remainingIndices.push(i);
-    }
-  }
+  // Move to next video in sequence
+  currentIndex = (currentIndex + 1) % bgList.length;
+  chosen = currentIndex;
   
-  if (remainingIndices.length === 0) {
-    // All videos have been shown, reset the cycle
-    shownVideos = [];
-    chosen = Math.floor(Math.random() * bgList.length);
-  } else {
-    // Choose randomly from remaining video indices
-    chosen = remainingIndices[Math.floor(Math.random() * remainingIndices.length)];
-  }
-  
-  // Add chosen video to shown videos
-  shownVideos.push(chosen);
-  localStorage.setItem(storageKey, JSON.stringify(shownVideos));
+  // Save current index for next visit
+  localStorage.setItem(storageKey, currentIndex.toString());
   
   sourceElement.src = bgList[chosen];
 } catch (_) {
-  // Fallback if localStorage is unavailable
-  chosen = Math.floor(Math.random() * bgList.length);
+  // Fallback if localStorage is unavailable - start from first video
+  chosen = 0;
   sourceElement.src = bgList[chosen];
 }
 const videoElement = document.getElementById("background");
 
-// If selected video fails, randomly try remaining videos without repeats
+// If selected video fails, try remaining videos sequentially
 (() => {
   const tried = new Set([chosen]);
   videoElement.addEventListener('error', () => {
     if (tried.size >= bgList.length) return;
     const remaining = [];
     for (let i = 0; i < bgList.length; i++) if (!tried.has(i)) remaining.push(i);
-    const next = remaining[Math.floor(Math.random() * remaining.length)];
+    const next = remaining[0]; // Take next available video
     tried.add(next);
     sourceElement.src = bgList[next];
     try {
-      // Update shown videos when fallback video is used
-      const shownVideosJson = localStorage.getItem(storageKey);
-      let shownVideos = shownVideosJson ? JSON.parse(shownVideosJson) : [];
-      if (!shownVideos.includes(next)) {
-        shownVideos.push(next);
-        localStorage.setItem(storageKey, JSON.stringify(shownVideos));
-      }
+      // Update current index when fallback video is used
+      localStorage.setItem(storageKey, next.toString());
     } catch (_) {}
     videoElement.load();
   }, { once: false });
