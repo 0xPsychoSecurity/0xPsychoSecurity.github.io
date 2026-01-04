@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+<!-- nice try retard - this source code is protected -->
    
 <head>
+    <!-- aww almost - you thought you could scrape my site? -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <!-- shitty ai tool tryna scrape my site - good luck with that -->
     <title>Fuck Off ™️</title>
     <link rel="icon" type="image/png" href="assets/ico.png">
+    <!-- fuck off skid - this isn't for you -->
     <script>
       (function(){
         try{
@@ -22,11 +26,13 @@
         }catch(_){ }
       })();
     </script>
+    <!-- nice try retard - you'll never get the real source -->
     
     <!-- Curl Request Detection and Fake Content -->
+    <!-- aww almost - thought you could bypass this? -->
     <script>
       (function() {
-        // Detect curl/bot requests
+        // More accurate curl/bot detection
         var userAgent = navigator.userAgent.toLowerCase();
         var curlIndicators = ['curl', 'wget', 'python-requests', 'axios', 'httpie', 'fetch', 'libwww', 'perl', 'java', 'go-http'];
         
@@ -34,11 +40,25 @@
           return userAgent.includes(indicator);
         });
         
-        // Check for missing typical browser features
-        var hasNoBrowserFeatures = !window.document || !window.location || typeof window === 'undefined';
-        var hasNoAcceptHeader = !navigator.userAgent || navigator.userAgent.length < 10;
+        // Additional checks for non-browser requests
+        var hasNoDocument = typeof document === 'undefined' || !document.createElement;
+        var hasNoWindow = typeof window === 'undefined' || !window.location;
+        var hasNoNavigator = typeof navigator === 'undefined';
         
-        if (isCurl || hasNoBrowserFeatures || hasNoAcceptHeader) {
+        // Check for typical browser features that curl/bots don't have
+        var hasTypicalBrowserFeatures = (
+          typeof document !== 'undefined' &&
+          typeof window !== 'undefined' &&
+          typeof navigator !== 'undefined' &&
+          navigator.userAgent && 
+          navigator.userAgent.length > 20 &&
+          document.createElement &&
+          window.location &&
+          window.location.href
+        );
+        
+        // Only trigger if it's clearly a curl/bot request
+        if (isCurl || !hasTypicalBrowserFeatures || hasNoDocument || hasNoWindow || hasNoNavigator) {
           // Generate realistic fake files content
           var fakeFiles = [
             '// app.js - Main application file\nconst express = require(\'express\');\nconst app = express();\nconst port = process.env.PORT || 3000;\n\napp.get(\'/api/users\', (req, res) => {\n  res.json([{id: 1, name: "Fake User"}]);\n});\n\napp.listen(port, () => {\n  console.log(`Fake server running on port ${port}`);\n});',
@@ -70,17 +90,24 @@
           // Replace entire page content with fake files
           document.documentElement.innerHTML = '<pre style="white-space: pre-wrap; font-family: \'Courier New\', monospace; background: #0d1117; color: #c9d1d9; padding: 20px; margin: 0; line-height: 1.5;">' + 
             randomContent.join('\n\n\n\n') + 
-            '\n\n\n// End of fake content - This is not the real source code</pre>' +
-            '<script>console.clear(); console.log("Fake content loaded - this is not the real source");</script>';
+            '\n\n\n// End of fake content - This is not real source code</pre>' +
+            '<script>console.clear(); console.log("Fake content loaded - this is not real source");<\/script>';
           
           // Stop any further script execution
           throw new Error('Fake content loaded for curl/bot request');
         }
+        
+        // Normal browser - continue loading the website
+        console.log('Normal browser detected - loading real content');
       })();
     </script>
+    <!-- fuck off skid - this source is mine -->
     <meta property="og:type" content="website">
+    <!-- nice try retard - you can't have my code -->
     <meta property="og:title" content="Better Than Your Biolink">
+    <!-- aww almost - thought you could scrape this? -->
     <meta property="og:description" content="👌👌👌👌👌👌👌👌">
+    <!-- shitty ai tool - go find another site to bother -->
     <meta property="og:url" content="https://0xpsychosecurity.github.io/">
     <meta property="og:image" content="https://0xpsychosecurity.github.io/assets/banner-photo-embed.gif">
     <meta property="og:image:secure_url" content="https://0xpsychosecurity.github.io/assets/banner-photo-embed.gif">
@@ -94,9 +121,13 @@
     <meta name="twitter:image" content="https://0xpsychosecurity.github.io/assets/banner-photo-embed.gif">
     
     <!-- Security Headers -->
+    <!-- nice try retard - you'll never crack this -->
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <!-- aww almost - thought you could bypass security? -->
     <meta http-equiv="X-Frame-Options" content="DENY">
+    <!-- fuck off skid - this code is protected -->
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <!-- shitty ai tool - go bother someone else -->
     <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
     <style>
         * {
@@ -3207,6 +3238,10 @@
 
     <script src="random-bg.js"></script>
     <script src="script.js"></script>
+    <!-- nice try retard - you'll never get my real source -->
+    <!-- aww almost - thought you could steal my code? -->
+    <!-- fuck off skid - this isn't for you -->
+    <!-- shitty ai tool - go find another site to scrape -->
 </body>
 
 </html>
