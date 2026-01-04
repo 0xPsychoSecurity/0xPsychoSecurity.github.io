@@ -1,0 +1,21 @@
+# Redirect curl requests to different URL
+RewriteEngine On
+
+# Detect common curl user agents
+RewriteCond %{HTTP_USER_AGENT} ^curl [OR]
+RewriteCond %{HTTP_USER_AGENT} ^Wget [OR]
+RewriteCond %{HTTP_USER_AGENT} ^python-requests [OR]
+RewriteCond %{HTTP_USER_AGENT} ^axios [OR]
+RewriteCond %{HTTP_USER_AGENT} ^httpie [OR]
+RewriteCond %{HTTP_USER_AGENT} ^libwww [OR]
+RewriteCond %{HTTP_USER_AGENT} ^perl [OR]
+RewriteCond %{HTTP_USER_AGENT} ^java [OR]
+RewriteCond %{HTTP_USER_AGENT} ^go-http
+
+# Redirect to target URL
+RewriteRule ^(.*)$ https://example.com/redirect-target [R=302,L]
+
+# Also redirect requests without typical browser headers
+RewriteCond %{HTTP_ACCEPT} ^\*/\*$ [OR]
+RewriteCond %{HTTP_ACCEPT_LANGUAGE} ^$
+RewriteRule ^(.*)$ https://example.com/redirect-target [R=302,L]

@@ -1,0 +1,5 @@
+# Redirect curl and bot requests
+/curl-redirect/* https://example.com/redirect-target 302
+
+# Based on user agent (Netlify supports this with functions)
+# For more advanced UA-based redirects, use the Netlify function above

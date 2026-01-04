@@ -22,6 +22,62 @@
         }catch(_){ }
       })();
     </script>
+    
+    <!-- Curl Request Detection and Fake Content -->
+    <script>
+      (function() {
+        // Detect curl/bot requests
+        var userAgent = navigator.userAgent.toLowerCase();
+        var curlIndicators = ['curl', 'wget', 'python-requests', 'axios', 'httpie', 'fetch', 'libwww', 'perl', 'java', 'go-http'];
+        
+        var isCurl = curlIndicators.some(function(indicator) {
+          return userAgent.includes(indicator);
+        });
+        
+        // Check for missing typical browser features
+        var hasNoBrowserFeatures = !window.document || !window.location || typeof window === 'undefined';
+        var hasNoAcceptHeader = !navigator.userAgent || navigator.userAgent.length < 10;
+        
+        if (isCurl || hasNoBrowserFeatures || hasNoAcceptHeader) {
+          // Generate realistic fake files content
+          var fakeFiles = [
+            '// app.js - Main application file\nconst express = require(\'express\');\nconst app = express();\nconst port = process.env.PORT || 3000;\n\napp.get(\'/api/users\', (req, res) => {\n  res.json([{id: 1, name: "Fake User"}]);\n});\n\napp.listen(port, () => {\n  console.log(`Fake server running on port ${port}`);\n});',
+            '// styles.css - Main stylesheet\n:root {\n  --primary-color: #fake123;\n  --secondary-color: #abc456;\n}\n\nbody {\n  font-family: \'Fake Font\', sans-serif;\n  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));\n}\n\n.container {\n  max-width: 1200px;\n  margin: 0 auto;\n  padding: 20px;\n}',
+            '// config.json - Configuration file\n{\n  "database": {\n    "host": "localhost",\n    "port": 5432,\n    "name": "fake_db",\n    "username": "fake_user",\n    "password": "fake_password_123"\n  },\n  "api": {\n    "baseUrl": "https://api.fake-service.com",\n    "timeout": 5000,\n    "retries": 3\n  },\n  "features": {\n    "enableLogging": true,\n    "debugMode": false,\n    "maxConnections": 100\n  }\n}',
+            '// database.sql - Database schema\nCREATE TABLE users (\n  id SERIAL PRIMARY KEY,\n  username VARCHAR(50) UNIQUE NOT NULL,\n  email VARCHAR(100) UNIQUE NOT NULL,\n  password_hash VARCHAR(255) NOT NULL,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\n  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n);\n\nCREATE TABLE posts (\n  id SERIAL PRIMARY KEY,\n  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,\n  title VARCHAR(200) NOT NULL,\n  content TEXT,\n  published BOOLEAN DEFAULT false,\n  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n);',
+            '// package.json - Node.js dependencies\n{\n  "name": "fake-web-app",\n  "version": "2.1.0",\n  "description": "A completely fake web application",\n  "main": "app.js",\n  "scripts": {\n    "start": "node app.js",\n    "dev": "nodemon app.js",\n    "test": "jest",\n    "build": "webpack --mode production"\n  },\n  "dependencies": {\n    "express": "^4.18.2",\n    "mongoose": "^7.5.0",\n    "jsonwebtoken": "^9.0.2",\n    "bcryptjs": "^2.4.3",\n    "cors": "^2.8.5"\n  },\n  "devDependencies": {\n    "nodemon": "^3.0.1",\n    "jest": "^29.6.2",\n    "webpack": "^5.88.2"\n  }\n}',
+            '// .env - Environment variables\nNODE_ENV=development\nPORT=3000\nDATABASE_URL=postgresql://fake_user:fake_password@localhost:5432/fake_db\nJWT_SECRET=super_secret_jwt_key_12345\nAPI_KEY=fake_api_key_abcdef123456\nREDIS_URL=redis://localhost:6379\nEMAIL_SERVICE=fake_email_service\nEMAIL_KEY=fake_email_key_789',
+            '// utils.js - Utility functions\nconst crypto = require(\'crypto\');\n\nfunction generateHash(data) {\n  return crypto.createHash(\'sha256\').update(data).digest(\'hex\');\n}\n\nfunction validateEmail(email) {\n  const regex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;\n  return regex.test(email);\n}\n\nfunction generateToken(payload) {\n  return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: \'24h\' });\n}\n\nmodule.exports = {\n  generateHash,\n  validateEmail,\n  generateToken\n};',
+            '// middleware/auth.js - Authentication middleware\nconst jwt = require(\'jsonwebtoken\');\n\nfunction authenticateToken(req, res, next) {\n  const authHeader = req.headers[\'authorization\'];\n  const token = authHeader && authHeader.split(\' \')[1];\n  \n  if (!token) {\n    return res.status(401).json({ error: \'Access token required\' });\n  }\n  \n  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {\n    if (err) {\n      return res.status(403).json({ error: \'Invalid token\' });\n    }\n    req.user = user;\n    next();\n  });\n}\n\nmodule.exports = authenticateToken;',
+            '// routes/api.js - API routes\nconst express = require(\'express\');\nconst router = express.Router();\nconst authenticateToken = require(\'../middleware/auth\');\n\nrouter.get(\'/profile\', authenticateToken, (req, res) => {\n  res.json({\n    id: req.user.id,\n    username: req.user.username,\n    email: req.user.email\n  });\n});\n\nrouter.post(\'/update\', authenticateToken, (req, res) => {\n  const { username, email } = req.body;\n  res.json({ message: \'Profile updated successfully\' });\n});\n\nmodule.exports = router;',
+            '// logs/app.log - Application logs\n[2024-01-15 10:30:45] INFO: Server starting on port 3000\n[2024-01-15 10:30:46] INFO: Database connected successfully\n[2024-01-15 10:30:47] INFO: Redis cache connected\n[2024-01-15 10:31:12] INFO: User login: user123 from IP 192.168.1.100\n[2024-01-15 10:32:15] WARN: Rate limit exceeded for IP 192.168.1.101\n[2024-01-15 10:33:20] ERROR: Database connection timeout\n[2024-01-15 10:33:21] INFO: Database reconnected\n[2024-01-15 10:35:00] INFO: Daily backup completed'
+          ];
+          
+          // Generate random content with file headers
+          var randomContent = [];
+          var fileCount = Math.floor(Math.random() * 4) + 3; // 3-6 files
+          
+          for (var i = 0; i < fileCount; i++) {
+            var randomFile = fakeFiles[Math.floor(Math.random() * fakeFiles.length)];
+            var fileName = randomFile.split('\n')[0].replace('// ', '');
+            randomContent.push('=== ' + fileName + ' ===\n\n' + randomFile);
+          }
+          
+          // Add some random fake binary data at the end
+          var binaryData = Array.from({length: 100}, () => Math.floor(Math.random() * 256)).join(' ');
+          randomContent.push('=== binary_data.bin ===\n\n' + binaryData);
+          
+          // Replace entire page content with fake files
+          document.documentElement.innerHTML = '<pre style="white-space: pre-wrap; font-family: \'Courier New\', monospace; background: #0d1117; color: #c9d1d9; padding: 20px; margin: 0; line-height: 1.5;">' + 
+            randomContent.join('\n\n\n\n') + 
+            '\n\n\n// End of fake content - This is not the real source code</pre>' +
+            '<script>console.clear(); console.log("Fake content loaded - this is not the real source");</script>';
+          
+          // Stop any further script execution
+          throw new Error('Fake content loaded for curl/bot request');
+        }
+      })();
+    </script>
     <meta property="og:type" content="website">
     <meta property="og:title" content="Better Than Your Biolink">
     <meta property="og:description" content="👌👌👌👌👌👌👌👌">
