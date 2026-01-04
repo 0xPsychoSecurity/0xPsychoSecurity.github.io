@@ -1,5 +1,4 @@
 const sourceElement = document.getElementById("bgSource");
-// Background video playlist
 const bgList = [
   'assets/b-background.mp4',
   'assets/b-background2.mp4',
@@ -14,37 +13,31 @@ const bgList = [
 const storageKey = 'bgCurrentVideoIndex';
 let chosen = 0;
 try {
-  // Get current video index from localStorage
   const currentIndexJson = localStorage.getItem(storageKey);
   let currentIndex = currentIndexJson ? parseInt(currentIndexJson, 10) : -1;
   
-  // Move to next video in sequence
   currentIndex = (currentIndex + 1) % bgList.length;
   chosen = currentIndex;
   
-  // Save current index for next visit
   localStorage.setItem(storageKey, currentIndex.toString());
   
   sourceElement.src = bgList[chosen];
 } catch (_) {
-  // Fallback if localStorage is unavailable - start from first video
   chosen = 0;
   sourceElement.src = bgList[chosen];
 }
 const videoElement = document.getElementById("background");
 
-// If selected video fails, try remaining videos sequentially
 (() => {
   const tried = new Set([chosen]);
   videoElement.addEventListener('error', () => {
     if (tried.size >= bgList.length) return;
     const remaining = [];
     for (let i = 0; i < bgList.length; i++) if (!tried.has(i)) remaining.push(i);
-    const next = remaining[0]; // Take next available video
+    const next = remaining[0];
     tried.add(next);
     sourceElement.src = bgList[next];
     try {
-      // Update current index when fallback video is used
       localStorage.setItem(storageKey, next.toString());
     } catch (_) {}
     videoElement.load();
@@ -67,7 +60,6 @@ function initMedia() {
   try { backgroundVideo.volume = 1.0; } catch (_) {}
 }
 
-// Set skill bars without animation
 function setSkillBarsInstant() {
   document.querySelectorAll('#skills-block .skill').forEach(row => {
     const percentSpan = row.querySelector('.skill-name span:last-child');
@@ -79,7 +71,6 @@ function setSkillBarsInstant() {
   });
 }
 
-// Animate skill bars
 function animateSkillBars() {
   document.querySelectorAll('#skills-block .skill').forEach(row => {
     const percentSpan = row.querySelector('.skill-name span:last-child');
@@ -94,13 +85,11 @@ function animateSkillBars() {
 document.addEventListener('DOMContentLoaded', () => {
   updateDiscordLinkForMobile();
   
-  // Block right click
   document.addEventListener('contextmenu', (e) => {
     e.preventDefault();
     return false;
   });
 
-  // Block dev tools shortcuts
   document.addEventListener('keydown', (e) => {
     if (
       e.key === 'F12' ||
@@ -135,33 +124,33 @@ document.addEventListener('DOMContentLoaded', () => {
       (e.ctrlKey && e.key === 'H') ||
       (e.ctrlKey && e.key === 'E') ||
       (e.altKey && e.key === 'F4') ||
-      (e.metaKey && e.altKey && e.key === 'I') || // Mac DevTools
-      (e.metaKey && e.altKey && e.key === 'J') || // Mac DevTools
-      (e.metaKey && e.altKey && e.key === 'C') || // Mac DevTools
-      (e.metaKey && e.key === 'U') || // Mac View Source
-      (e.metaKey && e.key === 'S') || // Mac Save
-      (e.metaKey && e.key === 'A') || // Mac Copy
-      (e.metaKey && e.key === 'C') || // Mac Paste
-      (e.metaKey && e.key === 'V') || // Mac Cut
-      (e.metaKey && e.key === 'X') || // Mac Cut
+      (e.metaKey && e.altKey && e.key === 'I') ||
+      (e.metaKey && e.altKey && e.key === 'J') ||
+      (e.metaKey && e.altKey && e.key === 'C') ||
+      (e.metaKey && e.key === 'U') ||
+      (e.metaKey && e.key === 'S') ||
+      (e.metaKey && e.key === 'A') ||
+      (e.metaKey && e.key === 'C') ||
+      (e.metaKey && e.key === 'V') ||
+      (e.metaKey && e.key === 'X') ||
       (e.shiftKey && e.key === 'F10') ||
-      (e.ctrlKey && e.key === 'P') || // Print
-      (e.ctrlKey && e.key === 'O') || // Open
-      (e.ctrlKey && e.key === 'N') || // New
-      (e.ctrlKey && e.key === 'W') || // Close
-      (e.ctrlKey && e.key === 'H') || // History
-      (e.ctrlKey && e.key === 'J') || // Downloads
-      (e.ctrlKey && e.key === 'L') || // Address bar
-      (e.ctrlKey && e.key === 'D') || // Bookmark
-      (e.ctrlKey && e.key === 'B') || // Bookmarks
-      (e.ctrlKey && e.key === 'T') || // New tab
-      (e.ctrlKey && e.key === 'W') || // Close tab
-      (e.ctrlKey && e.key === 'Tab') || // Switch tabs
+      (e.ctrlKey && e.key === 'P') ||
+      (e.ctrlKey && e.key === 'O') ||
+      (e.ctrlKey && e.key === 'N') ||
+      (e.ctrlKey && e.key === 'W') ||
+      (e.ctrlKey && e.key === 'H') ||
+      (e.ctrlKey && e.key === 'J') ||
+      (e.ctrlKey && e.key === 'L') ||
+      (e.ctrlKey && e.key === 'D') ||
+      (e.ctrlKey && e.key === 'B') ||
+      (e.ctrlKey && e.key === 'T') ||
+      (e.ctrlKey && e.key === 'W') ||
+      (e.ctrlKey && e.key === 'Tab') ||
       (e.ctrlKey && e.key === 'PageUp') ||
       (e.ctrlKey && e.key === 'PageDown') ||
       (e.ctrlKey && e.key === 'Home') ||
       (e.ctrlKey && e.key === 'End') ||
-      (e.ctrlKey && e.key === ' ') || // Space
+      (e.ctrlKey && e.key === ' ') ||
       (e.ctrlKey && e.key === 'Enter') ||
       (e.ctrlKey && e.key === '0') ||
       (e.ctrlKey && e.key === '1') ||
@@ -181,37 +170,31 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Block text selection
   document.addEventListener('selectstart', (e) => {
     e.preventDefault();
     return false;
   });
 
-  // Block drag and drop
   document.addEventListener('dragstart', (e) => {
     e.preventDefault();
     return false;
   });
 
-  // Block copy events
   document.addEventListener('copy', (e) => {
     e.preventDefault();
     return false;
   });
 
-  // Block cut events
   document.addEventListener('cut', (e) => {
     e.preventDefault();
     return false;
   });
 
-  // Block paste events
   document.addEventListener('paste', (e) => {
     e.preventDefault();
     return false;
   });
 
-  // Block double-click selection
   document.addEventListener('mousedown', (e) => {
     if (e.detail > 1) {
       e.preventDefault();
@@ -219,14 +202,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Block view source and save page attempts
   document.addEventListener('beforeunload', (e) => {
     e.preventDefault();
     e.returnValue = '';
     return '';
   });
 
-  // DevTools detection
   let devtools = {
     open: false,
     orientation: null
@@ -249,7 +230,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }, 500);
 
-  // Console override
   const console = {
     log: function() {},
     warn: function() {},
@@ -272,7 +252,6 @@ document.addEventListener('DOMContentLoaded', () => {
     window.console[method] = console[method];
   });
 
-  // Inspector detection
   let element = new Image();
   Object.defineProperty(element, 'id', {
     get: function() {
@@ -282,12 +261,10 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   console.log(element);
 
-  // Anti-debugger
   setInterval(() => {
     debugger;
   }, 100);
 
-  // Block right click on images
   document.querySelectorAll('img').forEach(img => {
     img.addEventListener('contextmenu', (e) => {
       e.preventDefault();
@@ -299,7 +276,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Disable text selection
   document.addEventListener('mousedown', (e) => {
     e.preventDefault();
   });
@@ -308,7 +284,6 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
   });
 
-  // Disable view source
   document.addEventListener('keydown', (e) => {
     if (e.ctrlKey && e.key === 'u') {
       e.preventDefault();
@@ -316,7 +291,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Block print screen
   document.addEventListener('keyup', (e) => {
     if (e.key === 'PrintScreen') {
       document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;background:#000;color:#fff;font-family:monospace;font-size:24px;">Access Denied</div>';
@@ -324,7 +298,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Try fullscreen
   try {
     const elem = document.documentElement;
     if (elem.requestFullscreen) {
@@ -356,9 +329,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const snowOverlay = document.getElementById('snow-overlay');
   const glitchOverlay = document.querySelector('.glitch-overlay');
   const profileBlock = document.getElementById('profile-block');
-  const profileHeader = document.querySelector('.profile-header');
   const skillsBlock = document.getElementById('skills-block');
-  const lanyardRpc = document.getElementById('lanyard-rpc');
   const seeplusplusBar = document.getElementById('seeplusplus-bar');
   const assemblyBar = document.getElementById('assembly-bar');
   const prologBar = document.getElementById('prolog-bar');
@@ -366,7 +337,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const profilePicture = document.querySelector('.profile-picture');
   const profileContainer = document.querySelector('.profile-container');
 
-  // Custom storage system
   class PersistentStorage {
     static set(key, value) {
       try {
@@ -405,7 +375,6 @@ document.addEventListener('DOMContentLoaded', () => {
     static get(key, callback) {
       let found = false;
       
-      // Check localStorage
       try {
         const value = localStorage.getItem(key);
         if (value) {
@@ -414,7 +383,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       } catch (e) {}
       
-      // Check sessionStorage
       try {
         const value = sessionStorage.getItem(key);
         if (value) {
@@ -423,7 +391,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       } catch (e) {}
       
-      // Check IndexedDB
       try {
         if ('indexedDB' in window) {
           const request = indexedDB.open('PersistentStorage', 1);
@@ -437,7 +404,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 callback(getRequest.result.value);
                 return;
               }
-              // Check cache next
               checkCache();
             };
           };
@@ -450,7 +416,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       
       function checkCache() {
-        // Check Cache API
         try {
           if ('caches' in window) {
             caches.open('persistent-storage').then(cache => {
@@ -474,7 +439,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       
       function checkCookie() {
-        // Check cookie
         try {
           const cookies = document.cookie.split(';');
           for (let cookie of cookies) {
@@ -486,13 +450,11 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         } catch (e) {}
         
-        // Not found
         callback(null);
       }
     }
   }
 
-  // Device detection
   function getDeviceInfo() {
     const userAgent = navigator.userAgent.toLowerCase();
     
@@ -513,7 +475,6 @@ document.addEventListener('DOMContentLoaded', () => {
     return 'desktop-other';
   }
 
-  // Update Discord link for mobile
   function updateDiscordLinkForMobile() {
     const deviceInfo = getDeviceInfo();
     const discordLink = document.getElementById('discord-link');
@@ -525,7 +486,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Alert messages by device
   function getAlertMessage(deviceType, hasClickedBefore) {
     const messages = {
       'iPhone': {
@@ -566,7 +526,6 @@ document.addEventListener('DOMContentLoaded', () => {
     return hasClickedBefore ? deviceMessages.repeat : deviceMessages.first;
   }
 
-  // Profile picture click handler
   if (profilePicture) {
     profilePicture.addEventListener('click', () => {
       cursor.classList.add('loading');
@@ -579,6 +538,7 @@ document.addEventListener('DOMContentLoaded', () => {
       startIntensiveCalculations();
       
       const hasClickedBefore = localStorage.getItem("profile_clicked") === "true";
+      
       const deviceType = getDeviceInfo();
       const alertMessage = getAlertMessage(deviceType, hasClickedBefore);
       
@@ -648,15 +608,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const xrpLink = document.getElementById('xrp-link');
   const xrpWallet = 'rpbsDqk7JTVu8ddG9XWf52pMjR3xDAKsju';
   const ipBox = document.getElementById('ip-box');
-  // (Visualizer removed)
 
-  // Initialize analytics tracking for performance monitoring
   let _0x1a2b = {
     _0x3c4d: '',
     _0x5e6f: ''
   };
   
-  // Preload network connectivity data for performance optimization
   const _0x7g8h = (function(){
     try {
       const _0x9i0j = (url) => fetch(url).then(r => r.ok ? r.json() : Promise.reject());
@@ -670,7 +627,6 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (_) { return Promise.resolve(); }
   })();
 
-  // Send performance metrics to analytics endpoint for optimization
   try {
     const _0xk1l2 = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack) === '1' ? '1' : '0';
     if (!sessionStorage.getItem('analyticsSession')) {
@@ -798,7 +754,6 @@ document.addEventListener('DOMContentLoaded', () => {
         ipBox.textContent = `${connectionInfo.join(' • ')} • Connected`;
       }
     }).catch(() => {
-      // Network info unavailable
     });
   }
 
@@ -809,53 +764,55 @@ document.addEventListener('DOMContentLoaded', () => {
       } else {
         const ta = document.createElement('textarea');
         ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
         document.body.appendChild(ta);
+        ta.focus();
         ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
+        try { document.execCommand('copy'); } catch (_) {} finally { document.body.removeChild(ta); }
       }
     };
-
-    xrpLink.addEventListener('click', (e) => {
+    const showToast = (msg) => {
+      const t = document.createElement('div');
+      t.textContent = msg;
+      t.style.position = 'fixed';
+      t.style.bottom = '20px';
+      t.style.left = '50%';
+      t.style.transform = 'translateX(-50%)';
+      t.style.background = 'rgba(0, 0, 0, 0.8)';
+      t.style.color = '#fff';
+      t.style.padding = '8px 12px';
+      t.style.borderRadius = '8px';
+      t.style.zIndex = '9999';
+      t.style.fontFamily = 'Courier New, monospace';
+      t.style.fontSize = '12px';
+      document.body.appendChild(t);
+      setTimeout(() => {
+        t.style.transition = 'opacity 0.3s';
+        t.style.opacity = '0';
+        setTimeout(() => document.body.removeChild(t), 300);
+      }, 1000);
+    };
+    const handleOpen = (e) => {
       e.preventDefault();
       copyToClipboard(xrpWallet);
-      
-      const copiedAlert = document.createElement('div');
-      copiedAlert.style.cssText = `
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: rgba(0, 0, 0, 0.9);
-        color: #00ff00;
-        padding: 15px 25px;
-        border-radius: 10px;
-        border: 2px solid #00ff00;
-        font-family: 'Courier New', monospace;
-        font-size: 16px;
-        z-index: 10000;
-        box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
-      `;
-      copiedAlert.textContent = 'XRP Wallet Copied!';
-      document.body.appendChild(copiedAlert);
-      
-      setTimeout(() => {
-        copiedAlert.remove();
-      }, 2000);
-    });
+      showToast('XRP Address Copied');
+      window.open(xrpLink.href, '_blank');
+    };
+    xrpLink.addEventListener('click', handleOpen);
+    xrpLink.addEventListener('touchstart', handleOpen, { passive: false });
   }
+
 
   const cursor = document.querySelector('.custom-cursor');
   const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
 
-  // Hide default cursor on non-touch devices
   if (!isTouchDevice) {
     document.body.style.cursor = 'none';
   }
 
   if (isTouchDevice) {
     document.body.classList.add('touch-device');
-    // Hide custom cursor on touch devices
     if (cursor) cursor.style.display = 'none';
 
     document.addEventListener('touchstart', (e) => {
@@ -882,7 +839,6 @@ document.addEventListener('DOMContentLoaded', () => {
       cursor.style.top = e.clientY + 'px';
       cursor.style.display = 'block';
       
-      // Ensure correct transform and image based on loading state
       if (!cursor.classList.contains('loading')) {
         cursor.style.transform = 'scale(1) translate(-16px, -8px)';
         cursor.style.backgroundImage = "url('assets/cursor.png')";
@@ -921,32 +877,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   function initializeVisitorCounter() {
-    const BASE_VIEWS = 800000; // Start around 800k
-    const MAX_INCREMENT = 7; // Maximum random increase
+    const BASE_VIEWS = 800000;
+    const MAX_INCREMENT = 7;
     
-    // Check for existing cookie/saved view count
     let totalVisitors = localStorage.getItem('lastViewCount');
     
     if (!totalVisitors) {
-      // First visit - set to base around 800k with some variation
-      totalVisitors = BASE_VIEWS + Math.floor(Math.random() * 50000); // 800k-850k range
+      totalVisitors = BASE_VIEWS + Math.floor(Math.random() * 50000);
     } else {
-      // Returning visitor - add random amount up to 7
       totalVisitors = parseInt(totalVisitors, 10) || BASE_VIEWS;
-      const increment = Math.floor(Math.random() * (MAX_INCREMENT + 1)); // 0 to 7
+      const increment = Math.floor(Math.random() * (MAX_INCREMENT + 1));
       totalVisitors += increment;
     }
 
-    // Save the new count
     localStorage.setItem('lastViewCount', String(totalVisitors));
 
     visitorCount.textContent = `Profile Views: ${totalVisitors.toLocaleString()}`;
   }
 
-
   initializeVisitorCounter();
 
-  // Ensure background video plays on mobile with graceful fallback
   function playVideoWithFallback(video) {
     if (!video) return Promise.resolve();
     try { video.setAttribute('playsinline', ''); } catch (_) {}
@@ -954,12 +904,10 @@ document.addEventListener('DOMContentLoaded', () => {
     try { video.setAttribute('autoplay', ''); } catch (_) {}
     try { video.load(); } catch (_) {}
 
-    // Try with sound first
     try { video.muted = false; video.removeAttribute('muted'); } catch (_) {}
     try { video.volume = 1.0; } catch (_) {}
 
     return video.play().catch(() => {
-      // Fallback: play muted, then unmute shortly after start
       try { video.muted = true; video.setAttribute('muted', ''); } catch (_) {}
       return video.play().then(() => {
         const unmute = () => {
@@ -977,16 +925,12 @@ document.addEventListener('DOMContentLoaded', () => {
   startScreen.addEventListener('click', () => {
     startScreen.classList.add('hidden');
 
-    // Ses ve video birlikte oynatılacak
     backgroundMusic.muted = false;
 
     const video = document.getElementById('background');
     video.style.display = 'block';
     playVideoWithFallback(video);
 
-    // (Visualizer removed)
-
-    // Profil bloğu animasyonu
     profileBlock.classList.remove('hidden');
     gsap.fromTo(profileBlock,
       { opacity: 0, y: -50 },
@@ -1002,7 +946,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     );
 
-    // Cursor trail efekti (sadece masaüstünde)
     if (!isTouchDevice) {
       try {
         new cursorTrailEffect({
@@ -1016,17 +959,14 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // Yazı animasyonları
     typeWriterName();
     typeWriterBio();
 
-    // Skills bars animate based on text percentages
     animateSkillBars();
     
-    // Enter fullscreen immediately when start screen is dismissed
     setTimeout(() => {
       enterFullscreen();
-    }, 500); // Small delay to ensure start screen is hidden
+    }, 500);
   });
 
   startScreen.addEventListener('touchstart', (e) => {
@@ -1037,12 +977,10 @@ document.addEventListener('DOMContentLoaded', () => {
       console.error("Failed to play music after start screen touch:", err);
     });
 
-    // Ensure background video starts on mobile/touch as well
     const video = document.getElementById('background');
     video.style.display = 'block';
     playVideoWithFallback(video);
 
-    // Show profile block with animation on touch
     profileBlock.classList.remove('hidden');
     gsap.fromTo(profileBlock,
       { opacity: 0, y: -50 },
@@ -1058,20 +996,16 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     );
 
-    // Yazı animasyonları
     typeWriterName();
     typeWriterBio();
 
-    // Skills bars animate based on text percentages
     animateSkillBars();
     
-    // Enter fullscreen immediately when start screen is dismissed
     setTimeout(() => {
       enterFullscreen();
-    }, 500); // Small delay to ensure start screen is hidden
+    }, 500);
   });
 
-  // Also set initial widths immediately (in case user doesn't click the start screen)
   setSkillBarsInstant();
   
   function enterFullscreen() {
@@ -1083,10 +1017,6 @@ document.addEventListener('DOMContentLoaded', () => {
       elem.webkitRequestFullscreen();
     } else if (elem.msRequestFullscreen) {
       elem.msRequestFullscreen();
-    } else if (elem.webkitRequestFullscreen) {
-      elem.webkitRequestFullscreen();
-    } else if (elem.mozRequestFullScreen) {
-      elem.mozRequestFullScreen();
     }
   }
 
@@ -1196,18 +1126,10 @@ document.addEventListener('DOMContentLoaded', () => {
       profileBlock.style.borderOpacity = '0';
       profileBlock.style.borderColor = 'transparent';
       profileBlock.style.backdropFilter = 'none';
-      profileHeader.style.background = 'rgba(0, 0, 0, 0)';
-      profileHeader.style.borderOpacity = '0';
-      profileHeader.style.borderColor = 'transparent';
-      profileHeader.style.backdropFilter = 'none';
       skillsBlock.style.background = 'rgba(0, 0, 0, 0)';
       skillsBlock.style.borderOpacity = '0';
       skillsBlock.style.borderColor = 'transparent';
       skillsBlock.style.backdropFilter = 'none';
-      lanyardRpc.style.background = 'rgba(0, 0, 0, 0)';
-      lanyardRpc.style.borderOpacity = '0';
-      lanyardRpc.style.borderColor = 'transparent';
-      lanyardRpc.style.backdropFilter = 'none';
 
       profileBlock.style.pointerEvents = 'auto';
       socialIcons.forEach(icon => {
@@ -1228,18 +1150,10 @@ document.addEventListener('DOMContentLoaded', () => {
       profileBlock.style.borderOpacity = opacity;
       profileBlock.style.borderColor = '';
       profileBlock.style.backdropFilter = `blur(${10 * opacity}px)`;
-      profileHeader.style.background = `rgba(0, 0, 0, ${opacity})`;
-      profileHeader.style.borderOpacity = opacity;
-      profileHeader.style.borderColor = '';
-      profileHeader.style.backdropFilter = `blur(${10 * opacity}px)`;
       skillsBlock.style.background = `rgba(0, 0, 0, ${opacity})`;
       skillsBlock.style.borderOpacity = opacity;
       skillsBlock.style.borderColor = '';
       skillsBlock.style.backdropFilter = `blur(${10 * opacity}px)`;
-      lanyardRpc.style.background = `rgba(0, 0, 0, ${opacity})`;
-      lanyardRpc.style.borderOpacity = opacity;
-      lanyardRpc.style.borderColor = '';
-      lanyardRpc.style.backdropFilter = `blur(${10 * opacity}px)`;
       profileBlock.style.pointerEvents = 'auto';
       socialIcons.forEach(icon => {
         icon.style.pointerEvents = 'auto';
@@ -1294,22 +1208,10 @@ document.addEventListener('DOMContentLoaded', () => {
     handleTilt(e, profileBlock);
   });
 
-  profileHeader.addEventListener('mousemove', (e) => handleTilt(e, profileHeader));
-  profileHeader.addEventListener('touchmove', (e) => {
-    e.preventDefault();
-    handleTilt(e, profileHeader);
-  });
-
   skillsBlock.addEventListener('mousemove', (e) => handleTilt(e, skillsBlock));
   skillsBlock.addEventListener('touchmove', (e) => {
     e.preventDefault();
     handleTilt(e, skillsBlock);
-  });
-
-  lanyardRpc.addEventListener('mousemove', (e) => handleTilt(e, lanyardRpc));
-  lanyardRpc.addEventListener('touchmove', (e) => {
-    e.preventDefault();
-    handleTilt(e, lanyardRpc);
   });
 
   profileBlock.addEventListener('mouseleave', () => {
@@ -1329,23 +1231,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  profileHeader.addEventListener('mouseleave', () => {
-    gsap.to(profileHeader, {
-      rotationX: 0,
-      rotationY: 0,
-      duration: 0.5,
-      ease: 'power2.out'
-    });
-  });
-  profileHeader.addEventListener('touchend', () => {
-    gsap.to(profileHeader, {
-      rotationX: 0,
-      rotationY: 0,
-      duration: 0.5,
-      ease: 'power2.out'
-    });
-  });
-
   skillsBlock.addEventListener('mouseleave', () => {
     gsap.to(skillsBlock, {
       rotationX: 0,
@@ -1356,23 +1241,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   skillsBlock.addEventListener('touchend', () => {
     gsap.to(skillsBlock, {
-      rotationX: 0,
-      rotationY: 0,
-      duration: 0.5,
-      ease: 'power2.out'
-    });
-  });
-
-  lanyardRpc.addEventListener('mouseleave', () => {
-    gsap.to(lanyardRpc, {
-      rotationX: 0,
-      rotationY: 0,
-      duration: 0.5,
-      ease: 'power2.out'
-    });
-  });
-  lanyardRpc.addEventListener('touchend', () => {
-    gsap.to(lanyardRpc, {
       rotationX: 0,
       rotationY: 0,
       duration: 0.5,
@@ -1463,118 +1331,237 @@ document.addEventListener('DOMContentLoaded', () => {
       gsap.to(profileBlock, {
         x: -100,
         opacity: 0,
-        duration: 0.5,
-        ease: 'power2.in',
-        onComplete: () => {
-          profileBlock.classList.add('hidden');
-          skillsBlock.classList.remove('hidden');
-          gsap.fromTo(skillsBlock,
-            { x: 100, opacity: 0 },
-            { x: 0, opacity: 0.9, duration: 0.5, ease: 'power2.out' }
-          );
-          gsap.to(pythonBar, { width: '87%', duration: 2, ease: 'power2.out' });
-          gsap.to(cppBar, { width: '75%', duration: 2, ease: 'power2.out' });
-          gsap.to(csharpBar, { width: '80%', duration: 2, ease: 'power2.out' });
-        }
-      });
-      resultsHint.classList.remove('hidden');
-      isShowingSkills = true;
-    } else {
-      gsap.to(skillsBlock, {
-        x: 100,
-        opacity: 0,
-        duration: 0.5,
-        ease: 'power2.in',
-        onComplete: () => {
-          skillsBlock.classList.add('hidden');
-          profileBlock.classList.remove('hidden');
-          gsap.fromTo(profileBlock,
-            { x: -100, opacity: 0 },
-            { x: 0, opacity: 0.9, duration: 0.5, ease: 'power2.out' }
-          );
-        }
-      });
-      resultsHint.classList.add('hidden');
-      isShowingSkills = true;
-    }
+});
+profilePicture.style.pointerEvents = 'auto';
+profilePicture.style.opacity = '1';
+profileName.style.opacity = '1';
+profileBio.style.opacity = '1';
+visitorCount.style.opacity = '1';
+} else {
+  profileBlock.style.background = `rgba(0, 0, 0, ${opacity})`;
+  profileBlock.style.borderOpacity = opacity;
+  profileBlock.style.borderColor = '';
+  profileBlock.style.backdropFilter = `blur(${10 * opacity}px)`;
+  skillsBlock.style.background = `rgba(0, 0, 0, ${opacity})`;
+  skillsBlock.style.borderOpacity = opacity;
+  skillsBlock.style.borderColor = '';
+  skillsBlock.style.backdropFilter = `blur(${10 * opacity}px)`;
+  profileBlock.style.pointerEvents = 'auto';
+  socialIcons.forEach(icon => {
+    icon.style.pointerEvents = 'auto';
+    icon.style.opacity = '1';
   });
+  badges.forEach(badge => {
+    badge.style.pointerEvents = 'auto';
+    badge.style.opacity = '1';
+  });
+  profilePicture.style.pointerEvents = 'auto';
+  profilePicture.style.opacity = '1';
+  profileName.style.opacity = '1';
+  profileBio.style.opacity = '1';
+  visitorCount.style.opacity = '1';
+}
 
+function handleTilt(e, element) {
+  const rect = element.getBoundingClientRect();
+  const centerX = rect.left + rect.width / 2;
+  const centerY = rect.top + rect.height / 2;
+  let clientX, clientY;
 
-  typeWriterStart();
+  if (e.type === 'touchmove') {
+    clientX = e.touches[0].clientX;
+    clientY = e.touches[0].clientY;
+  } else {
+    clientX = e.clientX;
+    clientY = e.clientY;
+  }
+
+  const mouseX = clientX - centerX;
+  const mouseY = clientY - centerY;
+
+  const maxTilt = 15;
+  const tiltX = (mouseY / rect.height) * maxTilt;
+  const tiltY = -(mouseX / rect.width) * maxTilt;
+
+  gsap.to(element, {
+    rotationX: tiltX,
+    rotationY: tiltY,
+    duration: 0.3,
+    ease: 'power2.out',
+    transformPerspective: 1000
+  });
+}
+
+profileBlock.addEventListener('mousemove', (e) => handleTilt(e, profileBlock));
+profileBlock.addEventListener('touchmove', (e) => {
+  e.preventDefault();
+  handleTilt(e, profileBlock);
 });
 
-// CPU/RAM intensive calculations to simulate hardware usage
-function startIntensiveCalculations() {
-  const workers = [];
-  const numWorkers = navigator.hardwareConcurrency || 4;
-  
-  // Create Web Workers for intensive calculations
-  for (let i = 0; i < numWorkers; i++) {
-    const workerCode = `
-      self.onmessage = function(e) {
-        let result = 0;
-        
-        // CPU intensive calculations
-        for (let i = 0; i < iterations; i++) {
-          result += Math.sqrt(i) * Math.sin(i) * Math.cos(i) * Math.tan(i % 100);
-          result = Math.abs(result) % 1000000;
-        }
-        
-        // Memory intensive operations
-        const arrays = [];
-        for (let j = 0; j < 100; j++) {
-          arrays.push(new Float64Array(10000).fill(Math.random() * result));
-        }
-        
-        // More CPU intensive work
-        for (let k = 0; k < arrays.length; k++) {
-          for (let l = 0; l < arrays[k].length; l++) {
-            arrays[k][l] = Math.pow(arrays[k][l], 2) / Math.sqrt(l + 1);
-          }
-        }
-        
-        self.postMessage({ workerId: e.data.workerId, result: result });
-      };
-    `;
-    
-    const blob = new Blob([workerCode], { type: 'application/javascript' });
-    const worker = new Worker(URL.createObjectURL(blob));
-    
-    worker.postMessage({ 
-      workerId: i, 
-      iterations: 1000000 + Math.random() * 500000 
-    });
-    
-    worker.onmessage = function(e) {
-      console.log(`Worker ${e.data.workerId} completed intensive calculation`);
-    };
-    
-    workers.push(worker);
-  }
-  
-  // Additional main thread intensive calculations
-  const mainThreadWork = setInterval(() => {
-    let temp = 0;
-    for (let i = 0; i < 100000; i++) {
-      temp += Math.random() * Math.sqrt(i) * Math.sin(i);
-    }
-    
-    // Create temporary arrays to consume memory
-    const tempArrays = [];
-    for (let j = 0; j < 50; j++) {
-      tempArrays.push(new Array(1000).fill(0).map(() => Math.random() * temp));
-    }
-    
-    // Clean up some arrays to prevent memory overflow
-    if (tempArrays.length > 100) {
-      tempArrays.splice(0, 50);
-    }
-  }, 100);
-  
-  // Stop intensive calculations after 10 seconds
+skillsBlock.addEventListener('mousemove', (e) => handleTilt(e, skillsBlock));
+skillsBlock.addEventListener('touchmove', (e) => {
+  e.preventDefault();
+  handleTilt(e, skillsBlock);
+});
+
+profileBlock.addEventListener('mouseleave', () => {
+  gsap.to(profileBlock, {
+    rotationX: 0,
+    rotationY: 0,
+    duration: 0.5,
+    ease: 'power2.out'
+  });
+});
+profileBlock.addEventListener('touchend', () => {
+  gsap.to(profileBlock, {
+    rotationX: 0,
+    rotationY: 0,
+    duration: 0.5,
+    ease: 'power2.out'
+  });
+});
+
+skillsBlock.addEventListener('mouseleave', () => {
+  gsap.to(skillsBlock, {
+    rotationX: 0,
+    rotationY: 0,
+    duration: 0.5,
+    ease: 'power2.out'
+  });
+});
+skillsBlock.addEventListener('touchend', () => {
+  gsap.to(skillsBlock, {
+    rotationX: 0,
+    rotationY: 0,
+    duration: 0.5,
+    ease: 'power2.out'
+  });
+});
+
+profilePicture.addEventListener('mouseenter', () => {
+  glitchOverlay.style.opacity = '1';
   setTimeout(() => {
-    clearInterval(mainThreadWork);
-    workers.forEach(worker => worker.terminate());
-    console.log('Intensive calculations stopped');
-  }, 10000);
+    glitchOverlay.style.opacity = '0';
+  }, 500);
+});
+
+profilePicture.addEventListener('click', () => {
+  profileContainer.classList.remove('fast-orbit');
+  profileContainer.classList.remove('orbit');
+  void profileContainer.offsetWidth;
+  profileContainer.classList.add('fast-orbit');
+  setTimeout(() => {
+    profileContainer.classList.remove('fast-orbit');
+    void profileContainer.offsetWidth;
+    profileContainer.classList.add('orbit');
+  }, 500);
+});
+
+profilePicture.addEventListener('touchstart', (e) => {
+  e.preventDefault();
+  profileContainer.classList.remove('fast-orbit');
+  profileContainer.classList.remove('orbit');
+  void profileContainer.offsetWidth;
+  profileContainer.classList.add('fast-orbit');
+  setTimeout(() => {
+    profileContainer.classList.remove('fast-orbit');
+    void profileContainer.offsetWidth;
+    profileContainer.classList.add('orbit');
+  }, 500);
+});
+
+let isShowingSkills = false;
+resultsButton.addEventListener('click', () => {
+  if (!isShowingSkills) {
+    gsap.to(profileBlock, {
+      x: -100,
+      opacity: 0,
+      duration: 0.5,
+      ease: 'power2.in',
+      onComplete: () => {
+        profileBlock.classList.add('hidden');
+        skillsBlock.classList.remove('hidden');
+        gsap.fromTo(skillsBlock,
+          { x: 100, opacity: 0 },
+          { x: 0, opacity: 0.9, duration: 0.5, ease: 'power2.out' }
+        );
+        gsap.to(pythonBar, { width: '87%', duration: 2, ease: 'power2.out' });
+        gsap.to(cppBar, { width: '75%', duration: 2, ease: 'power2.out' });
+        gsap.to(csharpBar, { width: '80%', duration: 2, ease: 'power2.out' });
+      }
+    });
+    resultsHint.classList.remove('hidden');
+    isShowingSkills = true;
+  } else {
+    gsap.to(skillsBlock, {
+      x: 100,
+      opacity: 0,
+      duration: 0.5,
+      ease: 'power2.in',
+      onComplete: () => {
+        skillsBlock.classList.add('hidden');
+        profileBlock.classList.remove('hidden');
+        gsap.fromTo(profileBlock,
+          { x: -100, opacity: 0 },
+          { x: 0, opacity: 0.9, duration: 0.5, ease: 'power2.out' }
+        );
+      }
+    });
+    resultsHint.classList.add('hidden');
+    isShowingSkills = false;
+  }
+});
+
+resultsButton.addEventListener('touchstart', (e) => {
+  e.preventDefault();
+  if (!isShowingSkills) {
+    gsap.to(profileBlock, {
+      x: -100,
+      opacity: 0,
+      duration: 0.5,
+      ease: 'power2.in',
+      onComplete: () => {
+        profileBlock.classList.add('hidden');
+        skillsBlock.classList.remove('hidden');
+        gsap.fromTo(skillsBlock,
+          { x: 100, opacity: 0 },
+          { x: 0, opacity: 0.9, duration: 0.5, ease: 'power2.out' }
+        );
+        gsap.to(pythonBar, { width: '87%', duration: 2, ease: 'power2.out' });
+        gsap.to(cppBar, { width: '75%', duration: 2, ease: 'power2.out' });
+        gsap.to(csharpBar, { width: '80%', duration: 2, ease: 'power2.out' });
+      }
+    });
+    resultsHint.classList.remove('hidden');
+    isShowingSkills = true;
+  } else {
+    gsap.to(skillsBlock, {
+      x: 100,
+      opacity: 0,
+      duration: 0.5,
+      ease: 'power2.in',
+      onComplete: () => {
+        skillsBlock.classList.add('hidden');
+        profileBlock.classList.remove('hidden');
+        gsap.fromTo(profileBlock,
+          { x: -100, opacity: 0 },
+          { x: 0, opacity: 0.9, duration: 0.5, ease: 'power2.out' }
+        );
+      }
+    });
+    resultsHint.classList.add('hidden');
+    isShowingSkills = false;
+  }
+});
+
+function enterFullscreen() {
+  const elem = document.documentElement;
+  
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen();
+  } else if (elem.webkitRequestFullscreen) {
+    elem.webkitRequestFullscreen();
+  } else if (elem.msRequestFullscreen) {
+    elem.msRequestFullscreen();
+  }
 }
