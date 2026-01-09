@@ -1,5 +1,28 @@
-# Redirect curl and bot requests
-/curl-redirect/* https://example.com/redirect-target 302
+# ALLOWED PATHS (homepage only) - MUST COME FIRST
+/ /index.html 200
+/index.html 200
 
-# Based on user agent (Netlify supports this with functions)
-# For more advanced UA-based redirects, use the Netlify function above
+# PROTECT ALL OTHER FILES - comes after homepage rules
+/script.js /.netlify/functions/protect-files 200
+/assets/* /.netlify/functions/protect-files 200
+/*.css /.netlify/functions/protect-files 200
+/*.js /.netlify/functions/protect-files 200
+/*.mp4 /.netlify/functions/protect-files 200
+/*.mp3 /.netlify/functions/protect-files 200
+/*.gif /.netlify/functions/protect-files 200
+/*.png /.netlify/functions/protect-files 200
+/*.jpg /.netlify/functions/protect-files 200
+/*.jpeg /.netlify/functions/protect-files 200
+/*.svg /.netlify/functions/protect-files 200
+/*.ico /.netlify/functions/protect-files 200
+/*.woff /.netlify/functions/protect-files 200
+/*.woff2 /.netlify/functions/protect-files 200
+/*.ttf /.netlify/functions/protect-files 200
+/*.eot /.netlify/functions/protect-files 200
+/*.json /.netlify/functions/protect-files 200
+/*.xml /.netlify/functions/protect-files 200
+/*.txt /.netlify/functions/protect-files 200
+/*.md /.netlify/functions/protect-files 200
+
+# WILDCARD PROTECTION - catch all remaining files
+/* /.netlify/functions/protect-files 200
