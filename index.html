@@ -1234,22 +1234,26 @@
             }
 
             .profile-container {
-                width: 90px;
-                height: 90px;
+                width: 120px;
+                height: 120px;
                 position: relative;
-                margin: 0 auto;
+                margin: 0 auto 10px;
                 transform: none;
                 pointer-events: auto !important;
                 z-index: 15;
+                display: block;
             }
 
             .profile-picture {
-                width: 90px;
-                height: 90px;
+                width: 120px;
+                height: 120px;
                 pointer-events: auto !important;
                 z-index: 15;
                 position: relative;
                 cursor: pointer !important;
+                display: block;
+                border-radius: 50%;
+                object-fit: cover;
             }
 
             .profile-info {
@@ -1289,19 +1293,19 @@
 
             .badge-group {
                 justify-content: center;
-                gap: 4px;
+                gap: 6px;
                 flex-shrink: 0;
                 flex-wrap: wrap;
                 max-width: 100%;
                 padding: 0;
                 box-sizing: border-box;
                 position: relative;
-                margin: 5px 0;
+                margin: 10px 0;
             }
 
             .badge {
-                width: 16px;
-                height: 16px;
+                width: 20px;
+                height: 20px;
             }
 
             .badge-container .tooltip {
@@ -1337,8 +1341,9 @@
             #profile-bio {
                 font-size: 14px;
                 line-height: 1.4;
-                margin-top: 2px;
-                margin-bottom: 0px;
+                margin: 10px 0;
+                text-align: center;
+                padding: 0 10px;
             }
 
             .bio-separator {
@@ -1361,25 +1366,38 @@
                 z-index: 5;
             }
 
-            .profile-right-item {
+            .profile-status {
                 display: flex;
-                justify-content: center;
                 align-items: center;
-                width: 100%;
-            }
-
-            .profile-right-item.badge-stack {
-                align-items: center;
-                padding-left: 0;
-            }
-
-            .badge-stack .badge-box {
-                padding-top: 0;
-                padding-right: 0;
-                display: flex;
                 justify-content: center;
-                width: 100%;
-                margin-left: 0;
+                gap: 8px;
+                background: rgba(0, 0, 0, 0.4);
+                padding: 6px 12px;
+                border-radius: 10px;
+                font-size: 12px;
+                color: #fff;
+                backdrop-filter: blur(2px);
+                white-space: nowrap;
+                margin: 8px 0;
+                width: fit-content;
+                align-self: center;
+            }
+            
+            .status-dot {
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                display: inline-block;
+                flex-shrink: 0;
+            }
+            
+            .status-text {
+                font-size: 12px;
+                font-weight: 500;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 150px;
             }
 
             .social-links {
@@ -2147,19 +2165,25 @@
         /* Mobile responsive adjustments */
         @media (max-width: 430px) {
             .lanyard-rpc {
-                position: fixed;
+                position: relative;
                 top: auto;
-                bottom: 140px;
-                left: 50%;
-                transform: translateX(-50%);
-                width: calc(100vw - 40px);
-                max-width: 320px;
+                bottom: auto;
+                left: auto;
+                right: auto;
+                transform: none;
+                width: 100%;
+                max-width: 300px;
+                margin: 10px auto;
+                padding: 10px;
                 z-index: 19;
             }
 
             .lanyard-stats {
-                margin-bottom: 8px;
-                padding: 8px;
+                margin-bottom: 10px;
+                padding: 10px;
+                width: 100%;
+                max-width: 300px;
+                margin: 10px auto;
             }
 
             .lanyard-stats-title {
