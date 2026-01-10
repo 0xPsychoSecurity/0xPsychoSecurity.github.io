@@ -11,6 +11,7 @@ const bgList = [
   'assets/b-background8.mp4',
   'assets/b-background9.mp4',
   'assets/b-background10.mp4',
+  'assets/b-background11.mp4',
 ];
 const storageKey = 'bgCurrentVideoIndex';
 let chosen = 0;
