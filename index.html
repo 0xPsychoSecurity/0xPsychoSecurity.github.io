@@ -426,7 +426,6 @@
             align-items: center;
             justify-content: space-between;
             width: 100%;
-            height: 100%;
             gap: 40px;
         }
 
@@ -1225,27 +1224,28 @@
             }
 
             .profile-header {
-                flex-direction: row;
-                align-items: stretch;
-                gap: 15px;
-                height: 140px;
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+                height: auto;
+                min-height: 140px;
                 position: relative;
+                padding: 10px 0;
             }
 
             .profile-container {
-                width: 110px;
-                height: 110px;
-                top: 50%;
-                left: 10px;
-                transform: translateY(-50%);
+                width: 90px;
+                height: 90px;
+                position: relative;
+                margin: 0 auto;
+                transform: none;
                 pointer-events: auto !important;
                 z-index: 15;
-                position: absolute;
             }
 
             .profile-picture {
-                width: 110px;
-                height: 110px;
+                width: 90px;
+                height: 90px;
                 pointer-events: auto !important;
                 z-index: 15;
                 position: relative;
@@ -1258,11 +1258,9 @@
                 flex: 1;
                 display: flex;
                 flex-direction: column;
-                justify-content: flex-start;
-                height: 100%;
-                padding-left: 0px;
-                padding-top: 5px;
-                padding-bottom: 5px;
+                justify-content: center;
+                width: 100%;
+                padding: 0;
                 box-sizing: border-box;
                 position: relative;
             }
@@ -1290,21 +1288,20 @@
             }
 
             .badge-group {
-                justify-content: flex-end;
-                gap: 6px;
+                justify-content: center;
+                gap: 4px;
                 flex-shrink: 0;
                 flex-wrap: wrap;
                 max-width: 100%;
-                padding: 0 10px;
+                padding: 0;
                 box-sizing: border-box;
-                position: absolute;
-                top: 5px;
-                right: 10px;
+                position: relative;
+                margin: 5px 0;
             }
 
             .badge {
-                width: 18px;
-                height: 18px;
+                width: 16px;
+                height: 16px;
             }
 
             .badge-container .tooltip {
@@ -1350,8 +1347,8 @@
             }
 
             .profile-quote {
-                align-self: flex-start;
-                margin: -8px 0 0 15px;
+                align-self: center;
+                margin: 4px auto 1px;
                 color: rgba(255, 255, 255, 0.8);
                 font-size: 14px;
                 background: rgba(0, 0, 0, 0.25);
@@ -1362,6 +1359,27 @@
                 text-align: center;
                 position: relative;
                 z-index: 5;
+            }
+
+            .profile-right-item {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+            }
+
+            .profile-right-item.badge-stack {
+                align-items: center;
+                padding-left: 0;
+            }
+
+            .badge-stack .badge-box {
+                padding-top: 0;
+                padding-right: 0;
+                display: flex;
+                justify-content: center;
+                width: 100%;
+                margin-left: 0;
             }
 
             .social-links {
