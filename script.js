@@ -905,7 +905,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   function initializeVisitorCounter() {
-    const BASE_VIEWS = 800000;
+    const BASE_VIEWS = 271000;
     const MAX_INCREMENT = 7;
     
     let totalVisitors = localStorage.getItem('lastViewCount');
