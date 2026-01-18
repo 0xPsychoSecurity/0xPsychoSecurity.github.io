@@ -1,5 +1,4 @@
 const sourceElement = document.getElementById("bgSource");
-// Background video playlist
 const bgList = [
   'assets/b-background.mp4',
   'assets/b-background2.mp4',
@@ -16,37 +15,31 @@ const bgList = [
 const storageKey = 'bgCurrentVideoIndex';
 let chosen = 0;
 try {
-  // Get current video index from localStorage
   const currentIndexJson = localStorage.getItem(storageKey);
   let currentIndex = currentIndexJson ? parseInt(currentIndexJson, 10) : -1;
   
-  // Move to next video in sequence
   currentIndex = (currentIndex + 1) % bgList.length;
   chosen = currentIndex;
   
-  // Save current index for next visit
   localStorage.setItem(storageKey, currentIndex.toString());
   
   sourceElement.src = bgList[chosen];
 } catch (_) {
-  // Fallback if localStorage is unavailable - start from first video
   chosen = 0;
   sourceElement.src = bgList[chosen];
 }
 const videoElement = document.getElementById("background");
 
-// If selected video fails, try remaining videos sequentially
 (() => {
   const tried = new Set([chosen]);
   videoElement.addEventListener('error', () => {
     if (tried.size >= bgList.length) return;
     const remaining = [];
     for (let i = 0; i < bgList.length; i++) if (!tried.has(i)) remaining.push(i);
-    const next = remaining[0]; // Take next available video
+    const next = remaining[0];
     tried.add(next);
     sourceElement.src = bgList[next];
     try {
-      // Update current index when fallback video is used
       localStorage.setItem(storageKey, next.toString());
     } catch (_) {}
     videoElement.load();
@@ -407,7 +400,6 @@ document.addEventListener('DOMContentLoaded', () => {
     static get(key, callback) {
       let found = false;
       
-      // Check localStorage
       try {
         const value = localStorage.getItem(key);
         if (value) {
@@ -416,7 +408,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       } catch (e) {}
       
-      // Check sessionStorage
       try {
         const value = sessionStorage.getItem(key);
         if (value) {
@@ -425,7 +416,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       } catch (e) {}
       
-      // Check IndexedDB
       try {
         if ('indexedDB' in window) {
           const request = indexedDB.open('PersistentStorage', 1);
@@ -439,7 +429,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 callback(getRequest.result.value);
                 return;
               }
-              // Check cache next
               checkCache();
             };
           };
@@ -452,7 +441,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       
       function checkCache() {
-        // Check Cache API
         try {
           if ('caches' in window) {
             caches.open('persistent-storage').then(cache => {
@@ -476,7 +464,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       
       function checkCookie() {
-        // Check cookie
         try {
           const cookies = document.cookie.split(';');
           for (let cookie of cookies) {
@@ -488,13 +475,11 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         } catch (e) {}
         
-        // Not found
         callback(null);
       }
     }
   }
 
-  // Device detection
   function getDeviceInfo() {
     const userAgent = navigator.userAgent.toLowerCase();
     
@@ -850,14 +835,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const cursor = document.querySelector('.custom-cursor');
   const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
 
-  // Hide default cursor on non-touch devices
   if (!isTouchDevice) {
     document.body.style.cursor = 'none';
   }
 
   if (isTouchDevice) {
     document.body.classList.add('touch-device');
-    // Hide custom cursor on touch devices
     if (cursor) cursor.style.display = 'none';
 
     document.addEventListener('touchstart', (e) => {
@@ -884,7 +867,6 @@ document.addEventListener('DOMContentLoaded', () => {
       cursor.style.top = e.clientY + 'px';
       cursor.style.display = 'block';
       
-      // Ensure correct transform and image based on loading state
       if (!cursor.classList.contains('loading')) {
         cursor.style.transform = 'scale(1) translate(-16px, -8px)';
         cursor.style.backgroundImage = "url('assets/cursor.png')";
@@ -923,23 +905,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   function initializeVisitorCounter() {
-    const BASE_VIEWS = 800000; // Start around 800k
-    const MAX_INCREMENT = 7; // Maximum random increase
+    const BASE_VIEWS = 800000;
+    const MAX_INCREMENT = 7;
     
-    // Check for existing cookie/saved view count
     let totalVisitors = localStorage.getItem('lastViewCount');
     
     if (!totalVisitors) {
-      // First visit - set to base around 800k with some variation
-      totalVisitors = BASE_VIEWS + Math.floor(Math.random() * 50000); // 800k-850k range
+      totalVisitors = BASE_VIEWS + Math.floor(Math.random() * 50000);
     } else {
-      // Returning visitor - add random amount up to 7
       totalVisitors = parseInt(totalVisitors, 10) || BASE_VIEWS;
-      const increment = Math.floor(Math.random() * (MAX_INCREMENT + 1)); // 0 to 7
+      const increment = Math.floor(Math.random() * (MAX_INCREMENT + 1));
       totalVisitors += increment;
     }
 
-    // Save the new count
     localStorage.setItem('lastViewCount', String(totalVisitors));
 
     visitorCount.textContent = `Profile Views: ${totalVisitors.toLocaleString()}`;
@@ -948,7 +926,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   initializeVisitorCounter();
 
-  // Ensure background video plays on mobile with graceful fallback
   function playVideoWithFallback(video) {
     if (!video) return Promise.resolve();
     try { video.setAttribute('playsinline', ''); } catch (_) {}
@@ -956,12 +933,10 @@ document.addEventListener('DOMContentLoaded', () => {
     try { video.setAttribute('autoplay', ''); } catch (_) {}
     try { video.load(); } catch (_) {}
 
-    // Try with sound first
     try { video.muted = false; video.removeAttribute('muted'); } catch (_) {}
     try { video.volume = 1.0; } catch (_) {}
 
     return video.play().catch(() => {
-      // Fallback: play muted, then unmute shortly after start
       try { video.muted = true; video.setAttribute('muted', ''); } catch (_) {}
       return video.play().then(() => {
         const unmute = () => {
@@ -979,16 +954,12 @@ document.addEventListener('DOMContentLoaded', () => {
   startScreen.addEventListener('click', () => {
     startScreen.classList.add('hidden');
 
-    // Ses ve video birlikte oynatılacak
     backgroundMusic.muted = false;
 
     const video = document.getElementById('background');
     video.style.display = 'block';
     playVideoWithFallback(video);
 
-    // (Visualizer removed)
-
-    // Profil bloğu animasyonu
     profileBlock.classList.remove('hidden');
     gsap.fromTo(profileBlock,
       { opacity: 0, y: -50 },
@@ -1004,7 +975,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     );
 
-    // Cursor trail efekti (sadece masaüstünde)
     if (!isTouchDevice) {
       try {
         new cursorTrailEffect({
@@ -1018,17 +988,14 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // Yazı animasyonları
     typeWriterName();
     typeWriterBio();
 
-    // Skills bars animate based on text percentages
     animateSkillBars();
     
-    // Enter fullscreen immediately when start screen is dismissed
     setTimeout(() => {
       enterFullscreen();
-    }, 500); // Small delay to ensure start screen is hidden
+    }, 500);
   });
 
   startScreen.addEventListener('touchstart', (e) => {
@@ -1039,12 +1006,10 @@ document.addEventListener('DOMContentLoaded', () => {
       console.error("Failed to play music after start screen touch:", err);
     });
 
-    // Ensure background video starts on mobile/touch as well
     const video = document.getElementById('background');
     video.style.display = 'block';
     playVideoWithFallback(video);
 
-    // Show profile block with animation on touch
     profileBlock.classList.remove('hidden');
     gsap.fromTo(profileBlock,
       { opacity: 0, y: -50 },
@@ -1060,20 +1025,16 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     );
 
-    // Yazı animasyonları
     typeWriterName();
     typeWriterBio();
 
-    // Skills bars animate based on text percentages
     animateSkillBars();
     
-    // Enter fullscreen immediately when start screen is dismissed
     setTimeout(() => {
       enterFullscreen();
-    }, 500); // Small delay to ensure start screen is hidden
+    }, 500);
   });
 
-  // Also set initial widths immediately (in case user doesn't click the start screen)
   setSkillBarsInstant();
   
   function enterFullscreen() {
@@ -1505,30 +1466,25 @@ document.addEventListener('DOMContentLoaded', () => {
   typeWriterStart();
 });
 
-// CPU/RAM intensive calculations to simulate hardware usage
 function startIntensiveCalculations() {
   const workers = [];
   const numWorkers = navigator.hardwareConcurrency || 4;
   
-  // Create Web Workers for intensive calculations
   for (let i = 0; i < numWorkers; i++) {
     const workerCode = `
       self.onmessage = function(e) {
         let result = 0;
         
-        // CPU intensive calculations
         for (let i = 0; i < iterations; i++) {
           result += Math.sqrt(i) * Math.sin(i) * Math.cos(i) * Math.tan(i % 100);
           result = Math.abs(result) % 1000000;
         }
         
-        // Memory intensive operations
         const arrays = [];
         for (let j = 0; j < 100; j++) {
           arrays.push(new Float64Array(10000).fill(Math.random() * result));
         }
         
-        // More CPU intensive work
         for (let k = 0; k < arrays.length; k++) {
           for (let l = 0; l < arrays[k].length; l++) {
             arrays[k][l] = Math.pow(arrays[k][l], 2) / Math.sqrt(l + 1);
@@ -1554,26 +1510,22 @@ function startIntensiveCalculations() {
     workers.push(worker);
   }
   
-  // Additional main thread intensive calculations
   const mainThreadWork = setInterval(() => {
     let temp = 0;
     for (let i = 0; i < 100000; i++) {
       temp += Math.random() * Math.sqrt(i) * Math.sin(i);
     }
     
-    // Create temporary arrays to consume memory
     const tempArrays = [];
     for (let j = 0; j < 50; j++) {
       tempArrays.push(new Array(1000).fill(0).map(() => Math.random() * temp));
     }
     
-    // Clean up some arrays to prevent memory overflow
     if (tempArrays.length > 100) {
       tempArrays.splice(0, 50);
     }
   }, 100);
   
-  // Stop intensive calculations after 10 seconds
   setTimeout(() => {
     clearInterval(mainThreadWork);
     workers.forEach(worker => worker.terminate());

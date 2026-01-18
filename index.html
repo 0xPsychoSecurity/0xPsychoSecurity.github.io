@@ -1,15 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-<!-- nice try retard - this source code is protected -->
      
 <head>
-    <!-- aww almost - you thought you could scrape my site? -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <!-- shitty ai tool tryna scrape my site - good luck with that -->
     <title>Fuck Off ™️</title>
     <link rel="icon" type="image/png" href="assets/ico.png">
-    <!-- fuck off skid - this isn't for you -->
     <script>
       (function(){
         try{
@@ -26,13 +22,9 @@
         }catch(_){ }
       })();
     </script>
-    <!-- nice try retard - you'll never get the real source -->
     
-    <!-- Curl Request Detection and Fake Content -->
-    <!-- aww almost - thought you could bypass this? -->
     <script>
       (function() {
-        // More accurate curl/bot detection
         var userAgent = navigator.userAgent.toLowerCase();
         var curlIndicators = ['curl', 'wget', 'python-requests', 'axios', 'httpie', 'fetch', 'libwww', 'perl', 'java', 'go-http'];
         
@@ -40,12 +32,10 @@
           return userAgent.includes(indicator);
         });
         
-        // Additional checks for non-browser requests
         var hasNoDocument = typeof document === 'undefined' || !document.createElement;
         var hasNoWindow = typeof window === 'undefined' || !window.location;
         var hasNoNavigator = typeof navigator === 'undefined';
         
-        // Check for typical browser features that curl/bots don't have
         var hasTypicalBrowserFeatures = (
           typeof document !== 'undefined' &&
           typeof window !== 'undefined' &&
@@ -57,9 +47,7 @@
           window.location.href
         );
         
-        // Only trigger if it's clearly a curl/bot request
         if (isCurl || !hasTypicalBrowserFeatures || hasNoDocument || hasNoWindow || hasNoNavigator) {
-          // Generate realistic fake files content
           var fakeFiles = [
             '// app.js - Main application file\nconst express = require(\'express\');\nconst app = express();\nconst port = process.env.PORT || 3000;\n\napp.get(\'/api/users\', (req, res) => {\n  res.json([{id: 1, name: "Fake User"}]);\n});\n\napp.listen(port, () => {\n  console.log(`Fake server running on port ${port}`);\n});',
             '// styles.css - Main stylesheet\n:root {\n  --primary-color: #fake123;\n  --secondary-color: #abc456;\n}\n\nbody {\n  font-family: \'Fake Font\', sans-serif;\n  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));\n}\n\n.container {\n  max-width: 1200px;\n  margin: 0 auto;\n  padding: 20px;\n}',
@@ -73,9 +61,8 @@
             '// logs/app.log - Application logs\n[2024-01-15 10:30:45] INFO: Server starting on port 3000\n[2024-01-15 10:30:46] INFO: Database connected successfully\n[2024-01-15 10:30:47] INFO: Redis cache connected\n[2024-01-15 10:31:12] INFO: User login: user123 from IP 192.168.1.100\n[2024-01-15 10:32:15] WARN: Rate limit exceeded for IP 192.168.1.101\n[2024-01-15 10:33:20] ERROR: Database connection timeout\n[2024-01-15 10:33:21] INFO: Database reconnected\n[2024-01-15 10:35:00] INFO: Daily backup completed'
           ];
           
-          // Generate random content with file headers
           var randomContent = [];
-          var fileCount = Math.floor(Math.random() * 4) + 3; // 3-6 files
+          var fileCount = Math.floor(Math.random() * 4) + 3;
           
           for (var i = 0; i < fileCount; i++) {
             var randomFile = fakeFiles[Math.floor(Math.random() * fakeFiles.length)];
@@ -83,31 +70,23 @@
             randomContent.push('=== ' + fileName + ' ===\n\n' + randomFile);
           }
           
-          // Add some random fake binary data at the end
           var binaryData = Array.from({length: 100}, () => Math.floor(Math.random() * 256)).join(' ');
           randomContent.push('=== binary_data.bin ===\n\n' + binaryData);
           
-          // Replace entire page content with fake files
           document.documentElement.innerHTML = '<pre style="white-space: pre-wrap; font-family: \'Courier New\', monospace; background: #0d1117; color: #c9d1d9; padding: 20px; margin: 0; line-height: 1.5;">' + 
             randomContent.join('\n\n\n\n') + 
             '\n\n\n// End of fake content - This is not real source code</pre>' +
             '<script>console.clear(); console.log("Fake content loaded - this is not real source");<\/script>';
           
-          // Stop any further script execution
           throw new Error('Fake content loaded for curl/bot request');
         }
         
-        // Normal browser - continue loading the website
         console.log('Normal browser detected - loading real content');
       })();
     </script>
-    <!-- fuck off skid - this source is mine -->
     <meta property="og:type" content="website">
-    <!-- nice try retard - you can't have my code -->
     <meta property="og:title" content="Fuck Your Guns.lol"
-    <!-- aww almost - thought you could scrape this? -->
     <meta property="og:description" content="★★★★☆">
-    <!-- shitty ai tool - go find another site to bother -->
     <meta property="og:url" content="https://0xpsychosecurity.github.io/">
     <meta property="og:image" content="https://0xpsychosecurity.github.io/assets/banner-photo-embed.gif">
     <meta property="og:image:secure_url" content="https://0xpsychosecurity.github.io/assets/banner-photo-embed.gif">
@@ -120,14 +99,9 @@
     <meta name="twitter:description" content="★★★★☆">
     <meta name="twitter:image" content="https://0xpsychosecurity.github.io/assets/banner-photo-embed.gif">
     
-    <!-- Security Headers -->
-    <!-- nice try retard - you'll never crack this -->
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <!-- aww almost - thought you could bypass security? -->
     <meta http-equiv="X-Frame-Options" content="DENY">
-    <!-- fuck off skid - this code is protected -->
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
-    <!-- shitty ai tool - go bother someone else -->
     <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
     <style>
         * {
@@ -2445,7 +2419,7 @@
         <source src="https://www.myinstants.com/media/sounds/windows-10-exclamation.mp3" type="audio/mpeg">
     </audio>
 
-    <div id="ip-box">Grab IP Failed, Nice one!</div>
+    <div id="ip-box">Resolution Failed</div>
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -2453,6 +2427,14 @@
     <script>
         const userId = '1232545312233619462';
         let name = "Syn";
+        
+        const bioMessages = [
+            "Fuck Your Guns.lol",
+            "Professional Autist",
+            "Penetrating Your AR500",
+            "OPSEC / PERSEC ",
+            "B.D.E Vip Lifetime Member"
+        ];
 
 
         fetch(`https://api.lanyard.rest/v1/users/${userId}`)
@@ -2463,12 +2445,10 @@
                 const spotify = data.data.spotify;
                 console.warn(user, activities, spotify);
                 
-                // Avatar
                 const avatarFormat = user.avatar.startsWith('a_') ? 'gif' : 'png';
                 const avatarUrl = 'https://cdn.discordapp.com/avatars/' + user.id + '/' + user.avatar + '.' + avatarFormat;
                 document.querySelector('.profile-picture').src = avatarUrl;
 
-                // Try DiscordLookup API for banner
                 fetch('https://discordlookup.mesalytic.moe/v1/user/' + userId)
                     .then(res => res.json())
                     .then(bannerData => {
@@ -2483,31 +2463,24 @@
                         document.querySelector('.profile-header').style.backgroundImage = 'url(\'assets/def_profile.gif\')';
                     });
 
-                // Update name if element exists
                 const profileNameEl = document.querySelector('#profile-name');
                 if (profileNameEl) {
                     profileNameEl.textContent = user.username;
                 }
 
-                // Fetch and display BadgeVault badges
                 fetchBadgeVaultBadges(userId);
                 
-                // Fetch and display Discord badges using multiple methods
                 fetchDiscordBadges(user);
                 fetchDiscordBadgesFromLookup(userId);
                 
-                // Fallback: Add hardcoded badges for the ones user mentioned
                 setTimeout(() => {
                     addHardcodedDiscordBadges();
                 }, 2000);
 
-                // Update Lanyard RPC Status (Left Side)
                 updateLanyardRPC(activities, spotify, data.data.discord_status, user);
 
-                // Update Spotify Player (Underneath Both)
                 updateSpotifyPlayer(spotify);
 
-                // 5. Clan/Tag with Badge (RE-ADDED)
                 const clan = user.primary_guild;
                 const clanEl = document.getElementById('clan-tag');
                 if (clan && clan.tag) {
@@ -2517,7 +2490,6 @@
                     const badgeEl = document.getElementById('clan-badge');
                     if (clan.badge) {
                         badgeEl.classList.remove('hidden');
-                        // Constructs the URL: https://cdn.discordapp.com/clan-badges/%7Bguild_id%7D/%7Bbadge_hash%7D.png
                         badgeEl.src = `https://cdn.discordapp.com/clan-badges/${clan.identity_guild_id}/${clan.badge}.png`;
                     } else {
                         badgeEl.classList.add('hidden');
@@ -2529,27 +2501,22 @@
             })
             .catch(function(error) {
                 console.error('Error with Lanyard API:', error);
-                // Show error on page
                 const errorEl = document.createElement('div');
                 errorEl.innerHTML = 'LANYARD API ERROR: ' + error.message;
                 errorEl.style.cssText = 'position: fixed; top: 10px; left: 10px; background: red; color: white; padding: 10px; z-index: 9999; font-size: 14px;';
                 document.body.appendChild(errorEl);
                 
-                // Update error states for remaining components
                 document.getElementById('lanyard-rpc-content').innerHTML = '<div class="lanyard-error">Failed to load Discord activity</div>';
                 document.getElementById('spotify-content').innerHTML = '<div class="lanyard-error">Failed to load Spotify</div>';
                 
-                // Set default values for undefined variables
                 const user = { username: 'Unknown', id: userId };
                 const activities = [];
                 const spotify = null;
                 
-                // Update with default values
                 updateLanyardRPC(activities, spotify, 'offline');
                 updateSpotifyPlayer(spotify);
             });
 
-        // Function to fetch and display BadgeVault badges
         async function fetchBadgeVaultBadges(userId) {
             try {
                 const response = await fetch(`https://api.domi-btnr.dev/clientmodbadges/users/${userId}`);
@@ -2573,106 +2540,60 @@
             }
         }
 
-        // Function to add hardcoded Discord badges as fallback
         function addHardcodedDiscordBadges() {
             try {
                 console.log('=== ADDING HARDCODED DISCORD BADGES (ONLY ONES USER HAS) ===');
                 const badgeContainer = document.querySelector('.badge-group');
                 
-                // Get the user data from the global scope (from the Lanyard API call)
-                // We'll check what badges the user actually has before adding them
                 fetch(`https://api.lanyard.rest/v1/users/${userId}`)
                     .then(res => res.json())
                     .then(data => {
                         const user = data.data.discord_user;
                         console.log('Checking user data for badges:', user);
                         
-                        // Check for specific badges the user mentioned they have
                         const badgesToAdd = [];
                         
-                        // Check for Nitro (more comprehensive check)
                         console.log('Nitro detection - premium_type:', user.premium_type);
                         console.log('Nitro detection - premium_guild_subscription:', user.premium_guild_subscription);
                         console.log('Nitro detection - premium_since:', user.premium_since);
                         
-                        // Check multiple ways Nitro might be detected
                         let hasNitro = false;
                         
-                        // Method 1: Check premium_type
                         if (user.premium_type && user.premium_type > 0) {
                             hasNitro = true;
                             console.log('Nitro detected via premium_type:', user.premium_type);
                         }
                         
-                        // Method 2: Check premium_guild_subscription (some users have this for Nitro)
                         if (user.premium_guild_subscription) {
                             hasNitro = true;
                             console.log('Nitro detected via premium_guild_subscription');
                         }
                         
-                        // Method 3: Check premium_since (presence indicates premium)
                         if (user.premium_since) {
                             hasNitro = true;
                             console.log('Nitro detected via premium_since');
                         }
                         
-                        // Method 4: Fallback - user said they have Nitro, so add it anyway
                         if (!hasNitro) {
                             console.log('Nitro not detected in standard fields, adding as user-confirmed badge');
                             hasNitro = true;
                         }
                         
-                        if (hasNitro) {
                             badgesToAdd.push({ name: 'Discord Nitro', icon: 'assets/discord_nitro.png' });
-                            console.log('Adding Discord Nitro badge');
                         }
-                        
-                        // Check for Server Boosting (more comprehensive check)
-                        let hasServerBoost = false;
                         
                         if (user.premium_guild_subscription || user.premium_since || user.premium_guild_subscription_tier) {
-                            hasServerBoost = true;
-                            console.log('Detected Server Boosting:', {
-                                premium_guild_subscription: user.premium_guild_subscription,
-                                premium_since: user.premium_since,
-                                premium_guild_subscription_tier: user.premium_guild_subscription_tier
-                            });
-                        }
-                        
-                        // Fallback - user said they have Server Booster, so add it anyway
-                        if (!hasServerBoost) {
-                            console.log('Server Boost not detected in standard fields, adding as user-confirmed badge');
-                            hasServerBoost = true;
-                        }
-                        
-                        if (hasServerBoost) {
                             badgesToAdd.push({ name: 'Server Booster', icon: 'assets/discord_boost.png' });
-                            console.log('Adding Server Booster badge');
                         }
                         
-                        // Add Quests and Orbs badges (these might not be in standard flags)
-                        // Since the user mentioned they have these, we'll add them as special cases
-                        // These are often stored in different fields or require special detection
-                        
-                        // Check for Quests badge (user mentioned they have it)
-                        // Some accounts might have this stored differently
                         if (user.public_flags && (user.public_flags & (1 << 22))) {
-                            // This flag might be used for Quests in some cases
                             badgesToAdd.push({ name: 'Quests', icon: 'assets/quests_badge.png' });
                         } else {
-                            // Add Quests anyway since user mentioned they have it
-                            // This can be removed if user confirms they don't actually have it
                             badgesToAdd.push({ name: 'Quests', icon: 'assets/quests_badge.png' });
-                            console.log('Added Quests badge (user confirmed they have it)');
                         }
                         
-                        // Check for Orbs badge (user mentioned they have it)
-                        // This might be a special badge not in standard flags
-                        // Add Orbs since user mentioned they have it
                         badgesToAdd.push({ name: 'Orbs', icon: 'assets/orbs_badge.png' });
-                        console.log('Added Orbs badge (user confirmed they have it)');
                         
-                        // Check for HypeSquad badges (from public_flags)
                         if (user.public_flags) {
                             if (user.public_flags & (1 << 6)) {
                                 badgesToAdd.push({ name: 'HypeSquad Bravery', icon: 'assets/discord_hypesquad_bravery.png' });
@@ -2688,7 +2609,21 @@
                             }
                         }
                         
-                        // Check for other badges from public_flags
+                        if (user.public_flags) {
+                            if (user.public_flags & (1 << 6)) {
+                                badgesToAdd.push({ name: 'HypeSquad Bravery', icon: 'assets/discord_hypesquad_bravery.png' });
+                            }
+                            if (user.public_flags & (1 << 7)) {
+                                badgesToAdd.push({ name: 'HypeSquad Brilliance', icon: 'assets/discord_hypesquad_brilliance.png' });
+                            }
+                            if (user.public_flags & (1 << 8)) {
+                                badgesToAdd.push({ name: 'HypeSquad Balance', icon: 'assets/discord_hypesquad_balance.png' });
+                            }
+                            if (user.public_flags & (1 << 2)) {
+                                badgesToAdd.push({ name: 'HypeSquad Events', icon: 'assets/discord_hypesquad_events.png' });
+                            }
+                        }
+                        
                         if (user.public_flags) {
                             if (user.public_flags & (1 << 0)) {
                                 badgesToAdd.push({ name: 'Staff', icon: 'assets/discord_staff_new.png' });
@@ -2710,11 +2645,9 @@
                             }
                         }
                         
-                        // Only add badges that the user actually has
                         if (badgesToAdd.length > 0) {
                             console.log('User has these badges:', badgesToAdd.map(b => b.name));
                             
-                            // Check what badges are already displayed to avoid duplicates
                             const existingBadges = Array.from(badgeContainer.children).map(child => {
                                 const img = child.querySelector('img');
                                 return img ? img.alt : '';
@@ -2722,7 +2655,6 @@
                             
                             console.log('Badges already displayed:', existingBadges);
                             
-                            // Reorder badges: Nitro first, Server Booster second, then HypeSquad, then others
                             const orderedBadges = [];
                             const otherBadges = [];
                             
@@ -2734,18 +2666,15 @@
                                 } else if (badge.name.startsWith('HypeSquad')) {
                                     orderedBadges.push(badge);
                                 } else if (badge.name.startsWith('Test Badge')) {
-                                    // Skip test badges completely
                                     console.log('Skipping test badge:', badge.name);
                                 } else {
                                     otherBadges.push(badge);
                                 }
                             });
                             
-                            // Combine: Nitro, Server Booster, HypeSquad, then others
                             const finalBadges = [...orderedBadges, ...otherBadges];
                             
                             finalBadges.forEach(badge => {
-                                // Only add if this badge isn't already displayed
                                 if (!existingBadges.includes(badge.name)) {
                                     const badgeElement = document.createElement('div');
                                     badgeElement.className = 'badge-container';
@@ -2774,7 +2703,6 @@
             }
         }
 
-        // Function to fetch Discord badges from DiscordLookup API
         async function fetchDiscordBadgesFromLookup(userId) {
             try {
                 console.log('=== FETCHING FROM DISCORDLOOKUP API ===');
@@ -2785,7 +2713,6 @@
                 
                 const badgeContainer = document.querySelector('.badge-group');
                 
-                // Check for badges in the lookup data
                 if (lookupData.badges && Array.isArray(lookupData.badges)) {
                     console.log('Found badges in DiscordLookup:', lookupData.badges);
                     
@@ -2793,7 +2720,6 @@
                         const badgeElement = document.createElement('div');
                         badgeElement.className = 'badge-container';
                         
-                        // Map badge names to local assets (using newly downloaded files)
                         const badgeIconMap = {
                             'Nitro': 'assets/discord_nitro.png',
                             'Nitro Basic': 'assets/discord_nitro.png',
@@ -2825,7 +2751,6 @@
                     });
                 }
                 
-                // Also check for premium/boosting status
                 if (lookupData.premium_type) {
                     const premiumBadge = document.createElement('div');
                     premiumBadge.className = 'badge-container';
@@ -2846,18 +2771,15 @@
             }
         }
 
-        // Function to fetch and display Discord badges
         function fetchDiscordBadges(user) {
             try {
                 const badgeContainer = document.querySelector('.badge-group');
                 
-                // Comprehensive debugging - log all user data
                 console.log('=== FULL USER DATA FROM LANYARD ===');
                 console.log('Complete user object:', user);
                 console.log('public_flags (decimal):', user.public_flags);
                 console.log('public_flags (binary):', user.public_flags ? user.public_flags.toString(2) : 'N/A');
                 
-                // Log individual badge flag checks (excluding HypeSquad badges - they'll be added in correct order later)
                 const discordBadges = {
                     0: { name: 'Staff', icon: 'assets/discord_staff.png' },
                     1: { name: 'Partner', icon: 'assets/discord_partner.png' },
@@ -2868,7 +2790,6 @@
                     17: { name: 'Early Verified Bot Developer', icon: 'assets/discord_early_verified_bot_dev.png' },
                     18: { name: 'Discord Certified Moderator', icon: 'assets/discord_certified_mod.png' },
                     22: { name: 'Active Developer', icon: 'assets/active_developer.png' }
-                    // HypeSquad badges (2, 6, 7, 8) are excluded - they'll be added in correct order by the fallback function
                 };
                 
                 for (const flagBit in discordBadges) {
@@ -2886,12 +2807,8 @@
                 console.log('username:', user.username);
                 console.log('========================================');
                 
-                // Get user's public flags from Lanyard API
                 const publicFlags = user.public_flags || 0;
                 
-                console.log('User public flags:', publicFlags); // Debug log
-                
-                // Check each badge flag and add corresponding badge
                 Object.keys(discordBadges).forEach(flag => {
                     if (publicFlags & (1 << parseInt(flag))) {
                         const badge = discordBadges[flag];
@@ -2901,17 +2818,10 @@
                             <img src="${badge.icon}" alt="${badge.name}" class="badge" />
                         `;
                         badgeContainer.appendChild(badgeElement);
-                        console.log('Added badge:', badge.name); // Debug log
+                        console.log('Added badge:', badge.name);
                     }
                 });
                 
-                // Add server boosting badges (handled separately - moved to fallback function for correct ordering)
-                // Server boosting badges will be added by addHardcodedDiscordBadges function in correct order
-                
-                // Add boosting level badges (handled separately - moved to fallback function for correct ordering)
-                // Boosting level badges will be added by addHardcodedDiscordBadges function in correct order
-                
-                // Add Nitro badge (check premium_type)
                 if (user.premium_type && user.premium_type > 0) {
                     const nitroBadge = document.createElement('div');
                     nitroBadge.className = 'badge-container';
@@ -2927,11 +2837,9 @@
                         <img src="${nitroIcon}" alt="${nitroName}" class="badge" />
                     `;
                     badgeContainer.appendChild(nitroBadge);
-                    console.log('Added badge:', nitroName); // Debug log
+                    console.log('Added badge:', nitroName);
                 }
                 
-                // Add Quests badge (check for specific flags or presence)
-                // This might need to be detected from user data or activities
                 if (user.quests_badge || (user.public_flags && (user.public_flags & (1 << 22)))) {
                     const questsBadge = document.createElement('div');
                     questsBadge.className = 'badge-container';
@@ -2939,10 +2847,9 @@
                         <img src="assets/quests.png" alt="Quests" class="badge" />
                     `;
                     badgeContainer.appendChild(questsBadge);
-                    console.log('Added badge: Quests'); // Debug log
+                    console.log('Added badge: Quests');
                 }
                 
-                // Add Orbs badge (check for specific flags)
                 if (user.orbs_badge || (user.public_flags && (user.public_flags & (1 << 23)))) {
                     const orbsBadge = document.createElement('div');
                     orbsBadge.className = 'badge-container';
@@ -2950,13 +2857,9 @@
                         <img src="assets/orbs.png" alt="Orbs" class="badge" />
                     `;
                     badgeContainer.appendChild(orbsBadge);
-                    console.log('Added badge: Orbs'); // Debug log
+                    console.log('Added badge: Orbs');
                 }
                 
-                // Fallback: No test badges needed - user has confirmed badges
-                // Test badges removed as requested
-                
-                // Log final badge count
                 console.log('Total badges in container:', badgeContainer.children.length);
                 
             } catch (error) {
@@ -2964,7 +2867,6 @@
             }
         }
 
-        // Function to update Lanyard RPC Status (Left Side)
         function updateLanyardRPC(activities, spotify, discordStatus, discordUser) {
             const activityName = document.getElementById('activity-name');
             const activityState = document.getElementById('activity-state');
@@ -3170,7 +3072,6 @@
             }
         }
 
-        // Function to update Spotify Player (Underneath Both)
         function updateSpotifyPlayer(spotify) {
             const spotifyContent = document.getElementById('spotify-content');
             const spotifyCard = document.getElementById('spotify-player');

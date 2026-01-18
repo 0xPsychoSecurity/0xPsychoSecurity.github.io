@@ -5,18 +5,15 @@ exports.handler = async (event, context) => {
   const referer = request.headers.get('referer') || '';
   const userAgent = request.headers.get('user-agent') || '';
   
-  // Allowed origins for accessing files
   const allowedOrigins = [
     'https://0xpsychosecurity.github.io',
     'https://fuckyourshittybiolink.netlify.app'
   ];
   
-  // Check if request is from allowed origin
   const isAllowedOrigin = allowedOrigins.some(origin => {
     return referer.startsWith(origin) || referer.includes(origin);
   });
   
-  // Block curl and common CLI tools
   const isCurl = userAgent.toLowerCase().includes('curl') || 
                 userAgent.toLowerCase().includes('wget') ||
                 userAgent.toLowerCase().includes('httpie') ||
@@ -25,7 +22,6 @@ exports.handler = async (event, context) => {
                 userAgent.toLowerCase().includes('axios') ||
                 userAgent.toLowerCase().includes('node-fetch');
   
-  // Block bots and AI crawlers
   const isBot = userAgent.toLowerCase().includes('bot') ||
                userAgent.toLowerCase().includes('crawler') ||
                userAgent.toLowerCase().includes('spider') ||
@@ -51,7 +47,6 @@ exports.handler = async (event, context) => {
                userAgent.toLowerCase().includes('ia_archiver') ||
                userAgent.toLowerCase().includes('archive.org_bot');
   
-  // Block if not from allowed origin or if it's a bot/curl
   if (!isAllowedOrigin || isCurl || isBot) {
     return {
       statusCode: 403,
@@ -106,23 +101,18 @@ exports.handler = async (event, context) => {
     };
   }
   
-  // If allowed, try to serve the actual file
   try {
-    // For assets, construct the file path
     let filePath = path;
     
-    // Remove leading slash if present
     if (filePath.startsWith('/')) {
       filePath = filePath.substring(1);
     }
     
-    // Map common paths to actual files
     const fileMap = {
       'script.js': 'script.js',
       'assets/': 'assets/'
     };
     
-    // Return 404 for any direct file access attempt
     return {
       statusCode: 404,
       headers: {

@@ -29,6 +29,20 @@
             overflow-x: hidden;
             margin: 0;
             padding: 0;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(20px);
+            z-index: -1;
         }
 
         #background {
@@ -39,7 +53,7 @@
             height: 100%;
             object-fit: cover;
             z-index: -1;
-            display: none;
+            display: block;
             pointer-events: none;
         }
 
@@ -65,6 +79,10 @@
             padding: 10px;
         }
 
+        .container {
+            display: block;
+        }
+
         #site-scale {
             width: 100%;
             max-width: 520px;
@@ -74,10 +92,12 @@
             position: relative;
             z-index: 20;
             width: 100%;
+            max-width: 520px;
             min-height: 240px;
             padding: 12px;
-            background: rgba(0, 0, 0, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 15px;
             backdrop-filter: blur(10px);
             overflow-y: auto;
@@ -89,18 +109,30 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.25);
-            z-index: 0;
-            pointer-events: none;
+            position: relative;
+            z-index: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 15px;
-            min-height: 180px;
-            position: relative;
             padding: 15px 10px;
-            overflow: visible;
+            min-height: 180px;
+            height: auto;
+            border-radius: 15px;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        .profile-header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.25);
+            z-index: 0;
+            pointer-events: none;
         }
 
         .profile-header>* {
@@ -112,11 +144,27 @@
             width: 100px;
             height: 100px;
             position: relative;
-            margin: 0 auto;
+            margin: 0 auto 10px;
             transform: none;
             pointer-events: auto !important;
             z-index: 25;
             display: block;
+        }
+
+        .profile-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.25);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .profile-container.fast-orbit::after {
+            animation: fast-orbit 0.5s linear forwards;
         }
 
         .profile-picture {
@@ -130,59 +178,82 @@
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .profile-info {
+        .profile-picture:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+        }
+
+        .profile-layout {
+            display: flex;
             align-items: center;
-            text-align: center;
+            justify-content: space-between;
+            width: 100%;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .profile-left-column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: auto;
+        }
+
+        .profile-right-column {
             flex: 1;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            width: 100%;
-            padding: 0;
-            box-sizing: border-box;
-            position: relative;
+            justify-content: space-between;
+            gap: 10px;
+            align-items: center;
         }
 
         .name-and-badges {
-            flex-direction: column;
+            display: flex;
             align-items: center;
-            justify-content: flex-start;
+            justify-content: center;
             gap: 8px;
             width: 100%;
-            position: relative;
-            flex: 1;
+            margin-bottom: 10px;
         }
 
         #profile-name {
             font-size: 20px;
             letter-spacing: 1px;
             text-align: center;
-            flex: none;
-            align-self: center;
-            min-width: auto;
-            max-width: 90%;
-            overflow: hidden;
             margin-bottom: 5px;
             color: #fff;
+            font-weight: bold;
         }
 
         .badge-group {
             justify-content: center;
-            gap: 4px;
+            gap: 6px;
             flex-shrink: 0;
             flex-wrap: wrap;
             max-width: 100%;
             padding: 0;
             box-sizing: border-box;
             position: relative;
-            margin: 5px 0;
+            margin: 0;
+            z-index: 10;
         }
 
         .badge {
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            transition: transform 0.2s ease;
+        }
+
+        .badge:hover {
+            transform: scale(1.1);
         }
 
         .badge-container .tooltip {
@@ -195,19 +266,22 @@
         #profile-bio {
             font-size: 14px;
             line-height: 1.4;
-            margin: 10px 0;
+            margin: 15px 0;
             text-align: center;
-            padding: 0 10px;
+            padding: 10px;
             color: rgba(255, 255, 255, 0.9);
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .profile-quote {
             align-self: center;
-            margin: 4px auto 1px;
+            margin: 10px auto;
             color: rgba(255, 255, 255, 0.8);
             font-size: 14px;
             background: rgba(0, 0, 0, 0.25);
-            padding: 3px 8px;
+            padding: 8px 12px;
             border-radius: 10px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(5px);
@@ -255,17 +329,18 @@
             background: rgba(0, 0, 0, 0.6);
             border: 1px solid rgba(0, 206, 209, 0.3);
             color: #fff;
-            padding: 6px 12px;
-            border-radius: 4px;
-            font-size: 11px;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 12px;
             cursor: pointer;
-            margin: 8px auto 0;
+            margin: 10px auto;
             text-align: center;
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
             width: fit-content;
-            min-width: 140px;
+            min-width: 160px;
             font-family: 'Courier New', monospace;
+            font-weight: 500;
         }
 
         .discord-activity-toggle:hover {
@@ -291,9 +366,9 @@
             width: 100%;
             max-width: 300px;
             margin: 10px auto;
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.35);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 12px;
             backdrop-filter: blur(10px);
         }
@@ -330,9 +405,9 @@
             font-size: 12px;
             padding: 6px 12px;
             align-self: center;
-            color: rgba(255, 255, 255, 0.8);
+            color: #fff;
             text-align: center;
-            margin: 10px 0;
+            opacity: 1 !important;
         }
 
         .visitor-icon {
@@ -405,239 +480,271 @@
 
     <div id="site-scale-wrapper">
         <div id="site-scale">
-            <div id="profile-block">
-                <div class="profile-header">
-                    <div class="profile-container">
-                        <img src="" alt="Profile" class="profile-picture">
-                    </div>
-                    
-                    <div class="profile-info">
-                        <div class="name-and-badges">
-                            <div id="profile-name">Syn</div>
-                            <div class="badge-group">
-                                <!-- Discord badges from Lanyard API will be loaded here -->
+            <div id="start-screen">
+                <div id="start-text"> Hi Monkey :P</div>
+            </div>
+
+            <div class="container" style="display: none;">
+                <div id="profile-block">
+                    <div class="profile-header">
+                        <div class="profile-layout">
+                            <div class="profile-left-column">
+                                <div class="profile-container">
+                                    <img src="" alt="Profile" class="profile-picture">
+                                    <div class="thought-bubble">
+                                        <div class="thought-bubble-text">Its 2026 Nigga, Lock In</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="profile-right-column">
+                                <div class="profile-right-item badge-stack">
+                                    <div class="badge-box">
+                                        <div class="badge-group">
+                                            <!-- Discord badges from Lanyard API will be loaded here -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="profile-right-item">
+                                    <div id="clan-tag" class="server-badge-box hidden">
+                                        <img id="clan-badge" src="" alt="Clan Badge" class="server-badge-image hidden">
+                                        <span id="clan-text" class="server-badge-text">LEX</span>
+                                    </div>
+                                </div>
+                                <div class="profile-right-item">
+                                    <div id="profile-status" class="profile-status">
+                                        <div class="status-dot"></div>
+                                        <div class="status-text">Loading...</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        
-                        <div class="profile-status">
-                            <div class="status-dot"></div>
-                            <div class="status-text">Loading...</div>
+                    </div>
+
+                    <div id="profile-bio"></div>
+                    <div class="profile-quote">𝔍𝔢𝔰𝔲𝔰, 𝔖𝔬𝔫 𝔬𝔣 𝔊𝔬𝔡, ℌ𝔞𝔳𝔢 𝔪𝔢𝔯𝔠𝔶 𝔬𝔫 𝔪𝔢, 𝔞 𝔖𝔦𝔫𝔫𝔢𝔯.</div>
+
+                    <button class="discord-activity-toggle" onclick="toggleDiscordActivity()">Show Discord Activity</button>
+
+                    <div class="lanyard-container">
+                        <div class="lanyard-rpc">
+                            <div class="lanyard-rpc-title">Discord Activity</div>
+                            <div id="lanyard-rpc-content" class="lanyard-rpc-content">
+                                <div class="lanyard-loading">Loading Discord Activity...</div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                
-                <div id="profile-bio"></div>
-                <div class="profile-quote">𝔍𝔢𝔰𝔲𝔰, 𝔖𝔬𝔫 𝔬𝔣 𝔊𝔬𝔡, ℌ𝔞𝔳𝔢 𝔪𝔢𝔯𝔠𝔶 𝔬𝔫 𝔪𝔢, 𝔞 𝔖𝔦𝔫𝔫𝔢𝔯.</div>
-                
-                <button class="discord-activity-toggle" onclick="toggleDiscordActivity()">Show Discord Activity</button>
-                
-                <div class="lanyard-container">
-                    <div class="lanyard-rpc">
-                        <div class="lanyard-rpc-title">Discord Activity</div>
-                        <div id="lanyard-rpc-content" class="lanyard-rpc-content">
-                            <div class="lanyard-loading">Loading Discord Activity...</div>
+
+                <div id="skills-block">
+                    <h2 class="skills-title">Languages</h2>
+                    <div class="skill">
+                        <div class="skill-name">
+                            <img src="assets/GCodeblk1.png" alt="G-Code (CNC Code)" class="skill-icon">
+                            <span>G-Code (CNC Code)</span>
+                            <span>100%</span>
+                        </div>
+                        <div class="skill-bar-container">
+                            <div id="gcode-bar" class="skill-bar"></div>
+                        </div>
+                    </div>
+                    <div class="skill">
+                        <div class="skill-name">
+                            <img src="assets/prolog.png" alt="Prolog" class="skill-icon">
+                            <span>Prolog</span>
+                            <span>63%</span>
+                        </div>
+                        <div class="skill-bar-container">
+                            <div id="prolog-bar" class="skill-bar"></div>
+                        </div>
+                    </div>
+                    <div class="skill">
+                        <div class="skill-name">
+                            <img src="assets/cpp.png" alt="C++" class="skill-icon">
+                            <span>C++</span>
+                            <span>27%</span>
+                        </div>
+                        <div class="skill-bar-container">
+                            <div id="seeplusplus-bar" class="skill-bar"></div>
+                        </div>
+                    </div>
+                    <div class="skill">
+                        <div class="skill-name">
+                            <img src="assets/assembly.png" alt="Assembly" class="skill-icon">
+                            <span>Assembly</span>
+                            <span>12%</span>
+                        </div>
+                        <div class="skill-bar-container">
+                            <div id="assembly-bar" class="skill-bar"></div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div id="skills-block">
-                <h2 class="skills-title">Languages</h2>
-                <div class="skill">
-                    <div class="skill-name">
-                        <img src="assets/GCodeblk1.png" alt="G-Code (CNC Code)" class="skill-icon">
-                        <span>G-Code (CNC Code)</span>
-                        <span>100%</span>
-                    </div>
-                    <div class="skill-bar-container">
-                        <div id="gcode-bar" class="skill-bar"></div>
-                    </div>
+                <div class="social-links">
+                    <a href="https://signal.me/#eu/6kk1-aRZK4pmYLidTkVUUMAjfwsp0l4To2dYqRr_8yXpsD2Dsp1H7K0fSwINVWfT" target="_blank" title="Message Me on Signal">
+                        <img src="assets/signal.png" alt="Signal" class="social-icon">
+                    </a>
+                    <a id="xrp-link" href="https://xrpscan.com/account/rpbsDqk7JTVu8ddG9XWf52pMjR3xDAKsju" target="_blank" title="My XRP Wallet">
+                        <img src="assets/xrp.png" alt="XRP Wallet" class="social-icon">
+                    </a>
+                    <a id="discord-link" href="discord://-/users/1232545312233619462" target="_blank" title="Add me on Discord">
+                        <img src="assets/discord.png" alt="Discord" class="social-icon">
+                    </a>
+                    <a href="https://x.com/comms_____up" target="_blank" title="Follow me on X/Twitter">
+                        <img src="assets/twitter.png" alt="Twitter" class="social-icon">
+                    </a>
+                    <a href="mailto:noreply@cia.contact" target="_blank" title="Email Me">
+                        <img src="assets/whor.email.png" alt="Email" class="social-icon">
+                    </a>
+                    <a href="https://zws.im/%F3%A0%81%BA%F3%A0%81%B1%F3%A0%81%A3%F3%A0%81%B2%F3%A0%81%BA%F3%A0%81%BA%F3%A0%81%A2" target="_blank" title="My Leaked Dox">
+                        <img src="assets/doxbin.png" alt="My Dox" class="social-icon">
+                    </a>
+                    <a href="https://odysee.com/@cumfart:3?view=content" target="_blank" title="My Odysee Channel">
+                        <img src="assets/odysee.png" alt="Odysee" class="social-icon">
+                    </a>
                 </div>
-                <div class="skill">
-                    <div class="skill-name">
-                        <img src="assets/prolog.png" alt="Prolog" class="skill-icon">
-                        <span>Prolog</span>
-                        <span>63%</span>
-                    </div>
-                    <div class="skill-bar-container">
-                        <div id="prolog-bar" class="skill-bar"></div>
-                    </div>
-                </div>
-                <div class="skill">
-                    <div class="skill-name">
-                        <img src="assets/cpp.png" alt="C++" class="skill-icon">
-                        <span>C++</span>
-                        <span>27%</span>
-                    </div>
-                    <div class="skill-bar-container">
-                        <div id="seeplusplus-bar" class="skill-bar"></div>
-                    </div>
-                </div>
-                <div class="skill">
-                    <div class="skill-name">
-                        <img src="assets/assembly.png" alt="Assembly" class="skill-icon">
-                        <span>Assembly</span>
-                        <span>12%</span>
-                    </div>
-                    <div class="skill-bar-container">
-                        <div id="assembly-bar" class="skill-bar"></div>
-                    </div>
-                </div>
-            </div>
 
-            <div class="social-links">
-                <a href="https://signal.me/#eu/6kk1-aRZK4pmYLidTkVUUMAjfwsp0l4To2dYqRr_8yXpsD2Dsp1H7K0fSwINVWfT" target="_blank" title="Message Me on Signal">
-                    <img src="assets/signal.png" alt="Signal" class="social-icon">
-                </a>
-                <a id="xrp-link" href="https://xrpscan.com/account/rpbsDqk7JTVu8ddG9XWf52pMjR3xDAKsju" target="_blank" title="My XRP Wallet">
-                    <img src="assets/xrp.png" alt="XRP Wallet" class="social-icon">
-                </a>
-                <a id="discord-link" href="discord://-/users/1232545312233619462" target="_blank" title="Add me on Discord">
-                    <img src="assets/discord.png" alt="Discord" class="social-icon">
-                </a>
-                <a href="https://x.com/comms_____up" target="_blank" title="Follow me on X/Twitter">
-                    <img src="assets/twitter.png" alt="Twitter" class="social-icon">
-                </a>
-                <a href="mailto:noreply@cia.contact" target="_blank" title="Email Me">
-                    <img src="assets/whor.email.png" alt="Email" class="social-icon">
-                </a>
-                <a href="https://zws.im/%F3%A0%81%BA%F3%A0%81%B1%F3%A0%81%A3%F3%A0%81%B2%F3%A0%81%BA%F3%A0%81%BA%F3%A0%81%A2" target="_blank" title="My Leaked Dox">
-                    <img src="assets/doxbin.png" alt="My Dox" class="social-icon">
-                </a>
-                <a href="https://odysee.com/@cumfart:3?view=content" target="_blank" title="My Odysee Channel">
-                    <img src="assets/odysee.png" alt="Odysee" class="social-icon">
-                </a>
-            </div>
-
-            <div class="visitor-counter">
-                <svg class="visitor-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
-                    </path>
-                </svg>
-                <span id="visitor-count"></span>
+                <div class="visitor-counter">
+                    <svg class="visitor-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+                        </path>
+                    </svg>
+                    <span id="visitor-count"></span>
+                </div>
             </div>
         </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script>
-        const userId = '1232545312233619462';
-        let name = "Syn";
-
-        // Discord Lanyard integration
-        fetch(`https://api.lanyard.rest/v1/users/${userId}`)
-            .then(res => res.json())
-            .then(data => {
-                const user = data.data.discord_user;
-                const activities = data.data.activities;
-                
-                // Avatar
-                const avatarFormat = user.avatar.startsWith('a_') ? 'gif' : 'png';
-                const avatarUrl = 'https://cdn.discordapp.com/avatars/' + user.id + '/' + user.avatar + '.' + avatarFormat;
-                document.querySelector('.profile-picture').src = avatarUrl;
-                
-                // Banner
-                fetch('https://discordlookup.mesalytic.moe/v1/user/' + userId)
-                    .then(res => res.json())
-                    .then(bannerData => {
-                        if (bannerData.banner && bannerData.banner.link) {
-                            const bannerUrl = bannerData.banner.link;
-                            document.querySelector('.profile-header').style.backgroundImage = 'url(\'' + bannerUrl + '\')';
-                        }
-                    })
-                    .catch(() => {
-                        document.querySelector('.profile-header').style.backgroundImage = 'url(\'assets/def_profile.gif\')';
-                    });
-                
-                // Status
-                const statusDot = document.querySelector('.status-dot');
-                const statusText = document.querySelector('.status-text');
-                const statusColors = {
-                    online: '#43b581',
-                    idle: '#faa61a',
-                    dnd: '#f04747',
-                    offline: '#747f8d'
-                };
-                
-                statusDot.style.backgroundColor = statusColors[data.data.discord_status] || statusColors.offline;
-                statusText.textContent = data.data.discord_status || 'Offline';
-                
-                // Badges
-                const badgeGroup = document.querySelector('.badge-group');
-                if (user.public_flags_array) {
-                    user.public_flags_array.forEach(flag => {
-                        const badge = document.createElement('img');
-                        badge.className = 'badge';
-                        badge.src = `https://cdn.discordapp.com/badge-icons/${flag}.png`;
-                        badge.alt = `Discord Badge ${flag}`;
-                        badgeGroup.appendChild(badge);
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize video immediately
+            initializeVideo();
+            
+            document.getElementById('start-screen').style.display = 'flex';
+            
+            function startMainContent() {
+                document.getElementById('start-screen').style.display = 'none';
+                document.querySelector('.container').style.display = 'block';
+                if (bgVideo && userInteracted) {
+                    bgVideo.muted = false;
+                    bgVideo.play().catch(error => {
+                        console.error('Video play error:', error);
                     });
                 }
+            }
+            
+            setTimeout(() => {
+                if (!userInteracted) {
+                    startMainContent();
+                }
+            }, 3000);
+            
+            function showXRPscreen() {
+                const xrpScreen = document.createElement('div');
+                xrpScreen.id = 'xrp-screen';
+                xrpScreen.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0, 0, 0, 0.95);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    z-index: 35;
+                    cursor: pointer;
+                    font-family: 'Courier New', monospace;
+                `;
                 
-                // Discord Activity
-                const activityContent = document.getElementById('lanyard-rpc-content');
-                if (activities && activities.length > 0) {
-                    const activity = activities[0];
-                    if (activity.name) {
-                        activityContent.innerHTML = `
-                            <div style="text-align: center; color: rgba(255,255,255,0.9); font-size: 14px;">
-                                <strong>${activity.name}</strong>
-                            </div>
-                        `;
-                    } else {
-                        activityContent.innerHTML = '<div style="text-align: center; color: rgba(255,255,255,0.6); font-size: 12px;">No activity</div>';
+                xrpScreen.innerHTML = `
+                    <div style="text-align: center; color: #fff; margin-bottom: 20px;">
+                        <h2 style="font-size: 32px; margin-bottom: 15px; color: #ff6b35;">Fuck You Pay Me XRP</h2>
+                        <p style="font-size: 18px; margin-bottom: 10px; max-width: 400px; line-height: 1.5;">Send XRP to: <span style="color: #ff6b35; font-weight: bold;">rpbsDqk7JTVu8ddG9XWf52pMjR3xDAKsju</span></p>
+                        <p style="font-size: 16px; margin-bottom: 15px;">Click anywhere to continue...</p>
+                    </div>
+                    <div style="text-align: center; margin-top: 20px;">
+                        <button style="background: #ff6b35; color: #fff; border: none; padding: 15px 30px; font-size: 18px; cursor: pointer; border-radius: 5px; font-family: 'Courier New', monospace;">Continue to Site</button>
+                    </div>
+                `;
+                
+                document.body.appendChild(xrpScreen);
+                
+                xrpScreen.addEventListener('click', () => {
+                    document.body.removeChild(xrpScreen);
+                    startMainContent();
+                });
+                
+                setTimeout(() => {
+                    if (document.body.contains(xrpScreen)) {
+                        document.body.removeChild(xrpScreen);
+                        startMainContent();
                     }
-                } else {
-                    activityContent.innerHTML = '<div style="text-align: center; color: rgba(255,255,255,0.6); font-size: 12px;">No activity</div>';
+                }, 5000);
+            }
+            
+            setTimeout(() => {
+                if (!userInteracted && !document.body.contains(xrpScreen)) {
+                    showXRPscreen();
                 }
-            })
-            .catch(error => {
-                console.error('Error fetching Discord data:', error);
-                document.querySelector('.status-text').textContent = 'Error';
-            });
-
-        // Background video
-        const bgList = [
-            'assets/b-background.mp4',
-            'assets/b-background2.mp4',
-            'assets/b-background3.mp4',
-            'assets/b-background4.mp4',
-            'assets/b-background5.mp4',
-            'assets/b-background6.mp4',
-            'assets/b-background7.mp4',
-            'assets/b-background8.mp4',
-            'assets/b-background9.mp4',
-            'assets/b-background10.mp4',
-            'assets/b-background11.mp4',
-        ];
-
-        let currentBgIndex = 0;
-        const bgVideo = document.getElementById('background');
-        const bgSource = document.getElementById('bgSource');
-
-        function changeBackground() {
-            currentBgIndex = (currentBgIndex + 1) % bgList.length;
-            bgSource.src = bgList[currentBgIndex];
-            bgVideo.load();
-            bgVideo.play().catch(() => {});
-        }
-
-        // Start video playback
-        bgVideo.play().catch(() => {
-            bgVideo.style.display = 'block';
-            setInterval(changeBackground, 30000); // Change every 30 seconds
+            }, 1000);
+            
+            document.addEventListener('click', startVideoPlayback, { once: true });
+            document.addEventListener('touchstart', startVideoPlayback, { once: true });
+            document.addEventListener('keydown', startVideoPlayback, { once: true });
         });
-
-        // Visitor counter
+        const profilePicture = document.querySelector('.profile-picture');
+        const profileContainer = document.querySelector('.profile-container');
+        
+        if (profilePicture) {
+            profilePicture.addEventListener('click', () => {
+                profileContainer.classList.add('fast-orbit');
+                profileContainer.classList.remove('orbit');
+                void profileContainer.offsetWidth;
+                setTimeout(() => {
+                    profileContainer.classList.remove('fast-orbit');
+                    profileContainer.classList.add('orbit');
+                    void profileContainer.offsetWidth;
+                }, 500);
+            });
+            
+            profilePicture.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                profileContainer.classList.add('fast-orbit');
+                profileContainer.classList.remove('orbit');
+                void profileContainer.offsetWidth;
+                setTimeout(() => {
+                    profileContainer.classList.remove('fast-orbit');
+                    profileContainer.classList.add('orbit');
+                    void profileContainer.offsetWidth;
+                }, 500);
+            });
+        }
+        
+        profilePicture.addEventListener('mousedown', () => {
+            document.querySelector('.profile-block').classList.add('glitch');
+            setTimeout(() => {
+                document.querySelector('.profile-block').classList.remove('glitch');
+            }, 200);
+        });
+        
         let visitCount = localStorage.getItem('visitCount') || 0;
         visitCount = parseInt(visitCount) + 1;
         localStorage.setItem('visitCount', visitCount);
         document.getElementById('visitor-count').textContent = visitCount;
+        
+        setInterval(() => {
+            const latestCount = localStorage.getItem('visitCount');
+            const currentDisplay = document.getElementById('visitor-count').textContent;
+            if (latestCount && latestCount !== currentDisplay) {
+                document.getElementById('visitor-count').textContent = latestCount;
+            }
+        }, 1000);
 
-        // Discord activity toggle
         function toggleDiscordActivity() {
             const lanyardContainer = document.querySelector('.lanyard-container');
             const toggleButton = document.querySelector('.discord-activity-toggle');
@@ -653,7 +760,6 @@
             }
         }
 
-        // Skill bars animation
         setTimeout(() => {
             document.getElementById('gcode-bar').style.width = '100%';
             document.getElementById('prolog-bar').style.width = '63%';

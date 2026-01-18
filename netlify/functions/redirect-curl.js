@@ -4,7 +4,6 @@ exports.handler = async (event, context) => {
   const userAgent = event.headers['user-agent'] || '';
   const referer = event.headers['referer'] || '';
   
-  // Common curl/user agent patterns
   const curlPatterns = [
     /curl/i,
     /wget/i,
@@ -18,15 +17,12 @@ exports.handler = async (event, context) => {
     /go-http/i
   ];
   
-  // Check if user agent matches curl patterns
   const isCurl = curlPatterns.some(pattern => pattern.test(userAgent));
   
-  // Additional checks for curl-like behavior
   const hasNoAcceptHeader = !event.headers['accept'] || event.headers['accept'].includes('*/*');
   const hasNoAcceptLanguage = !event.headers['accept-language'];
   
   if (isCurl || (hasNoAcceptHeader && hasNoAcceptLanguage)) {
-    // Redirect curl requests to different URL
     return {
       statusCode: 302,
       headers: {
@@ -36,8 +32,6 @@ exports.handler = async (event, context) => {
     };
   }
   
-  // For normal browsers, serve the main site
-  // You would need to return your actual HTML content here
   return {
     statusCode: 200,
     headers: {
