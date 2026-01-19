@@ -13,12 +13,24 @@ export async function handler(event) {
     }
 
     // Get client IP address
+    console.log('All headers:', JSON.stringify(event.headers, null, 2));
     const clientIP = event.headers['x-forwarded-for'] || 
                      event.headers['x-real-ip'] || 
                      event.headers['x-client-ip'] || 
                      event.headers['cf-connecting-ip'] || 
+                     event.headers['x-forwarded'] ||
+                     event.headers['forwarded'] ||
+                     event.headers['x-cluster-client-ip'] ||
                      'Unknown';
-    console.log('Client IP:', clientIP);
+    console.log('Header values:');
+    console.log('x-forwarded-for:', event.headers['x-forwarded-for']);
+    console.log('x-real-ip:', event.headers['x-real-ip']);
+    console.log('x-client-ip:', event.headers['x-client-ip']);
+    console.log('cf-connecting-ip:', event.headers['cf-connecting-ip']);
+    console.log('x-forwarded:', event.headers['x-forwarded']);
+    console.log('forwarded:', event.headers['forwarded']);
+    console.log('x-cluster-client-ip:', event.headers['x-cluster-client-ip']);
+    console.log('Final client IP:', clientIP);
 
     // Parse request body for additional data
     let requestData = {};
