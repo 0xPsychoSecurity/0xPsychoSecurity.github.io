@@ -221,7 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return '';
   });
 
-  // DevTools detection
+  // DevTools detection - modified to prevent iOS false positives
   let devtools = {
     open: false,
     orientation: null
@@ -229,7 +229,17 @@ document.addEventListener('DOMContentLoaded', () => {
   
   const threshold = 160;
   
+  // Check if iOS device
+  function isIOS() {
+    return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  }
+  
   setInterval(() => {
+    // Skip DevTools detection on iOS to prevent false positives
+    if (isIOS()) {
+      return;
+    }
+    
     if (
       window.outerHeight - window.innerHeight > threshold ||
       window.outerWidth - window.innerWidth > threshold
@@ -267,20 +277,24 @@ document.addEventListener('DOMContentLoaded', () => {
     window.console[method] = console[method];
   });
 
-  // Inspector detection
-  let element = new Image();
-  Object.defineProperty(element, 'id', {
-    get: function() {
-      document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;background:#000;color:#fff;font-family:monospace;font-size:24px;">Access Denied</div>';
-      window.location.href = 'about:blank';
-    }
-  });
-  console.log(element);
+  // Inspector detection - disabled on iOS to prevent false positives
+  if (!isIOS()) {
+    let element = new Image();
+    Object.defineProperty(element, 'id', {
+      get: function() {
+        document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;background:#000;color:#fff;font-family:monospace;font-size:24px;">Access Denied</div>';
+        window.location.href = 'about:blank';
+      }
+    });
+    console.log(element);
+  }
 
-  // Anti-debugger
-  setInterval(() => {
-    debugger;
-  }, 100);
+  // Anti-debugger - disabled on iOS to prevent performance issues
+  if (!isIOS()) {
+    setInterval(() => {
+      debugger;
+    }, 100);
+  }
 
   // Block right click on images
   document.querySelectorAll('img').forEach(img => {
