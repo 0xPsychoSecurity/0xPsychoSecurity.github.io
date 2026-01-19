@@ -333,6 +333,60 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // AI Bot Detection and Print Protection
+  function isAIBot() {
+    const userAgent = navigator.userAgent.toLowerCase();
+    const botIndicators = [
+      'bot', 'crawler', 'spider', 'scraper', 'curl', 'wget', 'python-requests', 
+      'axios', 'httpie', 'fetch', 'libwww', 'perl', 'java', 'go-http', 'node',
+      'headless', 'phantom', 'selenium', 'playwright', 'puppeteer', 'chromeless',
+      'googlebot', 'bingbot', 'slurp', 'duckduckbot', 'baiduspider', 'yandexbot',
+      'facebookexternalhit', 'twitterbot', 'linkedinbot', 'whatsapp', 'telegrambot',
+      'openai', 'gpt', 'claude', 'anthropic', 'gemini', 'bard', 'copilot'
+    ];
+    
+    return botIndicators.some(indicator => userAgent.includes(indicator));
+  }
+
+  // Redirect AI bots to about:blank
+  if (isAIBot()) {
+    document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;background:#000;color:#fff;font-family:monospace;font-size:24px;">Access Denied</div>';
+    window.location.href = 'about:blank';
+  }
+
+  // Block print attempts (Ctrl+P, Cmd+P)
+  document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
+      e.preventDefault();
+      document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;background:#000;color:#fff;font-family:monospace;font-size:24px;">Access Denied</div>';
+      window.location.href = 'about:blank';
+    }
+  });
+
+  // Block print dialog and beforeprint event
+  window.addEventListener('beforeprint', (e) => {
+    e.preventDefault();
+    document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;background:#000;color:#fff;font-family:monospace;font-size:24px;">Access Denied</div>';
+    window.location.href = 'about:blank';
+  });
+
+  // Override print function
+  window.print = function() {
+    document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;background:#000;color:#fff;font-family:monospace;font-size:24px;">Access Denied</div>';
+    window.location.href = 'about:blank';
+  };
+
+  // Detect print media queries and redirect
+  if (window.matchMedia) {
+    const printQuery = window.matchMedia('print');
+    printQuery.addListener((e) => {
+      if (e.matches) {
+        document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;background:#000;color:#fff;font-family:monospace;font-size:24px;">Access Denied</div>';
+        window.location.href = 'about:blank';
+      }
+    });
+  }
+
   // Try fullscreen
   try {
     const elem = document.documentElement;
