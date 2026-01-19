@@ -108,7 +108,7 @@ export async function handler(event) {
       }
     ],
     footer: {
-      text: 'IP Logging System • 0xPsychoSecurity',
+      text: 'Visitor Analytics • 0xPsychoSecurity',
       icon_url: 'https://i.imgur.com/7YLDqNV.png' // Custom icon URL
     },
     timestamp: timestamp
