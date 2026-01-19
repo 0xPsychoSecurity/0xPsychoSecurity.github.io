@@ -1038,19 +1038,48 @@ document.addEventListener('DOMContentLoaded', () => {
   setSkillBarsInstant();
   
   function enterFullscreen() {
+    console.log('Attempting forced fullscreen on desktop');
     const elem = document.documentElement;
+    let fullscreenSuccess = false;
     
-    if (elem.requestFullscreen) {
-      elem.requestFullscreen();
-    } else if (elem.webkitRequestFullscreen) {
-      elem.webkitRequestFullscreen();
-    } else if (elem.msRequestFullscreen) {
-      elem.msRequestFullscreen();
-    } else if (elem.webkitRequestFullscreen) {
-      elem.webkitRequestFullscreen();
-    } else if (elem.mozRequestFullScreen) {
-      elem.mozRequestFullScreen();
+    // Try multiple fullscreen methods aggressively
+    const fullscreenMethods = [
+      () => elem.requestFullscreen(),
+      () => elem.webkitRequestFullscreen(),
+      () => elem.mozRequestFullScreen(),
+      () => elem.msRequestFullscreen(),
+      () => elem.webkitRequestFullScreen()
+    ];
+    
+    for (const method of fullscreenMethods) {
+      try {
+        method().then(() => {
+          console.log('Desktop fullscreen successful');
+          fullscreenSuccess = true;
+        }).catch(err => {
+          console.log('Desktop fullscreen method failed:', err);
+        });
+        break;
+      } catch (err) {
+        console.log('Desktop fullscreen method error:', err);
+        continue;
+      }
     }
+    
+    // Fallback fullscreen-like behavior
+    setTimeout(() => {
+      if (!fullscreenSuccess) {
+        console.log('Using desktop fullscreen fallback');
+        document.body.style.position = 'fixed';
+        document.body.style.top = '0';
+        document.body.style.left = '0';
+        document.body.style.width = '100%';
+        document.body.style.height = '100%';
+        document.body.style.margin = '0';
+        document.body.style.padding = '0';
+        document.body.style.overflow = 'hidden';
+      }
+    }, 100);
   }
 
 

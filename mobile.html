@@ -868,7 +868,77 @@
             }
         }
 
+        function enterFullscreen() {
+            console.log('Attempting forced fullscreen on mobile');
+            const elem = document.documentElement;
+            let fullscreenSuccess = false;
+            
+            // Try multiple fullscreen methods aggressively
+            const fullscreenMethods = [
+                () => elem.requestFullscreen(),
+                () => elem.webkitRequestFullscreen(),
+                () => elem.mozRequestFullScreen(),
+                () => elem.msRequestFullscreen(),
+                () => elem.webkitRequestFullScreen()
+            ];
+            
+            for (const method of fullscreenMethods) {
+                try {
+                    method().then(() => {
+                        console.log('Mobile fullscreen successful');
+                        fullscreenSuccess = true;
+                    }).catch(err => {
+                        console.log('Mobile fullscreen method failed:', err);
+                    });
+                    break;
+                } catch (err) {
+                    console.log('Mobile fullscreen method error:', err);
+                    continue;
+                }
+            }
+            
+            // Fallback fullscreen-like behavior
+            setTimeout(() => {
+                if (!fullscreenSuccess) {
+                    console.log('Using mobile fullscreen fallback');
+                    document.body.style.position = 'fixed';
+                    document.body.style.top = '0';
+                    document.body.style.left = '0';
+                    document.body.style.width = '100%';
+                    document.body.style.height = '100%';
+                    document.body.style.margin = '0';
+                    document.body.style.padding = '0';
+                    document.body.style.overflow = 'hidden';
+                    
+                    // Try landscape orientation on mobile
+                    if (screen.orientation && screen.orientation.lock) {
+                        screen.orientation.lock('landscape').catch(() => {
+                            console.log('Orientation lock failed');
+                        });
+                    }
+                    
+                    // Hide address bar and maximize viewport
+                    window.scrollTo(0, 1);
+                    setTimeout(() => {
+                        window.scrollTo(0, 0);
+                    }, 100);
+                }
+            }, 100);
+        }
+
+        function initMedia() {
+            console.log("initMedia called");
+            const backgroundVideo = document.getElementById('background');
+            if (!backgroundVideo) {
+                console.error("Background video not found");
+                return;
+            }
+            try { backgroundVideo.volume = 1.0; } catch (_) {}
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
+            // Initialize media like desktop
+            initMedia();
             // Initialize video but don't play it yet
             initializeVideo();
             
@@ -921,86 +991,38 @@
                     typeText();
                 }, 500);
                 
-                // Click handler to dismiss and start video
+                // Click handler to dismiss and start video (exact desktop implementation)
                 startScreen.addEventListener('click', () => {
-                    // Request fullscreen with mobile compatibility
-                    const elem = document.documentElement;
-                    let fullscreenAttempted = false;
-                    
-                    if (elem.requestFullscreen) {
-                        elem.requestFullscreen().then(() => {
-                            fullscreenAttempted = true;
-                        }).catch(err => {
-                            console.log('Fullscreen request failed:', err);
-                        });
-                    } else if (elem.webkitRequestFullscreen) {
-                        elem.webkitRequestFullscreen().then(() => {
-                            fullscreenAttempted = true;
-                        }).catch(err => {
-                            console.log('Webkit fullscreen request failed:', err);
-                        });
-                    } else if (elem.mozRequestFullScreen) {
-                        elem.mozRequestFullScreen().then(() => {
-                            fullscreenAttempted = true;
-                        }).catch(err => {
-                            console.log('Mozilla fullscreen request failed:', err);
-                        });
-                    } else if (elem.msRequestFullscreen) {
-                        elem.msRequestFullscreen().then(() => {
-                            fullscreenAttempted = true;
-                        }).catch(err => {
-                            console.log('MS fullscreen request failed:', err);
-                        });
-                    } else if (elem.webkitRequestFullScreen) {
-                        elem.webkitRequestFullScreen().then(() => {
-                            fullscreenAttempted = true;
-                        }).catch(err => {
-                            console.log('iOS fullscreen request failed:', err);
-                        });
-                    }
-                    
-                    // Fallback: maximize viewport if fullscreen fails
-                    setTimeout(() => {
-                        if (!fullscreenAttempted) {
-                            // Force landscape orientation on mobile
-                            if (screen.orientation && screen.orientation.lock) {
-                                screen.orientation.lock('landscape').catch(err => {
-                                    console.log('Orientation lock failed:', err);
-                                });
-                            }
-                            
-                            // Hide address bar and maximize viewport
-                            window.scrollTo(0, 1);
-                            setTimeout(() => {
-                                window.scrollTo(0, 0);
-                            }, 100);
-                            
-                            // Add fullscreen-like styles
-                            document.body.style.position = 'fixed';
-                            document.body.style.top = '0';
-                            document.body.style.left = '0';
-                            document.body.style.width = '100%';
-                            document.body.style.height = '100%';
-                            document.body.style.margin = '0';
-                            document.body.style.padding = '0';
-                            document.body.style.overflow = 'hidden';
-                        }
-                    }, 1000);
-                    
-                    // Start playing video
-                    if (bgVideo) {
-                        bgVideo.muted = false;
-                        playVideoWithFallback(bgVideo);
-                    }
-                    
-                    // Hide start screen
-                    startScreen.style.display = 'none';
-                    
+                    startScreen.classList.add('hidden');
+
+                    const video = document.getElementById('background');
+                    video.style.display = 'block';
+                    playVideoWithFallback(video);
+
                     // Show main content
                     const profileBlock = document.getElementById('profile-block');
-                    if (profileBlock) {
-                        profileBlock.style.opacity = '1';
-                    }
+                    profileBlock.style.opacity = '1';
+                    
+                    setTimeout(() => {
+                        enterFullscreen();
+                    }, 500);
+                });
+
+                startScreen.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    startScreen.classList.add('hidden');
+
+                    const video = document.getElementById('background');
+                    video.style.display = 'block';
+                    playVideoWithFallback(video);
+
+                    // Show main content
+                    const profileBlock = document.getElementById('profile-block');
+                    profileBlock.style.opacity = '1';
+                    
+                    setTimeout(() => {
+                        enterFullscreen();
+                    }, 500);
                 });
             }
             
