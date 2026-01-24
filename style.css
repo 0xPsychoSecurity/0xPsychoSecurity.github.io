@@ -31,13 +31,14 @@ a, button, input, textarea, select, [onclick], [role="button"] {
   position: fixed;
   width: 32px;
   height: 32px;
-  background: url('assets/cursor.png') no-repeat center center;
+  background: url('16dh80a2nlj9/ul8rxb7yjwis/cursor.png') no-repeat center center;
   background-size: contain;
   pointer-events: none;
   z-index: 99999;
   transition: transform 0.1s ease-out;
   transform: translate(-16px, -8px);
   opacity: 1;
+  display: block;
 }
 
 @keyframes loadingPulse {

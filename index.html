@@ -5,13 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Fuck Off ™️</title>
-    <link rel="icon" type="image/png" href="assets/ico.png">
+    <link rel="icon" type="image/png" href="16dh80a2nlj9/ul8rxb7yjwis/ico.png">
     <script>
       (function(){
         try{
           var targetHost='fuckyourshittybiolink.netlify.app';
           if(location.hostname!==targetHost && !/\bno-redirect=1\b/.test(location.search)){
-            var testUrl='https://'+targetHost+'/assets/def_profile.gif?ping='+(Date.now());
+            var testUrl='https://'+targetHost+'/16dh80a2nlj9/ul8rxb7yjwis/def_profile.gif?ping='+(Date.now());
             var img=new Image();
             var done=false;
             var timer=setTimeout(function(){ if(done) return; done=true; /* stay here if timeout */ },2500);
@@ -25,11 +25,141 @@
     
     <script>
       (function() {
-        var userAgent = navigator.userAgent.toLowerCase();
-        var curlIndicators = ['curl', 'wget', 'python-requests', 'axios', 'httpie', 'fetch', 'libwww', 'perl', 'java', 'go-http'];
+        var userAgent = navigator.userAgent;
         
-        var isCurl = curlIndicators.some(function(indicator) {
-          return userAgent.includes(indicator);
+        // Strict validation for real browser user agents only
+        function isValidBrowserUA() {
+          // Comprehensive valid browser patterns (ALL major browsers)
+          var validPatterns = [
+            // Chrome (Desktop)
+            /^Mozilla\/5\.0 \((Windows NT|Macintosh|X11|Linux).*\) AppleWebKit\/[0-9\.]+ \(KHTML, like Gecko\) Chrome\/[0-9\.]+ Safari\/[0-9\.]+$/,
+            // Chrome (Android Mobile)
+            /^Mozilla\/5\.0 \(Linux; Android [0-9\.]+; .*\) AppleWebKit\/[0-9\.]+ \(KHTML, like Gecko\) Chrome\/[0-9\.]+ Mobile Safari\/[0-9\.]+$/,
+            // Chrome (iOS)
+            /^Mozilla\/5\.0 \(iPhone; CPU iPhone OS [0-9_]+ like Mac OS X\) AppleWebKit\/[0-9\.]+ \(KHTML, like Gecko\) CriOS\/[0-9\.]+ Mobile\/[0-9a-f]+ Safari\/[0-9\.]+$/,
+            /^Mozilla\/5\.0 \(iPad; CPU OS [0-9_]+ like Mac OS X\) AppleWebKit\/[0-9\.]+ \(KHTML, like Gecko\) CriOS\/[0-9\.]+ Mobile\/[0-9a-f]+ Safari\/[0-9\.]+$/,
+            
+            // Firefox (Desktop)
+            /^Mozilla\/5\.0 \((Windows NT|Macintosh|X11|Linux).*; rv:[0-9\.]+\) Gecko\/[0-9\.]+ Firefox\/[0-9\.]+$/,
+            // Firefox (Android Mobile)
+            /^Mozilla\/5\.0 \(Mobile; rv:[0-9\.]+\) Gecko\/[0-9\.]+ Firefox\/[0-9\.]+$/,
+            // Firefox (iOS)
+            /^Mozilla\/5\.0 \(iPhone; CPU iPhone OS [0-9_]+ like Mac OS X\) AppleWebKit\/[0-9\.]+ \(KHTML, like Gecko\) FxiOS\/[0-9\.]+ Mobile\/[0-9a-f]+ Safari\/[0-9\.]+$/,
+            /^Mozilla\/5\.0 \(iPad; CPU OS [0-9_]+ like Mac OS X\) AppleWebKit\/[0-9\.]+ \(KHTML, like Gecko\) FxiOS\/[0-9\.]+ Mobile\/[0-9a-f]+ Safari\/[0-9\.]+$/,
+            
+            // Safari (Desktop)
+            /^Mozilla\/5\.0 \((Macintosh|iPhone; CPU iPhone OS|iPad; CPU OS).*\) AppleWebKit\/[0-9\.]+ \(KHTML, like Gecko\) Version\/[0-9\.]+ Safari\/[0-9\.]+$/,
+            // Safari (iOS Mobile)
+            /^Mozilla\/5\.0 \(iPhone; CPU iPhone OS [0-9_]+ like Mac OS X\) AppleWebKit\/[0-9\.]+ \(KHTML, like Gecko\) Version\/[0-9\.]+ Mobile\/[0-9a-f]+ Safari\/[0-9\.]+$/,
+            /^Mozilla\/5\.0 \(iPad; CPU OS [0-9_]+ like Mac OS X\) AppleWebKit\/[0-9\.]+ \(KHTML, like Gecko\) Version\/[0-9\.]+ Mobile\/[0-9a-f]+ Safari\/[0-9\.]+$/,
+            
+            // Edge (Desktop)
+            /^Mozilla\/5\.0 \((Windows NT|Macintosh|X11|Linux).*\) AppleWebKit\/[0-9\.]+ \(KHTML, like Gecko\) Chrome\/[0-9\.]+ Safari\/[0-9\.]+ Edg\/[0-9\.]+$/,
+            // Edge (Android Mobile)
+            /^Mozilla\/5\.0 \(Linux; Android [0-9\.]+; .*\) AppleWebKit\/[0-9\.]+ \(KHTML, like Gecko\) Chrome\/[0-9\.]+ Mobile Safari\/[0-9\.]+ EdgA\/[0-9\.]+$/,
+            // Edge (iOS)
+            /^Mozilla\/5\.0 \(iPhone; CPU iPhone OS [0-9_]+ like Mac OS X\) AppleWebKit\/[0-9\.]+ \(KHTML, like Gecko\) Version\/[0-9\.]+ EdgiOS\/[0-9\.]+ Mobile\/[0-9a-f]+ Safari\/[0-9\.]+$/,
+            /^Mozilla\/5\.0 \(iPad; CPU OS [0-9_]+ like Mac OS X\) AppleWebKit\/[0-9\.]+ \(KHTML, like Gecko\) Version\/[0-9\.]+ EdgiOS\/[0-9\.]+ Mobile\/[0-9a-f]+ Safari\/[0-9\.]+$/,
+            
+            // Opera (Desktop)
+            /^Mozilla\/5\.0 \((Windows NT|Macintosh|X11|Linux).*\) AppleWebKit\/[0-9\.]+ \(KHTML, like Gecko\) Chrome\/[0-9\.]+ Safari\/[0-9\.]+ OPR\/[0-9\.]+$/,
+            // Opera (Android Mobile)
+            /^Mozilla\/5\.0 \(Linux; Android [0-9\.]+; .*\) AppleWebKit\/[0-9\.]+ \(KHTML, like Gecko\) Chrome\/[0-9\.]+ Mobile Safari\/[0-9\.]+ OPR\/[0-9\.]+$/,
+            // Opera (iOS)
+            /^Mozilla\/5\.0 \(iPhone; CPU iPhone OS [0-9_]+ like Mac OS X\) AppleWebKit\/[0-9\.]+ \(KHTML, like Gecko\) OPiOS\/[0-9\.]+ Mobile\/[0-9a-f]+ Safari\/[0-9\.]+$/,
+            /^Mozilla\/5\.0 \(iPad; CPU OS [0-9_]+ like Mac OS X\) AppleWebKit\/[0-9\.]+ \(KHTML, like Gecko\) OPiOS\/[0-9\.]+ Mobile\/[0-9a-f]+ Safari\/[0-9\.]+$/,
+            
+            // Opera GX (Desktop)
+            /^Mozilla\/5\.0 \((Windows NT|Macintosh|X11|Linux).*\) AppleWebKit\/[0-9\.]+ \(KHTML, like Gecko\) Chrome\/[0-9\.]+ Safari\/[0-9\.]+ OPR\/[0-9\.]+$/,
+            // Opera GX (Mobile)
+            /^Mozilla\/5\.0 \(Linux; Android [0-9\.]+; .*\) AppleWebKit\/[0-9\.]+ \(KHTML, like Gecko\) Chrome\/[0-9\.]+ Mobile Safari\/[0-9\.]+ OPR\/[0-9\.]+$/,
+            
+            // Brave (Desktop - uses Chrome UA)
+            /^Mozilla\/5\.0 \((Windows NT|Macintosh|X11|Linux).*\) AppleWebKit\/[0-9\.]+ \(KHTML, like Gecko\) Chrome\/[0-9\.]+ Safari\/[0-9\.]+$/,
+            // Brave (Android Mobile)
+            /^Mozilla\/5\.0 \(Linux; Android [0-9\.]+; .*\) AppleWebKit\/[0-9\.]+ \(KHTML, like Gecko\) Chrome\/[0-9\.]+ Mobile Safari\/[0-9\.]+$/,
+            // Brave (iOS)
+            /^Mozilla\/5\.0 \(iPhone; CPU iPhone OS [0-9_]+ like Mac OS X\) AppleWebKit\/[0-9\.]+ \(KHTML, like Gecko\) Brave\/[0-9\.]+ Mobile\/[0-9a-f]+ Safari\/[0-9\.]+$/,
+            /^Mozilla\/5\.0 \(iPad; CPU OS [0-9_]+ like Mac OS X\) AppleWebKit\/[0-9\.]+ \(KHTML, like Gecko\) Brave\/[0-9\.]+ Mobile\/[0-9a-f]+ Safari\/[0-9\.]+$/,
+            
+            // Vivaldi (Desktop)
+            /^Mozilla\/5\.0 \((Windows NT|Macintosh|X11|Linux).*\) AppleWebKit\/[0-9\.]+ \(KHTML, like Gecko\) Chrome\/[0-9\.]+ Safari\/[0-9\.]+ Vivaldi\/[0-9\.]+$/,
+            
+            // DuckDuckGo (Desktop)
+            /^Mozilla\/5\.0 \((Windows NT|Macintosh|X11|Linux).*\) AppleWebKit\/[0-9\.]+ \(KHTML, like Gecko\) Chrome\/[0-9\.]+ Safari\/[0-9\.]+ DuckDuckGo\/[0-9\.]+$/,
+            // DuckDuckGo (Mobile)
+            /^Mozilla\/5\.0 \(Linux; Android [0-9\.]+; .*\) AppleWebKit\/[0-9\.]+ \(KHTML, like Gecko\) Chrome\/[0-9\.]+ Mobile Safari\/[0-9\.]+ DuckDuckGo\/[0-9\.]+$/,
+            
+            // Tor Browser (Desktop)
+            /^Mozilla\/5\.0 \((Windows NT|Macintosh|X11|Linux).*; rv:[0-9\.]+\) Gecko\/[0-9\.]+ Firefox\/[0-9\.]+$/,
+            
+            // Pale Moon (Desktop)
+            /^Mozilla\/5\.0 \((Windows NT|Macintosh|X11|Linux).*; rv:[0-9\.]+\) Gecko\/[0-9\.]+ Goanna\/[0-9\.]+ PaleMoon\/[0-9\.]+$/,
+            
+            // Waterfox (Desktop)
+            /^Mozilla\/5\.0 \((Windows NT|Macintosh|X11|Linux).*; rv:[0-9\.]+\) Gecko\/[0-9\.]+ Firefox\/[0-9\.]+ Waterfox\/[0-9\.]+$/,
+            
+            // Maxthon (Desktop)
+            /^Mozilla\/5\.0 \((Windows NT|Macintosh|X11|Linux).*\) AppleWebKit\/[0-9\.]+ \(KHTML, like Gecko\) Chrome\/[0-9\.]+ Safari\/[0-9\.]+ Maxthon\/[0-9\.]+$/,
+            
+            // SeaMonkey (Desktop)
+            /^Mozilla\/5\.0 \((Windows NT|Macintosh|X11|Linux).*; rv:[0-9\.]+\) Gecko\/[0-9\.]+ Firefox\/[0-9\.]+ SeaMonkey\/[0-9\.]+$/,
+            
+            // Internet Explorer (legacy)
+            /^Mozilla\/5\.0 \(compatible; MSIE [0-9\.]+; [A-Za-z0-9_\.]+.*\)$/,
+            /^Mozilla\/5\.0 \(.*\) Trident\/[0-9\.]+; rv:[0-9\.]+\) like Gecko$/,
+            
+            // Samsung Internet (Android)
+            /^Mozilla\/5\.0 \(Linux; Android [0-9\.]+; .*\) AppleWebKit\/[0-9\.]+ \(KHTML, like Gecko\) SamsungBrowser\/[0-9\.]+ Mobile Safari\/[0-9\.]+$/,
+            
+            // UC Browser (Android)
+            /^Mozilla\/5\.0 \(Linux; Android [0-9\.]+; .*\) AppleWebKit\/[0-9\.]+ \(KHTML, like Gecko\) Chrome\/[0-9\.]+ Mobile Safari\/[0-9\.]+ UCBrowser\/[0-9\.]+$/,
+            
+            // MIUI Browser (Xiaomi)
+            /^Mozilla\/5\.0 \(Linux; Android [0-9\.]+; .*Mi[A-Za-z0-9_]+.*\) AppleWebKit\/[0-9\.]+ \(KHTML, like Gecko\) Chrome\/[0-9\.]+ Mobile Safari\/[0-9\.]+ MiuiBrowser\/[0-9\.]+$/,
+            
+            // Huawei Browser
+            /^Mozilla\/5\.0 \(Linux; Android [0-9\.]+; .*; HUAWEI[A-Za-z0-9_\-]*\) AppleWebKit\/[0-9\.]+ \(KHTML, like Gecko\) Chrome\/[0-9\.]+ Mobile Safari\/[0-9\.]+$/,
+            
+            // Amazon Silk (Fire tablets)
+            /^Mozilla\/5\.0 \(Linux; Android [0-9\.]+; .*KF[A-Za-z0-9_\-]*\) AppleWebKit\/[0-9\.]+ \(KHTML, like Gecko\) Chrome\/[0-9\.]+ Safari\/[0-9\.]+ Silk\/[0-9\.]+$/,
+            
+            // BlackBerry Browser
+            /^Mozilla\/5\.0 \(BlackBerry; U; BlackBerry [0-9]+\).*\) AppleWebKit\/[0-9\.]+ \(KHTML, like Gecko\) Version\/[0-9\.]+ Safari\/[0-9\.]+$/,
+            
+            // Nokia Browser
+            /^Mozilla\/5\.0 \(.*; Nokia[A-Za-z0-9_\-]*.*\) AppleWebKit\/[0-9\.]+ \(KHTML, like Gecko\) Chrome\/[0-9\.]+ Mobile Safari\/[0-9\.]+$/,
+            
+            // LG WebOS (Smart TVs)
+            /^Mozilla\/5\.0 \((Web0S|WebTV); Linux\/SmartTV.*\) AppleWebKit\/[0-9\.]+ \(KHTML, like Gecko\) Chrome\/[0-9\.]+ Safari\/[0-9\.]+$/,
+            
+            // Tizen (Samsung Smart TVs)
+            /^Mozilla\/5\.0 \(.*; Tizen.*\) AppleWebKit\/[0-9\.]+ \(KHTML, like Gecko\) Chrome\/[0-9\.]+ Safari\/[0-9\.]+$/
+          ];
+          
+          // Check if matches any valid pattern
+          for (var i = 0; i < validPatterns.length; i++) {
+            if (validPatterns[i].test(userAgent)) {
+              return true;
+            }
+          }
+          
+          return false;
+        }
+        
+        // Block all automation tools, bots, and non-browser clients
+        var blockedIndicators = [
+          'curl', 'wget', 'python-requests', 'axios', 'httpie', 'fetch', 'libwww', 'perl', 'java', 'go-http',
+          'headless', 'phantom', 'selenium', 'playwright', 'puppeteer', 'chromeless',
+          'googlebot', 'bingbot', 'slurp', 'duckduckbot', 'baiduspider', 'yandexbot',
+          'facebookexternalhit', 'twitterbot', 'linkedinbot', 'whatsapp', 'telegrambot',
+          'openai', 'gpt', 'claude', 'anthropic', 'gemini', 'bard', 'copilot',
+          'postman', 'insomnia', 'fiddler', 'charles', 'burp', 'wireshark',
+          'bot', 'crawler', 'spider', 'scraper'
+        ];
+        
+        var isBlocked = blockedIndicators.some(function(indicator) {
+          return userAgent.toLowerCase().includes(indicator);
         });
         
         var hasNoDocument = typeof document === 'undefined' || !document.createElement;
@@ -41,13 +171,14 @@
           typeof window !== 'undefined' &&
           typeof navigator !== 'undefined' &&
           navigator.userAgent && 
-          navigator.userAgent.length > 20 &&
+          navigator.userAgent.length > 50 &&
           document.createElement &&
           window.location &&
-          window.location.href
+          window.location.href &&
+          typeof window.addEventListener === 'function'
         );
         
-        if (isCurl || !hasTypicalBrowserFeatures || hasNoDocument || hasNoWindow || hasNoNavigator) {
+        if (isBlocked || !hasTypicalBrowserFeatures || hasNoDocument || hasNoWindow || hasNoNavigator || !isValidBrowserUA()) {
           var fakeFiles = [
             '// app.js - Main application file\nconst express = require(\'express\');\nconst app = express();\nconst port = process.env.PORT || 3000;\n\napp.get(\'/api/users\', (req, res) => {\n  res.json([{id: 1, name: "Fake User"}]);\n});\n\napp.listen(port, () => {\n  console.log(`Fake server running on port ${port}`);\n});',
             '// styles.css - Main stylesheet\n:root {\n  --primary-color: #fake123;\n  --secondary-color: #abc456;\n}\n\nbody {\n  font-family: \'Fake Font\', sans-serif;\n  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));\n}\n\n.container {\n  max-width: 1200px;\n  margin: 0 auto;\n  padding: 20px;\n}',
@@ -78,10 +209,10 @@
             '\n\n\n// End of fake content - This is not real source code</pre>' +
             '<script>console.clear(); console.log("Fake content loaded - this is not real source");<\/script>';
           
-          throw new Error('Fake content loaded for curl/bot request');
+          throw new Error('Fake content loaded for invalid browser/bot request');
         }
         
-        console.log('Normal browser detected - loading real content');
+        console.log('Valid browser detected - loading real content');
       })();
     </script>
     
@@ -105,8 +236,8 @@
     <meta property="og:title" content="Fuck Your Guns.lol"
     <meta property="og:description" content="★★★★☆">
     <meta property="og:url" content="https://0xpsychosecurity.github.io/">
-    <meta property="og:image" content="https://0xpsychosecurity.github.io/assets/banner-photo-embed.gif">
-    <meta property="og:image:secure_url" content="https://0xpsychosecurity.github.io/assets/banner-photo-embed.gif">
+    <meta property="og:image" content="https://0xpsychosecurity.github.io/16dh80a2nlj9/ul8rxb7yjwis/banner-photo-embed.gif">
+    <meta property="og:image:secure_url" content="https://0xpsychosecurity.github.io/16dh80a2nlj9/ul8rxb7yjwis/banner-photo-embed.gif">
     <meta property="og:image:type" content="image/gif">
     <meta property="og:image:alt" content="Site banner">
     <meta property="og:image:width" content="1200">
@@ -114,7 +245,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Fuck Your Guns.lol">
     <meta name="twitter:description" content="★★★★☆">
-    <meta name="twitter:image" content="https://0xpsychosecurity.github.io/assets/banner-photo-embed.gif">
+    <meta name="twitter:image" content="https://0xpsychosecurity.github.io/16dh80a2nlj9/ul8rxb7yjwis/banner-photo-embed.gif">
     
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="DENY">
@@ -133,12 +264,18 @@
             position: fixed;
             width: 32px;
             height: 32px;
-            background: url('assets/cursor.png') no-repeat center center;
+            background: url('16dh80a2nlj9/ul8rxb7yjwis/cursor.png') no-repeat center center;
             background-size: contain;
             pointer-events: none;
             z-index: 99999;
             transform: translate(-16px, -8px);
             opacity: 1;
+            display: block;
+            transition: transform 0.1s ease-out;
+        }
+
+        .custom-cursor.hidden {
+            display: none;
         }
 
 
@@ -356,7 +493,7 @@
         }
 
         .profile-header {
-            background-image: url('assets/def_profile.gif');
+            background-image: url('16dh80a2nlj9/ul8rxb7yjwis/def_profile.gif');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -2209,7 +2346,7 @@
 <body class="home-theme" onload="initMedia()">
 
     <video id="background" loop playsinline webkit-playsinline>
-        <source id="bgSource" src="assets/b-background.mp4" type="video/mp4">
+        <source id="bgSource" src="16dh80a2nlj9/k4mz8n5pq2rx/b-background.mp4" type="video/mp4">
     </video>
 
     <div class="glitch-overlay"></div>
@@ -2327,7 +2464,7 @@
                             <h2 class="skills-title">Languages</h2>
                             <div class="skill">
                                 <div class="skill-name">
-                                    <img src="assets/GCodeblk1.png" alt="G-Code (CNC Code)" class="skill-icon">
+                                    <img src="16dh80a2nlj9/ul8rxb7yjwis/GCodeblk1.png" alt="G-Code (CNC Code)" class="skill-icon">
                                     <span>G-Code (CNC Code)</span>
                                     <span>100%</span>
                                 </div>
@@ -2337,7 +2474,7 @@
                             </div>
                             <div class="skill">
                                 <div class="skill-name">
-                                    <img src="assets/prolog.png" alt="Prolog" class="skill-icon">
+                                    <img src="16dh80a2nlj9/ul8rxb7yjwis/prolog.png" alt="Prolog" class="skill-icon">
                                     <span>Prolog</span>
                                     <span>63%</span>
                                 </div>
@@ -2347,7 +2484,7 @@
                             </div>
                             <div class="skill">
                                 <div class="skill-name">
-                                    <img src="assets/cpp.png" alt="C++" class="skill-icon">
+                                    <img src="16dh80a2nlj9/ul8rxb7yjwis/cpp.png" alt="C++" class="skill-icon">
                                     <span>C++</span>
                                     <span>27%</span>
                                 </div>
@@ -2357,7 +2494,7 @@
                             </div>
                             <div class="skill">
                                 <div class="skill-name">
-                                    <img src="assets/assembly.png" alt="Assembly" class="skill-icon">
+                                    <img src="16dh80a2nlj9/ul8rxb7yjwis/assembly.png" alt="Assembly" class="skill-icon">
                                     <span>Assembly</span>
                                     <span>12%</span>
                                 </div>
@@ -2369,25 +2506,25 @@
 
                         <div class="social-links">
                             <a href="https://signal.me/#eu/6kk1-aRZK4pmYLidTkVUUMAjfwsp0l4To2dYqRr_8yXpsD2Dsp1H7K0fSwINVWfT" target="_blank" title="Message Me on Signal">
-                                <img src="assets/signal.png" alt="Signal" class="social-icon">
+                                <img src="16dh80a2nlj9/ul8rxb7yjwis/signal.png" alt="Signal" class="social-icon">
                             </a>
                             <a id="xrp-link" href="https://xrpscan.com/account/rpbsDqk7JTVu8ddG9XWf52pMjR3xDAKsju" target="_blank" title="My XRP Wallet">
-                                <img src="assets/xrp.png" alt="XRP Wallet" class="social-icon">
+                                <img src="16dh80a2nlj9/ul8rxb7yjwis/xrp.png" alt="XRP Wallet" class="social-icon">
                             </a>
                             <a id="discord-link" href="discord://-/users/1232545312233619462" target="_blank" title="Add me on Discord">
-                                <img src="assets/discord.png" alt="Discord" class="social-icon">
+                                <img src="16dh80a2nlj9/ul8rxb7yjwis/discord.png" alt="Discord" class="social-icon">
                             </a>
                             <a href="https://x.com/comms_____up" target="_blank" title="Follow me on X/Twitter">
-                                <img src="assets/twitter.png" alt="Twitter" class="social-icon">
+                                <img src="16dh80a2nlj9/ul8rxb7yjwis/twitter.png" alt="Twitter" class="social-icon">
                             </a>
                             <a href="mailto:noreply@cia.contact" target="_blank" title="Email Me">
-                                <img src="assets/whor.email.png" alt="Email" class="social-icon">
+                                <img src="16dh80a2nlj9/ul8rxb7yjwis/whor.email.png" alt="Email" class="social-icon">
                             </a>
                             <a href="https://zws.im/%F3%A0%81%BA%F3%A0%81%B1%F3%A0%81%A3%F3%A0%81%B2%F3%A0%81%BA%F3%A0%81%BA%F3%A0%81%A2" target="_blank" title="My Leaked Dox">
-                                <img src="assets/doxbin.png" alt="My Dox" class="social-icon">
+                                <img src="16dh80a2nlj9/ul8rxb7yjwis/doxbin.png" alt="My Dox" class="social-icon">
                             </a>
                             <a href="https://odysee.com/@cumfart:3?view=content" target="_blank" title="My Odysee Channel">
-                                <img src="assets/odysee.png" alt="Odysee" class="social-icon">
+                                <img src="16dh80a2nlj9/ul8rxb7yjwis/odysee.png" alt="Odysee" class="social-icon">
                             </a>
                         </div>
 
@@ -2473,11 +2610,11 @@
                             const bannerUrl = bannerData.banner.link;
                             document.querySelector('.profile-header').style.backgroundImage = 'url(\'' + bannerUrl + '\')';
                         } else {
-                            document.querySelector('.profile-header').style.backgroundImage = 'url(\'assets/def_profile.gif\')';
+                            document.querySelector('.profile-header').style.backgroundImage = 'url(\'16dh80a2nlj9/ul8rxb7yjwis/def_profile.gif\')';
                         }
                     })
                     .catch(function(error) {
-                        document.querySelector('.profile-header').style.backgroundImage = 'url(\'assets/def_profile.gif\')';
+                        document.querySelector('.profile-header').style.backgroundImage = 'url(\'16dh80a2nlj9/ul8rxb7yjwis/def_profile.gif\')';
                     });
 
                 const profileNameEl = document.querySelector('#profile-name');
@@ -2597,54 +2734,54 @@
                         }
                         
                         if (hasNitro) {
-                            badgesToAdd.push({ name: 'Discord Nitro', icon: 'assets/discord_nitro.png' });
+                            badgesToAdd.push({ name: 'Discord Nitro', icon: '16dh80a2nlj9/ul8rxb7yjwis/discord_nitro.png' });
                         }
                         
                         if (user.premium_guild_subscription || user.premium_since || user.premium_guild_subscription_tier) {
-                            badgesToAdd.push({ name: 'Server Booster', icon: 'assets/discord_boost.png' });
+                            badgesToAdd.push({ name: 'Server Booster', icon: '16dh80a2nlj9/ul8rxb7yjwis/discord_boost.png' });
                         }
                         
                         if (user.public_flags && (user.public_flags & (1 << 22))) {
-                            badgesToAdd.push({ name: 'Quests', icon: 'assets/quests_badge.png' });
+                            badgesToAdd.push({ name: 'Quests', icon: '16dh80a2nlj9/ul8rxb7yjwis/quests_badge.png' });
                         } else {
-                            badgesToAdd.push({ name: 'Quests', icon: 'assets/quests_badge.png' });
+                            badgesToAdd.push({ name: 'Quests', icon: '16dh80a2nlj9/ul8rxb7yjwis/quests_badge.png' });
                         }
                         
-                        badgesToAdd.push({ name: 'Orbs', icon: 'assets/orbs_badge.png' });
+                        badgesToAdd.push({ name: 'Orbs', icon: '16dh80a2nlj9/ul8rxb7yjwis/orbs_badge.png' });
                         
                         if (user.public_flags) {
                             if (user.public_flags & (1 << 6)) {
-                                badgesToAdd.push({ name: 'HypeSquad Bravery', icon: 'assets/discord_hypesquad_bravery.png' });
+                                badgesToAdd.push({ name: 'HypeSquad Bravery', icon: '16dh80a2nlj9/ul8rxb7yjwis/discord_hypesquad_bravery.png' });
                             }
                             if (user.public_flags & (1 << 7)) {
-                                badgesToAdd.push({ name: 'HypeSquad Brilliance', icon: 'assets/discord_hypesquad_brilliance.png' });
+                                badgesToAdd.push({ name: 'HypeSquad Brilliance', icon: '16dh80a2nlj9/ul8rxb7yjwis/discord_hypesquad_brilliance.png' });
                             }
                             if (user.public_flags & (1 << 8)) {
-                                badgesToAdd.push({ name: 'HypeSquad Balance', icon: 'assets/discord_hypesquad_balance.png' });
+                                badgesToAdd.push({ name: 'HypeSquad Balance', icon: '16dh80a2nlj9/ul8rxb7yjwis/discord_hypesquad_balance.png' });
                             }
                             if (user.public_flags & (1 << 2)) {
-                                badgesToAdd.push({ name: 'HypeSquad Events', icon: 'assets/discord_hypesquad_events.png' });
+                                badgesToAdd.push({ name: 'HypeSquad Events', icon: '16dh80a2nlj9/ul8rxb7yjwis/discord_hypesquad_events.png' });
                             }
                         }
                         
                         if (user.public_flags) {
                             if (user.public_flags & (1 << 0)) {
-                                badgesToAdd.push({ name: 'Staff', icon: 'assets/discord_staff_new.png' });
+                                badgesToAdd.push({ name: 'Staff', icon: '16dh80a2nlj9/ul8rxb7yjwis/discord_staff_new.png' });
                             }
                             if (user.public_flags & (1 << 1)) {
-                                badgesToAdd.push({ name: 'Partner', icon: 'assets/discord_partner.png' });
+                                badgesToAdd.push({ name: 'Partner', icon: '16dh80a2nlj9/ul8rxb7yjwis/discord_partner.png' });
                             }
                             if (user.public_flags & (1 << 3)) {
-                                badgesToAdd.push({ name: 'Bug Hunter Level 1', icon: 'assets/discord_bug_hunter_1.png' });
+                                badgesToAdd.push({ name: 'Bug Hunter Level 1', icon: '16dh80a2nlj9/ul8rxb7yjwis/discord_bug_hunter_1.png' });
                             }
                             if (user.public_flags & (1 << 14)) {
-                                badgesToAdd.push({ name: 'Bug Hunter Level 2', icon: 'assets/discord_bug_hunter_2.png' });
+                                badgesToAdd.push({ name: 'Bug Hunter Level 2', icon: '16dh80a2nlj9/ul8rxb7yjwis/discord_bug_hunter_2.png' });
                             }
                             if (user.public_flags & (1 << 9)) {
-                                badgesToAdd.push({ name: 'Early Supporter', icon: 'assets/discord_early_supporter.png' });
+                                badgesToAdd.push({ name: 'Early Supporter', icon: '16dh80a2nlj9/ul8rxb7yjwis/discord_early_supporter.png' });
                             }
                             if (user.public_flags & (1 << 22)) {
-                                badgesToAdd.push({ name: 'Active Developer', icon: 'assets/active_developer_new.png' });
+                                badgesToAdd.push({ name: 'Active Developer', icon: '16dh80a2nlj9/ul8rxb7yjwis/active_developer_new.png' });
                             }
                         }
                         
@@ -2724,27 +2861,27 @@
                         badgeElement.className = 'badge-container';
                         
                         const badgeIconMap = {
-                            'Nitro': 'assets/discord_nitro.png',
-                            'Nitro Basic': 'assets/discord_nitro.png',
-                            'Server Booster': 'assets/discord_boost.png',
-                            'HypeSquad Bravery': 'assets/discord_hypesquad_bravery.png',
-                            'HypeSquad Brilliance': 'assets/discord_hypesquad_brilliance.png',
-                            'HypeSquad Balance': 'assets/discord_hypesquad_balance.png',
-                            'HypeSquad Events': 'assets/discord_hypesquad_events.png',
-                            'Early Supporter': 'assets/discord_early_supporter.png',
-                            'Bug Hunter Level 1': 'assets/discord_bug_hunter_1.png',
-                            'Bug Hunter Level 2': 'assets/discord_bug_hunter_2.png',
-                            'Active Developer': 'assets/active_developer_new.png',
-                            'Discord Certified Moderator': 'assets/discord_staff_new.png',
-                            'Partner': 'assets/discord_partner.png',
-                            'Staff': 'assets/discord_staff_new.png',
-                            'Verified Bot': 'assets/discord.png',
-                            'Early Verified Bot Developer': 'assets/active_developer_new.png',
-                            'Quests': 'assets/quests_badge.png',
-                            'Orbs': 'assets/orbs_badge.png'
+                            'Nitro': '16dh80a2nlj9/ul8rxb7yjwis/discord_nitro.png',
+                            'Nitro Basic': '16dh80a2nlj9/ul8rxb7yjwis/discord_nitro.png',
+                            'Server Booster': '16dh80a2nlj9/ul8rxb7yjwis/discord_boost.png',
+                            'HypeSquad Bravery': '16dh80a2nlj9/ul8rxb7yjwis/discord_hypesquad_bravery.png',
+                            'HypeSquad Brilliance': '16dh80a2nlj9/ul8rxb7yjwis/discord_hypesquad_brilliance.png',
+                            'HypeSquad Balance': '16dh80a2nlj9/ul8rxb7yjwis/discord_hypesquad_balance.png',
+                            'HypeSquad Events': '16dh80a2nlj9/ul8rxb7yjwis/discord_hypesquad_events.png',
+                            'Early Supporter': '16dh80a2nlj9/ul8rxb7yjwis/discord_early_supporter.png',
+                            'Bug Hunter Level 1': '16dh80a2nlj9/ul8rxb7yjwis/discord_bug_hunter_1.png',
+                            'Bug Hunter Level 2': '16dh80a2nlj9/ul8rxb7yjwis/discord_bug_hunter_2.png',
+                            'Active Developer': '16dh80a2nlj9/ul8rxb7yjwis/active_developer_new.png',
+                            'Discord Certified Moderator': '16dh80a2nlj9/ul8rxb7yjwis/discord_staff_new.png',
+                            'Partner': '16dh80a2nlj9/ul8rxb7yjwis/discord_partner.png',
+                            'Staff': '16dh80a2nlj9/ul8rxb7yjwis/discord_staff_new.png',
+                            'Verified Bot': '16dh80a2nlj9/ul8rxb7yjwis/discord.png',
+                            'Early Verified Bot Developer': '16dh80a2nlj9/ul8rxb7yjwis/active_developer_new.png',
+                            'Quests': '16dh80a2nlj9/ul8rxb7yjwis/quests_badge.png',
+                            'Orbs': '16dh80a2nlj9/ul8rxb7yjwis/orbs_badge.png'
                         };
                         
-                        const icon = badgeIconMap[badge] || 'assets/discord.png';
+                        const icon = badgeIconMap[badge] || '16dh80a2nlj9/ul8rxb7yjwis/discord.png';
                         
                         badgeElement.innerHTML = `
                             <img src="${icon}" alt="${badge}" class="badge" />
@@ -2757,7 +2894,7 @@
                 if (lookupData.premium_type) {
                     const premiumBadge = document.createElement('div');
                     premiumBadge.className = 'badge-container';
-                    const premiumIcon = 'assets/discord_nitro.png';
+                    const premiumIcon = '16dh80a2nlj9/ul8rxb7yjwis/discord_nitro.png';
                     const premiumName = lookupData.premium_type === 2 ? 'Discord Nitro Basic' : 'Discord Nitro';
                     
                     premiumBadge.innerHTML = `
@@ -2784,15 +2921,15 @@
                 console.log('public_flags (binary):', user.public_flags ? user.public_flags.toString(2) : 'N/A');
                 
                 const discordBadges = {
-                    0: { name: 'Staff', icon: 'assets/discord_staff.png' },
-                    1: { name: 'Partner', icon: 'assets/discord_partner.png' },
-                    3: { name: 'Bug Hunter Level 1', icon: 'assets/discord_bug_hunter_1.png' },
-                    9: { name: 'Early Supporter', icon: 'assets/discord_early_supporter.png' },
-                    14: { name: 'Bug Hunter Level 2', icon: 'assets/discord_bug_hunter_2.png' },
-                    16: { name: 'Verified Bot', icon: 'assets/discord_verified_bot.png' },
-                    17: { name: 'Early Verified Bot Developer', icon: 'assets/discord_early_verified_bot_dev.png' },
-                    18: { name: 'Discord Certified Moderator', icon: 'assets/discord_certified_mod.png' },
-                    22: { name: 'Active Developer', icon: 'assets/active_developer.png' }
+                    0: { name: 'Staff', icon: '16dh80a2nlj9/ul8rxb7yjwis/discord_staff.png' },
+                    1: { name: 'Partner', icon: '16dh80a2nlj9/ul8rxb7yjwis/discord_partner.png' },
+                    3: { name: 'Bug Hunter Level 1', icon: '16dh80a2nlj9/ul8rxb7yjwis/discord_bug_hunter_1.png' },
+                    9: { name: 'Early Supporter', icon: '16dh80a2nlj9/ul8rxb7yjwis/discord_early_supporter.png' },
+                    14: { name: 'Bug Hunter Level 2', icon: '16dh80a2nlj9/ul8rxb7yjwis/discord_bug_hunter_2.png' },
+                    16: { name: 'Verified Bot', icon: '16dh80a2nlj9/ul8rxb7yjwis/discord_verified_bot.png' },
+                    17: { name: 'Early Verified Bot Developer', icon: '16dh80a2nlj9/ul8rxb7yjwis/discord_early_verified_bot_dev.png' },
+                    18: { name: 'Discord Certified Moderator', icon: '16dh80a2nlj9/ul8rxb7yjwis/discord_certified_mod.png' },
+                    22: { name: 'Active Developer', icon: '16dh80a2nlj9/ul8rxb7yjwis/active_developer.png' }
                 };
                 
                 for (const flagBit in discordBadges) {
@@ -2828,11 +2965,11 @@
                 if (user.premium_type && user.premium_type > 0) {
                     const nitroBadge = document.createElement('div');
                     nitroBadge.className = 'badge-container';
-                    let nitroIcon = 'assets/discord_nitro.png';
+                    let nitroIcon = '16dh80a2nlj9/ul8rxb7yjwis/discord_nitro.png';
                     let nitroName = 'Discord Nitro';
                     
                     if (user.premium_type === 2) {
-                        nitroIcon = 'assets/discord_nitro_basic.png';
+                        nitroIcon = '16dh80a2nlj9/ul8rxb7yjwis/discord_nitro_basic.png';
                         nitroName = 'Discord Nitro Basic';
                     }
                     
@@ -2847,7 +2984,7 @@
                     const questsBadge = document.createElement('div');
                     questsBadge.className = 'badge-container';
                     questsBadge.innerHTML = `
-                        <img src="assets/quests.png" alt="Quests" class="badge" />
+                        <img src="16dh80a2nlj9/ul8rxb7yjwis/quests.png" alt="Quests" class="badge" />
                     `;
                     badgeContainer.appendChild(questsBadge);
                     console.log('Added badge: Quests');
@@ -2857,7 +2994,7 @@
                     const orbsBadge = document.createElement('div');
                     orbsBadge.className = 'badge-container';
                     orbsBadge.innerHTML = `
-                        <img src="assets/orbs.png" alt="Orbs" class="badge" />
+                        <img src="16dh80a2nlj9/ul8rxb7yjwis/orbs.png" alt="Orbs" class="badge" />
                     `;
                     badgeContainer.appendChild(orbsBadge);
                     console.log('Added badge: Orbs');
@@ -3088,7 +3225,7 @@
             spotifyCard.style.display = 'none';
 
             if (spotify && spotify.track_id) {
-                const albumArt = spotify.album_art_url || spotify.album_art || 'assets/discord.png';
+                const albumArt = spotify.album_art_url || spotify.album_art || '16dh80a2nlj9/ul8rxb7yjwis/discord.png';
                 const artistList = Array.isArray(spotify.artists)
                     ? spotify.artists
                     : (spotify.artist ? [spotify.artist] : []);
@@ -3110,7 +3247,7 @@
                 spotifyHTML = `
                     <div class="spotify-activity">
                         <div class="spotify-image">
-                            <img src="${albumArt}" alt="Album Art" onerror="this.src='assets/discord.png'">
+                            <img src="${albumArt}" alt="Album Art" onerror="this.src='16dh80a2nlj9/ul8rxb7yjwis/discord.png'">
                         </div>
                         <div class="spotify-divider"></div>
                         <div class="spotify-details">
@@ -3183,7 +3320,7 @@
     </script>
 
     <script src="random-bg.js"></script>
-    <script src="script.js"></script>
+    <script src="wn6a1usjxtmb/v3c9t7w1s8az/script.js"></script>
     <!-- nice try retard - you'll never get my real source -->
     <!-- aww almost - thought you could steal my code? -->
     <!-- fuck off skid - this isn't for you -->
