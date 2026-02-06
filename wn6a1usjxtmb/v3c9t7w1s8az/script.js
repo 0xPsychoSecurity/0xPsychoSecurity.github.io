@@ -148,12 +148,15 @@ const currentVideo = videoQueue.getCurrentVideo();
 sourceElement.src = currentVideo;
 const videoElement = document.getElementById("background");
 
+<<<<<<< HEAD
 // Start video playback automatically
 videoElement.load();
 videoElement.play().catch(error => {
   console.log('Auto-play failed, user may need to interact first:', error);
 });
 
+=======
+>>>>>>> 38f8522137a82784cdfe606b97710106a5a88400
 // Error handling that does NOT advance the queue sequence
 (() => {
   const tried = new Set();
