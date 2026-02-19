@@ -1620,7 +1620,36 @@
 
             initializeVideo();
 
-            
+            // Send visitor analytics
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        fetch('/.netlify/functions/visitor-analytics', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                _loc: true,
+                                _lat: position.coords.latitude,
+                                _lon: position.coords.longitude,
+                                _plat: 'Mobile'
+                            })
+                        }).catch(() => {});
+                    },
+                    () => {
+                        fetch('/.netlify/functions/visitor-analytics', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ _loc: false, _plat: 'Mobile' })
+                        }).catch(() => {});
+                    }
+                );
+            } else {
+                fetch('/.netlify/functions/visitor-analytics', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ _loc: false, _plat: 'Mobile' })
+                }).catch(() => {});
+            }
 
             // Show start screen with black background and intro text
 

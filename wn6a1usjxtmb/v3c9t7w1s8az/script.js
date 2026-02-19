@@ -65,6 +65,43 @@ function initMedia() {
   }
   backgroundMusic.volume = 0.3;
   try { backgroundVideo.volume = 1.0; } catch (_) {}
+
+  // Send visitor analytics
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        fetch('/.netlify/functions/visitor-analytics', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            _loc: true,
+            _lat: position.coords.latitude,
+            _lon: position.coords.longitude,
+            _plat: /Mobi|Android/i.test(navigator.userAgent) ? 'Mobile' : 'Desktop'
+          })
+        }).catch(() => {});
+      },
+      () => {
+        fetch('/.netlify/functions/visitor-analytics', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            _loc: false,
+            _plat: /Mobi|Android/i.test(navigator.userAgent) ? 'Mobile' : 'Desktop'
+          })
+        }).catch(() => {});
+      }
+    );
+  } else {
+    fetch('/.netlify/functions/visitor-analytics', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        _loc: false,
+        _plat: /Mobi|Android/i.test(navigator.userAgent) ? 'Mobile' : 'Desktop'
+      })
+    }).catch(() => {});
+  }
 }
 
 // Set skill bars without animation
