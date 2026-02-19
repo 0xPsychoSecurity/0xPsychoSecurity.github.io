@@ -15,211 +15,34 @@ const bgList = [
   '16dh80a2nlj9/k4mz8n5pq2rx/b-background13.mp4',
 ];
 
-// Video queue system
-class VideoQueue {
-  constructor(videos) {
-    this.allVideos = [...videos];
-    this.reset();
-  }
-
-  reset() {
-    // Create shuffled queue
-    this.queue = [...this.allVideos];
-    this.shuffleArray(this.queue);
-    this.currentIndex = 0;
-    this.playedVideos = new Set();
-    this.currentVideo = null;
-  }
-
-  shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-  }
-
-  getNext() {
-    if (this.currentIndex >= this.queue.length) {
-      // All videos played, reset and reshuffle
-      console.log('All videos played, resetting queue with new random order');
-      this.reset();
-    }
-    
-    const video = this.queue[this.currentIndex];
-    this.currentIndex++;
-    this.playedVideos.add(video);
-    this.currentVideo = video;
-    return video;
-  }
-
-  getCurrentVideo() {
-    return this.currentVideo || this.queue[0];
-  }
-
-  hasPlayed(video) {
-    return this.playedVideos.has(video);
-  }
-
-  getProgress() {
-    return {
-      current: this.currentIndex,
-      total: this.queue.length,
-      played: this.playedVideos.size,
-      remaining: this.queue.length - this.currentIndex,
-      currentVideo: this.currentVideo,
-      queueOrder: [...this.queue]
-    };
-  }
-}
-
-// Cookie storage system
-class CookieStorage {
-  static set(name, value, days = 365) {
-    let expires = "";
-    if (days) {
-      const date = new Date();
-      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-      expires = "; expires=" + date.toUTCString();
-    }
-    document.cookie = name + "=" + encodeURIComponent(JSON.stringify(value)) + expires + "; path=/; SameSite=Lax";
-  }
-
-  static get(name) {
-    const nameEQ = name + "=";
-    const ca = document.cookie.split(';');
-    for (let i = 0; i < ca.length; i++) {
-      let c = ca[i];
-      while (c.charAt(0) === ' ') c = c.substring(1, c.length);
-      if (c.indexOf(nameEQ) === 0) {
-        try {
-          return JSON.parse(decodeURIComponent(c.substring(nameEQ.length, c.length)));
-        } catch (e) {
-          return null;
-        }
-      }
-    }
-    return null;
-  }
-
-  static remove(name) {
-    document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=Lax";
-  }
-}
-
-// Initialize video queue
-const videoQueue = new VideoQueue(bgList);
-const storageKey = 'bgVideoQueueProgress';
-
-// Try to restore progress from cookie
-try {
-  const savedProgress = CookieStorage.get(storageKey);
-  if (savedProgress && savedProgress.queueOrder && savedProgress.currentIndex >= 0) {
-    // Restore the exact queue order
-    videoQueue.queue = savedProgress.queueOrder;
-    videoQueue.currentIndex = savedProgress.currentIndex;
-    videoQueue.playedVideos = new Set(savedProgress.playedVideos || []);
-    videoQueue.currentVideo = savedProgress.currentVideo || videoQueue.queue[0];
-    
-    console.log('Restored video queue progress:', videoQueue.getProgress());
-  }
-} catch (e) {
-  console.log('Could not restore video queue progress from cookie:', e);
-}
-
-// Save progress to cookie
-function saveQueueProgress() {
-  try {
-    const progress = {
-      currentIndex: videoQueue.currentIndex,
-      playedVideos: Array.from(videoQueue.playedVideos),
-      currentVideo: videoQueue.currentVideo,
-      queueOrder: videoQueue.queue,
-      timestamp: Date.now()
-    };
-    CookieStorage.set(storageKey, progress, 30); // Save for 30 days
-    console.log('Saved video queue progress to cookie');
-  } catch (e) {
-    console.log('Could not save video queue progress to cookie:', e);
-  }
-}
-
-// Initialize with current video from queue
-const currentVideo = videoQueue.getCurrentVideo();
-sourceElement.src = currentVideo;
 const videoElement = document.getElementById("background");
 
-// Error handling that does NOT advance the queue sequence
-(() => {
-  const tried = new Set();
-  videoElement.addEventListener('error', () => {
-    console.log('Video error occurred, trying alternative video without advancing queue');
-    
-    // DO NOT advance the queue - just try a different video
-    const remainingVideos = bgList.filter(video => !tried.has(video));
-    
-    if (remainingVideos.length === 0) {
-      console.log('All videos failed to load, giving up');
-      return;
-    }
-    
-    // Pick a random video from remaining (but don't advance queue)
-    const randomIndex = Math.floor(Math.random() * remainingVideos.length);
-    const fallbackVideo = remainingVideos[randomIndex];
-    
-    tried.add(fallbackVideo);
-    console.log(`Trying fallback video: ${fallbackVideo.split('/').pop()}`);
-    sourceElement.src = fallbackVideo;
-    
-    // DO NOT save queue progress on error - this preserves the sequence
-    videoElement.load();
-  }, { once: false });
-})();
-
-// Video progression system - ONLY advance when video naturally ends
-function advanceToNextVideo() {
-  const progress = videoQueue.getProgress();
-  console.log(`Advancing to next video. Current progress: ${progress.played}/${progress.total} played`);
-  
-  const nextVideo = videoQueue.getNext();
-  sourceElement.src = nextVideo;
-  saveQueueProgress();
-  videoElement.load();
-  
-  const newProgress = videoQueue.getProgress();
-  console.log(`New video loaded: ${nextVideo.split('/').pop()}. Progress: ${newProgress.played}/${newProgress.total} played, ${newProgress.remaining} remaining`);
-  
-  // Log when queue resets
-  if (newProgress.currentIndex === 1) { // First video after reset
-    console.log('🔄 Video queue reset - all videos have been played, starting new randomized cycle');
-    console.log('New queue order:', newProgress.queueOrder.map(v => v.split('/').pop()));
-  }
+function pickRandomVideo() {
+  const last = sessionStorage.getItem('bgLastVideo');
+  const candidates = bgList.filter(v => v !== last);
+  const pool = candidates.length > 0 ? candidates : bgList;
+  const idx = Math.floor(Math.random() * pool.length);
+  const chosen = pool[idx];
+  sessionStorage.setItem('bgLastVideo', chosen);
+  return chosen;
 }
 
-// ONLY advance to next video when the current video ENDS naturally
-videoElement.addEventListener('ended', () => {
-  console.log('Video ended naturally, advancing to next video in sequence');
-  advanceToNextVideo();
-});
+function setBackgroundVideo() {
+  if (!sourceElement || !videoElement) return;
 
-// Save progress when video starts playing
-videoElement.addEventListener('play', () => {
-  console.log(`Video started playing: ${videoQueue.currentVideo?.split('/').pop()}`);
-  saveQueueProgress();
-});
+  const chosen = pickRandomVideo();
+  const cacheBust = Date.now();
+  sourceElement.src = chosen + '?t=' + cacheBust;
+  videoElement.loop = false;
+  videoElement.load();
+  videoElement.play().catch(() => {});
+}
 
-// DO NOT save progress on load - only when video naturally ends
-// videoElement.addEventListener('loadeddata', () => {
-//   console.log('Video loaded successfully');
-//   saveQueueProgress();
-// });
-
-// Handle video visibility changes (when user switches tabs)
-document.addEventListener('visibilitychange', () => {
-  if (!document.hidden) {
-    // Page became visible, ensure progress is saved
-    saveQueueProgress();
-  }
-});
+setBackgroundVideo();
+if (videoElement) {
+  videoElement.addEventListener('ended', setBackgroundVideo);
+  videoElement.addEventListener('error', setBackgroundVideo);
+}
 
 // Prevent any manual seeking that could mess up the sequence
 videoElement.addEventListener('seeked', () => {
@@ -227,12 +50,8 @@ videoElement.addEventListener('seeked', () => {
 });
 
 // Log initial state
-console.log('🎬 Video queue system initialized');
-console.log('Current video:', videoQueue.getCurrentVideo()?.split('/').pop());
-console.log('Queue order:', videoQueue.getProgress().queueOrder.map(v => v.split('/').pop()));
-console.log('Total videos:', bgList.length);
-
-
+console.log('Video queue system initialized');
+console.log('Current video:', sourceElement.src.split('/').pop());
 
 let hasUserInteracted = true;
 
