@@ -1,6 +1,7 @@
 const sourceElement = document.getElementById("bgSource");
 const bgList = [
   '16dh80a2nlj9/k4mz8n5pq2rx/b-background.mp4',
+  '16dh80a2nlj9/k4mz8n5pq2rx/b-background1.mp4',
   '16dh80a2nlj9/k4mz8n5pq2rx/b-background2.mp4',
   '16dh80a2nlj9/k4mz8n5pq2rx/b-background3.mp4',
   '16dh80a2nlj9/k4mz8n5pq2rx/b-background4.mp4',
@@ -13,24 +14,29 @@ const bgList = [
   '16dh80a2nlj9/k4mz8n5pq2rx/b-background11.mp4',
   '16dh80a2nlj9/k4mz8n5pq2rx/b-background12.mp4',
   '16dh80a2nlj9/k4mz8n5pq2rx/b-background13.mp4',
+  '16dh80a2nlj9/k4mz8n5pq2rx/b-background14.mp4',
+  '16dh80a2nlj9/k4mz8n5pq2rx/b-background15.mp4',
+  '16dh80a2nlj9/k4mz8n5pq2rx/b-background16.mp4',
+  '16dh80a2nlj9/k4mz8n5pq2rx/b-background17.mp4',
+  '16dh80a2nlj9/k4mz8n5pq2rx/b-background18.mp4',
+  '16dh80a2nlj9/k4mz8n5pq2rx/b-background19.mp4',
 ];
 
 const videoElement = document.getElementById("background");
 
-function pickRandomVideo() {
-  const last = sessionStorage.getItem('bgLastVideo');
-  const candidates = bgList.filter(v => v !== last);
-  const pool = candidates.length > 0 ? candidates : bgList;
-  const idx = Math.floor(Math.random() * pool.length);
-  const chosen = pool[idx];
-  sessionStorage.setItem('bgLastVideo', chosen);
-  return chosen;
+function getNextVideoIndex() {
+  const lastIndex = localStorage.getItem('bgVideoIndex');
+  const currentIndex = lastIndex !== null ? parseInt(lastIndex, 10) : -1;
+  const nextIndex = (currentIndex + 1) % bgList.length;
+  localStorage.setItem('bgVideoIndex', nextIndex);
+  return nextIndex;
 }
 
 function setBackgroundVideo() {
   if (!sourceElement || !videoElement) return;
 
-  const chosen = pickRandomVideo();
+  const idx = getNextVideoIndex();
+  const chosen = bgList[idx];
   const cacheBust = Date.now();
   sourceElement.src = chosen + '?t=' + cacheBust;
   videoElement.loop = false;

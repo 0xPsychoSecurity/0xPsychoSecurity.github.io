@@ -1326,69 +1326,42 @@
 
                 
 
-                // Non-repeating random background selection
+                // Sequential video selection using localStorage
 
                 const videos = [
-
                     '16dh80a2nlj9/k4mz8n5pq2rx/b-background.mp4',
-
+                    '16dh80a2nlj9/k4mz8n5pq2rx/b-background1.mp4',
                     '16dh80a2nlj9/k4mz8n5pq2rx/b-background2.mp4',
-
                     '16dh80a2nlj9/k4mz8n5pq2rx/b-background3.mp4',
-
                     '16dh80a2nlj9/k4mz8n5pq2rx/b-background4.mp4',
-
                     '16dh80a2nlj9/k4mz8n5pq2rx/b-background5.mp4',
-
                     '16dh80a2nlj9/k4mz8n5pq2rx/b-background6.mp4',
-
                     '16dh80a2nlj9/k4mz8n5pq2rx/b-background7.mp4',
-
                     '16dh80a2nlj9/k4mz8n5pq2rx/b-background8.mp4',
-
                     '16dh80a2nlj9/k4mz8n5pq2rx/b-background9.mp4',
-
-                    '16dh80a2nlj9/k4mz8n5pq2rx/b-background10.mp4'
-
+                    '16dh80a2nlj9/k4mz8n5pq2rx/b-background10.mp4',
+                    '16dh80a2nlj9/k4mz8n5pq2rx/b-background11.mp4',
+                    '16dh80a2nlj9/k4mz8n5pq2rx/b-background12.mp4',
+                    '16dh80a2nlj9/k4mz8n5pq2rx/b-background13.mp4',
+                    '16dh80a2nlj9/k4mz8n5pq2rx/b-background14.mp4',
+                    '16dh80a2nlj9/k4mz8n5pq2rx/b-background15.mp4',
+                    '16dh80a2nlj9/k4mz8n5pq2rx/b-background16.mp4',
+                    '16dh80a2nlj9/k4mz8n5pq2rx/b-background17.mp4',
+                    '16dh80a2nlj9/k4mz8n5pq2rx/b-background18.mp4',
+                    '16dh80a2nlj9/k4mz8n5pq2rx/b-background19.mp4'
                 ];
 
-                
+                // Get next video index from localStorage
 
-                // Get played videos from sessionStorage
+                const lastIndex = localStorage.getItem('bgVideoIndex');
 
-                let playedVideos = JSON.parse(sessionStorage.getItem('playedVideos') || '[]');
+                const currentIndex = lastIndex !== null ? parseInt(lastIndex, 10) : -1;
 
-                
+                const nextIndex = (currentIndex + 1) % videos.length;
 
-                // If all videos have been played, reset the list
+                localStorage.setItem('bgVideoIndex', nextIndex);
 
-                if (playedVideos.length >= videos.length) {
-
-                    playedVideos = [];
-
-                }
-
-                
-
-                // Get videos that haven't been played yet
-
-                const availableVideos = videos.filter(video => !playedVideos.includes(video));
-
-                
-
-                // Select random video from available ones
-
-                const randomIndex = Math.floor(Math.random() * availableVideos.length);
-
-                const selectedVideo = availableVideos[randomIndex];
-
-                
-
-                // Add to played videos list
-
-                playedVideos.push(selectedVideo);
-
-                sessionStorage.setItem('playedVideos', JSON.stringify(playedVideos));
+                const selectedVideo = videos[nextIndex];
 
                 
 
