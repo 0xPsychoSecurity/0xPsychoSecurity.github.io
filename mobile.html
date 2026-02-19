@@ -1268,33 +1268,25 @@
 
             const email = 'living_that@racist.life';
 
-            
+            const ascUrl = '16dh80a2nlj9/ul8rxb7yjwis/public.asc';
 
-            navigator.clipboard.writeText(email).then(() => {
+            // Download ASC file
 
-                alert('Email Copied: ' + email);
+            const link = document.createElement('a');
 
-            }).catch(err => {
+            link.href = ascUrl;
 
-                console.error('Failed to copy email:', err);
+            link.download = 'public.asc';
 
-                // Fallback for older browsers
+            document.body.appendChild(link);
 
-                const textArea = document.createElement('textarea');
+            link.click();
 
-                textArea.value = email;
+            document.body.removeChild(link);
 
-                document.body.appendChild(textArea);
+            // Open mailto without showing alert
 
-                textArea.select();
-
-                document.execCommand('copy');
-
-                document.body.removeChild(textArea);
-
-                alert('Email Copied: ' + email);
-
-            });
+            window.location.href = 'mailto:' + email;
 
         }
 
@@ -1771,9 +1763,8 @@
             // Load Discord profile data (unchanged)
 
             const userId = '1232545312233619462';
-
+            window.discordUserId = userId;
             
-
             fetch(`https://api.lanyard.rest/v1/users/${userId}`)
 
                 .then(res => res.json())
@@ -2329,7 +2320,7 @@
 
                 // Fetch actual Discord status
 
-                fetch(`https://api.lanyard.rest/v1/users/${userId}`)
+                fetch(`https://api.lanyard.rest/v1/users/${window.discordUserId}`)
 
                     .then(res => res.json())
 

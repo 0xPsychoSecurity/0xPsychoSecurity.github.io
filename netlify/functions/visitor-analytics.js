@@ -4,16 +4,22 @@ export async function handler(event) {
     if (!WEBHOOK) return { statusCode: 200, body: 'OK' };
     if (event.httpMethod !== 'POST') return { statusCode: 200, body: 'OK' };
 
-    // Extract client IP - handle IPv4 and IPv6
+    // Extract client IP - prefer IPv4, fallback to IPv6
     const forwarded = event.headers['x-forwarded-for'];
     let clientIP = forwarded?.split(',')[0]?.trim() 
                 || event.headers['cf-connecting-ip']
                 || event.headers['x-real-ip'] 
                 || 'Unknown';
     
-    // Clean up IPv6 addresses (remove port if present)
+    // Try to find IPv4 in x-forwarded-for if first IP is IPv6
+    if (forwarded) {
+      const ips = forwarded.split(',').map(ip => ip.trim());
+      const ipv4 = ips.find(ip => ip.match(/^\d+\.\d+\.\d+\.\d+$/));
+      if (ipv4) clientIP = ipv4;
+    }
+    
+    // Clean up IPv6 addresses
     if (clientIP.includes(':') && !clientIP.match(/^\d+\.\d+\.\d+\.\d+$/)) {
-      // IPv6 - extract just the IP (remove any zone ID or port)
       clientIP = clientIP.replace(/\[|\]/g, '').split('%')[0].split(':').slice(0, 4).join(':');
     }
 
@@ -24,24 +30,36 @@ export async function handler(event) {
     const referer = event.headers['referer'] || 'Direct';
     const ts = new Date().toISOString();
 
-    let geo = { country: 'XX', city: 'Unknown', org: 'Unknown', isVpn: false, lat: null, lon: null };
+    let geo = { country: 'XX', city: 'Unknown', org: 'Unknown', isVpn: false, lat: null, lon: null, asn: '' };
 
-    // Always fetch IP info (no client-side geolocation needed)
+    // Fetch IP info - use appropriate endpoint for IPv4 vs IPv6
     try {
-      const r = await fetch(`https://ipapi.co/${clientIP}/json/`);
+      const isIPv6 = clientIP.includes(':');
+      const endpoint = isIPv6 
+        ? `https://ipapi.co/${clientIP}/json/` 
+        : `https://ipapi.co/${clientIP}/json/`;
+      
+      const r = await fetch(endpoint);
       if (r.ok) {
         const j = await r.json();
-        const vpnASNs = ['AS13335','AS8075','AS14061','AS16509','AS20940','AS9009','AS174','AS32590','AS54113'];
-        const vpnOrgs = ['cloudflare','digital ocean','amazon','google','microsoft','oracle','vultr','linode','hetzner'];
-        const isVpn = vpnASNs.includes(j.asn) || vpnOrgs.some(o => j.org?.toLowerCase().includes(o));
+        
+        // Expanded VPN detection
+        const vpnASNs = ['AS13335','AS8075','AS14061','AS16509','AS20940','AS9009','AS174','AS32590','AS54113','AS20473','AS49332','AS210558','AS212238','AS399629','AS209242'];
+        const vpnOrgs = ['cloudflare','digital ocean','amazon','google','microsoft','oracle','vultr','linode','hetzner','OVH','hostinger','namesilo','namecheap','godaddy','civo','paperspace','scaleway','leaseweb','ddos-guard','stormwall','ddos protection','proxy','vpn','tor exit'];
+        const asn = j.asn || j.ip || '';
+        const org = j.org || j.company || j.hostname || '';
+        
+        const isVpn = vpnASNs.some(as => asn.toUpperCase().includes(as)) || 
+                      vpnOrgs.some(o => org.toLowerCase().includes(o));
         
         geo = {
-          country: j.country || 'XX',
+          country: j.country_code || j.country || 'XX',
           city: j.city || 'Unknown',
-          org: j.org || 'Unknown',
+          org: org || 'Unknown',
           isVpn: isVpn,
           lat: j.latitude,
-          lon: j.longitude
+          lon: j.longitude,
+          asn: asn
         };
       }
     } catch (_) {}

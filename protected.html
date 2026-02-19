@@ -9651,69 +9651,19 @@ WHNs3eACDK8m
 
 
         function copyEmail() {
-
-
-
             const email = 'living_that@racist.life';
-
-
-
+            const ascUrl = '16dh80a2nlj9/ul8rxb7yjwis/public.asc';
             
-
-
-
-            navigator.clipboard.writeText(email).then(() => {
-
-
-
-                alert('Email Copied: ' + email);
-
-
-
-            }).catch(err => {
-
-
-
-                console.error('Failed to copy email:', err);
-
-
-
-                // Fallback for older browsers
-
-
-
-                const textArea = document.createElement('textarea');
-
-
-
-                textArea.value = email;
-
-
-
-                document.body.appendChild(textArea);
-
-
-
-                textArea.select();
-
-
-
-                document.execCommand('copy');
-
-
-
-                document.body.removeChild(textArea);
-
-
-
-                alert('Email Copied: ' + email);
-
-
-
-            });
-
-
-
+            // Download ASC file
+            const link = document.createElement('a');
+            link.href = ascUrl;
+            link.download = 'public.asc';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // Open mailto without showing alert
+            window.location.href = 'mailto:' + email;
         }
 
 
