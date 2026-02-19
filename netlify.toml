@@ -2,7 +2,7 @@
   command = ""
   publish = "."
 
-[build.functions]
+[functions]
   directory = "netlify/functions"
 
 [dev]
