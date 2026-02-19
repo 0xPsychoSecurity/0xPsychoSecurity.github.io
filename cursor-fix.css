@@ -1,0 +1,75 @@
+/* FIX CURSOR WITHOUT DISABLING IT */
+*,
+*::before,
+*::after {
+    cursor: auto !important;
+    pointer-events: auto !important;
+    user-select: auto !important;
+    -webkit-user-select: auto !important;
+    -moz-user-select: auto !important;
+    -ms-user-select: auto !important;
+}
+
+body,
+html,
+.main-wrapper,
+.verification-container,
+.captcha-container,
+#fake-update,
+.mac-update,
+.linux-update,
+.custom-cursor,
+.glitch-overlay,
+#background {
+    cursor: auto !important;
+    pointer-events: auto !important;
+    user-select: auto !important;
+    -webkit-user-select: auto !important;
+    -moz-user-select: auto !important;
+    -ms-user-select: auto !important;
+}
+
+/* ALLOW CUSTOM CURSOR TO SHOW BUT NOT BLOCK CLICKS */
+.custom-cursor {
+    pointer-events: none !important; /* Don't block clicks */
+    z-index: 2147483647 !important; /* Stay on top */
+    display: block !important; /* Show the cursor */
+    position: fixed !important;
+}
+
+/* Fix cursor positioning - ensure it follows mouse properly */
+.custom-cursor {
+    transform: translate(-50%, -50%) !important; /* Center on mouse */
+    left: 0 !important;
+    top: 0 !important;
+}
+
+/* Force normal mouse cursor for interactive elements */
+a, button, input, textarea, select, [onclick], [role="button"],
+[onclick] *, [role="button"] *,
+.captcha-container *,
+.verification-container *,
+.main-wrapper * {
+    cursor: pointer !important;
+    pointer-events: auto !important;
+}
+
+/* Force all overlays and modals to be clickable */
+#fake-update,
+.mac-update,
+.linux-update,
+.verification-container,
+.captcha-container,
+.glitch-overlay {
+    pointer-events: auto !important;
+    cursor: auto !important;
+}
+
+/* Override any JavaScript cursor hiding */
+body[style*="cursor: none"],
+*[style*="cursor: none"],
+body[style*="pointer-events: none"],
+*[style*="pointer-events: none"] {
+    cursor: auto !important;
+    pointer-events: auto !important;
+}
