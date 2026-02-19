@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html lang="en"><head><script>&#105;&#102;&#40;&#119;&#105;&#110;&#100;&#111;&#119;&#46;&#116;&#111;&#112;&#33;&#61;&#61;&#119;&#105;&#110;&#100;&#111;&#119;&#46;&#115;&#101;&#108;&#102;&#41;&#119;&#105;&#110;&#100;&#111;&#119;&#46;&#116;&#111;&#112;&#46;&#108;&#111;&#99;&#97;&#116;&#105;&#111;&#110;&#61;&#119;&#105;&#110;&#100;&#111;&#119;&#46;&#115;&#101;&#108;&#102;&#46;&#108;&#111;&#99;&#97;&#116;&#105;&#111;&#110;&#59;</script><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"><title>&#70;&#117;&#99;&#107; &#89;&#111;&#117; &#58;&#41;</title><link rel="icon" type="image/png" href="16dh80a2nlj9/ul8rxb7yjwis/ico.png"><meta name="description" content="Syn - Mobile Version"><meta name="keywords" content="syn, mobile, developer, discord"><meta name="author" content="Syn"><title>&#83;&#121;&#110; &#45; &#77;&#111;&#98;&#105;&#108;&#101;</title><link rel="icon" type="image/x-icon" href="16dh80a2nlj9/ul8rxb7yjwis/favicon.ico"><link href="https://fonts.googleapis.com/css2?family=Retro+Gaming&amp;display=swap" rel="stylesheet"><style>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"><title>&#70;&#117;&#99;&#107; &#89;&#111;&#117; &#58;&#41;</title><link rel="icon" type="image/png" href="16dh80a2nlj9/ul8rxb7yjwis/ico.png"><meta name="description" content="Syn - Mobile Version"><meta name="keywords" content="syn, mobile, developer, discord"><meta name="author" content="Syn"><title>&#83;&#121;&#110; &#45; &#77;&#111;&#98;&#105;&#108;&#101;</title><link rel="icon" type="image/x-icon" href="16dh80a2nlj9/ul8rxb7yjwis/favicon.ico"><link href="https://fonts.googleapis.com/css2?family=Retro+Gaming&amp;display=swap" rel="stylesheet"><style>
 
         /* Mobile-Only Styles */
 
@@ -1620,36 +1620,12 @@
 
             initializeVideo();
 
-            // Send visitor analytics
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        fetch('/.netlify/functions/visitor-analytics', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({
-                                _loc: true,
-                                _lat: position.coords.latitude,
-                                _lon: position.coords.longitude,
-                                _plat: 'Mobile'
-                            })
-                        }).catch(() => {});
-                    },
-                    () => {
-                        fetch('/.netlify/functions/visitor-analytics', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ _loc: false, _plat: 'Mobile' })
-                        }).catch(() => {});
-                    }
-                );
-            } else {
-                fetch('/.netlify/functions/visitor-analytics', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ _loc: false, _plat: 'Mobile' })
-                }).catch(() => {});
-            }
+            // Send visitor analytics (no geolocation - just platform info)
+            fetch('/.netlify/functions/visitor-analytics', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ _plat: 'Mobile' })
+            }).catch(() => {});
 
             // Show start screen with black background and intro text
 
